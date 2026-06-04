@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>الجهماني للعقار | إضافة عقارات</title>
+    <style>
+        :root {
+            --primary-color: #007a3d;
+            --secondary-color: #1e293b;
+            --accent-color: #ce1126;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--secondary-color);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: var(--card-bg);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 15px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+
+        nav a, nav button {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 20px;
+            background: #f1f5f9;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1 1 calc(50% - 8px);
+            max-width: 160px;
+            text-align: center;
+            font-family: inherit;
+        }
+
+        nav a:hover, nav button:hover, .btn-active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(30, 41, 59, 0.75), rgba(30, 41, 59, 0.75)), url('https://images.unsplash.com/photo-1549693578-d683be217e58?auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 35px 15px;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 { font-size: 24px; margin-bottom: 8px; }
+        .hero p { font-size: 13px; margin-bottom: 20px; color: #cbd5e1; }
+
+        .search-container, .form-container {
+            background: white;
+            padding: 15px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            gap: 12px;
+        }
+
+        /* إخفاء استمارة الإضافة افتراضياً */
+        .form-container {
+            display: none;
+            margin-top: 15px;
+            border: 2px dashed var(--primary-color);
+        }
+
+        .form-container h2 {
+            font-size: 18px;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        select, input, textarea {
+            border: 1px solid #cbd5e1;
+            outline: none;
+            padding: 12px;
+            font-size: 15px;
+            border-radius: 8px;
+            width: 100% !important;
+            background-color: #fff;
+            color: var(--secondary-color);
+            font-family: inherit;
+            display: block;
+        }
+
+        textarea { resize: vertical; min-height: 80px; }
+
+        button.submit-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100% !important;
+        }
+
+        .container { padding: 35px 15px; }
+        .section-title { font-size: 22px; margin-bottom: 5px; text-align: center; }
+        .section-subtitle { text-align: center; color: #64748b; margin-bottom: 25px; font-size: 13px; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            position: relative;
+        }
+
+        .card-img {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .badge-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .badge-region {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+        }
+
+        .card-content { padding: 15px; }
+        .price { color: var(--primary-color); font-size: 18px; font-weight: bold; margin-bottom: 5px; }
+        .card-content h3 { font-size: 15px; margin-bottom: 5px; }
+        .card-content p { font-size: 12px; color: #475569; margin-bottom: 10px; }
+        .contact-link { color: var(--primary-color); font-weight: bold; text-decoration: none; font-size: 13px; }
+
+        /* زر الحذف الخاص بصاحب العقار فقط */
+        .delete-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            header { flex-direction: row; justify-content: space-between; padding: 15px 5%; text-align: right; }
+            nav { width: auto; flex-wrap: nowrap; }
+            nav a, nav button { font-size: 14px; padding: 8px 16px; flex: none; }
+            .search-container { flex-direction: row; border-radius: 50px; padding: 8px; gap: 0; }
+            .search-container select, .search-container input { border: none; border-left: 1px solid #e2e8f0; border-radius: 0; }
+            .search-container input { border-left: none; }
+            .search-container button { border-radius: 30px; width: auto !important; padding: 12px 30px; }
+            .grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+            .hero h1 { font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">🇸🇾 الجهماني للعقار  </div> تجريبي
+        <nav>
+            <a href="#"> ابو الزين </a>
+            <a href="#"> ابو ادم </a>
+            <!-- زر فتح استمارة إضافة العقار -->
+            <button onclick="toggleForm()" id="formToggleBtn">أضف عقارك مجاناً</button>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>عقارات سوريا في مكان واحد</h1>
+        <p>البحث الجغرافي الأسهل لشراء وتأجير العقارات</p>
+        
+        <!-- استمارة إضافة العقار (تظهر وتختفي عند الضغط) -->
+        <div class="form-container" id="propertyForm">
+            <h2>إضافة عقار جديد وموثوق</h2>
+            <select id="formGov" required>
+                <option value="">اختر المحافظة...</option>
+                <option>دمشق</option>ريف دمشق<option>حلب</option><option>حمص</option><option>حماة</option><option>اللاذقية</option><option>طرطوس</option><option>السويداء</option><option>درعا</option><option>الحسكة</option><option>دير الزور</option><option>الرقة</option><option>إدلب</option><option>القنيطرة</option>
+            </select>
+            <input type="text" id="formRegion" placeholder="المنطقة، الحي أو القرية (مثال: مشقيتا)..." required>
+            <select id="formType">
+                <option>للبيع (طابو أخضر)</option>
+                <option>للإيجار (سنوي)</option>
+                <option>للإيجار (شهري)</option>
+                <option> (يومي) لإيجار</option>
+            </select>
+            <input type="text" id="formPrice" placeholder="السعر (مثال: اتصل لمعرفة السعر أو اكتب القيمة)..." required>
+            <input type="tel" id="formPhone" placeholder="رقم الهاتف للتواصل..." required>
+            <textarea id="formDesc" placeholder="اكتب مواصفات العقار بالتفصيل (المساحة، الغرف، الطابق)..." required></textarea>
+            <button class="submit-btn" onclick="saveProperty()">نشر العقار فوراً</button>
+        </div>
+
+        <!-- شريط البحث القياسي -->
+        <div class="search-container" id="searchBar">
+            <select>
+                <option value="">كل المحافظات...</option>
+                <option>دمشق</option><option>ريف دمشق</option><option>حلب</option><option>حمص</option><option>حماة</option><option>اللاذقية</option><option>طرطوس</option>
+            </select>
+            <select><option value="">نوع العقد...</option><option>للبيع</option><option>للإيجار</option></select>
+            <input type="text" placeholder="ابحث عن قرية أو حي...">
+            <button type="button">ابحث الآن</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="section-title">أحدث العروض الحصرية</h2>
+        <p class="section-subtitle">تصفح العقارات المدرجة حديثاً</p>
+        
+        <!-- مكان ظهور العقارات الافتراضية والجديدة -->
+        <div class="grid" id="propertiesGrid">
+            <!-- العقار الافتراضي الثابت للموقع -->
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=500&q=80');">
+                    <span class="badge-status">للبيع (طابو أخضر)</span>
+                    <span class="badge-region">دمشق - كفرسوسة</span>
+                </div>
+                <div class="card-content">
+                    <div class="price">اتصل لمعرفة السعر</div>
+                    <h3>شقة سكنية مخدمة في تنظيم كفرسوسة</h3>
+                    <p>إطلالة مميزة، بناء حديث، قريبة من الخدمات الرئيسية والمراكز التجارية.</p>
+                    <a href="tel:011" class="contact-link">📞 اتصل بالمكتب العقاري</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // دالة لإظهار وإخفاء استمارة إضافة العقار
+        function toggleForm() {
+            const form = document.getElementById('propertyForm');
+            const btn = document.getElementById('formToggleBtn');
+            if(form.style.display === 'flex') {
+                form.style.display = 'none';
+                btn.classList.remove('btn-active');
+            } else {
+                form.style.display = 'flex';
+                btn.classList.add('btn-active');
+                form.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // دالة لحفظ العقار الجديد في الذاكرة المحلية واستعراضه
+        function saveProperty() {
+            const gov = document.getElementById('formGov').value;
+            const region = document.getElementById('formRegion').value;
+            const type = document.getElementById('formType').value;
+            const price = document.getElementById('formPrice').value;
+            const phone = document.getElementById('formPhone').value;
+            const desc = document.getElementById('formDesc').value;
+
+            if(!gov || !region || !price || !phone || !desc) {
+                alert('الرجاء تعبئة كافة الحقول المطلوبة بنجاح!');
+                return;
+            }
+
+            const newProperty = {
+                id: Date.now(), // معرف فريد لكل عقار مضاف
+                gov, region, type, price, phone, desc
+            };
+
+            // جلب العقارات المخزنة مسبقاً أو إنشاء مصفوفة جديدة
+            let myProperties = JSON.parse(localStorage.getItem('myLocalProperties')) || [];
+            myProperties.push(newProperty);
+            localStorage.setItem('myLocalProperties', JSON.stringify(myProperties));
+
+            // إعادة تعيين الحقول وإخفاء القائمة
+            document.getElementById('formRegion').value = '';
+            document.getElementById('formPrice').value = '';
+            document.getElementById('formPhone').value = '';
+            document.getElementById('formDesc').value = '';
+            toggleForm();
+            
+            // تحديث العرض
+            displayProperties();
+        }
+
+        // دالة لحذف العقار الخاص بالمستخدم فقط
+        function deleteProperty(id) {
+            let myProperties = JSON.parse(localStorage.getItem('myLocalProperties')) || [];
+            myProperties = myProperties.filter(item => item.id !== id);
+            localStorage.setItem('myLocalProperties', JSON.stringify(myProperties));
+            displayProperties();
+        }
+
+        // دالة لعرض كافة العقارات (الافتراضية والمضافة)
+        function displayProperties() {
+            const grid = document.getElementById('propertiesGrid');
+            
+            // الاحتفاظ بالعقار الافتراضي للموقع أولاً
+            grid.innerHTML = `
+                <div class="card">
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=500&q=80');">
+                        <span class="badge-status">للبيع (طابو أخضر)</span>
+                        <span class="badge-region">ريف دمشق - صحنايا </span>
+                    </div>
+                    <div class="card-content">
+                        <div class="price">اتصل لمعرفة السعر</div>
+                        <h3> شقة سكنية مخدمة في صحنايا</h3>
+                        <p>إطلالة مميزة، بناء حديث، قريبة من الخدمات الرئيسية والمراكز التجارية.</p>
+                        <a href="tel:*100#" class="contact-link">📞 اتصل بالمكتب العقاري</a>
+                    </div>
+                </div>
+            `;
+
+            // جلب وعرض العقارات التي أضافها هذا المستخدم من هاتفه
+            const myProperties = JSON.parse(localStorage.getItem('myLocalProperties')) || [];
+            myProperties.forEach(prop => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=500&q=80');">
+                        <span class="badge-status">${prop.type}</span>
+                        <span class="badge-region">${prop.gov} - ${prop.region}</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="price">${prop.price}</div>
+                        <h3>عقار مضاف بواسطة الهاتف</h3>
+                        <p>${prop.desc}</p>
+                        <a href="tel:${prop.phone}" class="contact-link">📞 اضغط للاتصال: ${prop.phone}</a>
+                        <button class="delete-btn" onclick="deleteProperty(${prop.id})">حذف عقاري الخاص ❌</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // تشغيل الدالة فور تحميل الصفحة لجلب العقارات المحفوظة مسبقاً
+        window.onload = displayProperties;
+    </script>
+</body>
+</html>
+
+
+
+
+
