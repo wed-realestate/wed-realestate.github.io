@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" id="htmlPage">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +11,16 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
         body { background-color: #f4f7f6; color: #333; }
         
-        .nav-bar { background-color: #1a252f; padding: 15px 20px; text-align: right; }
-        .back-btn { background: rgba(255, 255, 255, 0.1); color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+        /* شريط التنقل العلوي المحدث */
+        .nav-bar { background-color: #1a252f; padding: 15px 20px; }
+        .nav-container { max-width: 800px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        
+        .back-btn { background: rgba(255, 255, 255, 0.1); color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; transition: background 0.3s; }
         .back-btn:hover { background: #1abc9c; }
+
+        /* زر تغيير اللغة */
+        .lang-btn { background: #1abc9c; color: #fff; border: none; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: background 0.3s; }
+        .lang-btn:hover { background: #16a085; }
 
         .main-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
         
@@ -21,8 +28,8 @@
         .section-title { font-size: 1.2rem; color: #2c3e50; margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
         .section-title i { color: #1abc9c; }
 
-        .video-box { width: 100%; border-radius: 8px; overflow: hidden; background: #000; position: relative; padding-top: 56.25%; }
-        .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .video-box { width: 100%; border-radius: 8px; overflow: hidden; background: #000; }
+        .video-box video { width: 100%; height: auto; display: block; max-height: 450px; }
 
         .gallery-main { width: 100%; height: 400px; border-radius: 8px; overflow: hidden; margin-bottom: 12px; }
         .gallery-main img { width: 100%; height: 100%; object-fit: cover; }
@@ -35,48 +42,55 @@
 
         footer { background-color: #1a252f; color: white; text-align: center; padding: 25px 10px; margin-top: 40px; }
         footer p { font-size: 0.9rem; }
+
+        /* دعم اتجاه النصوص عند التحويل للإنجليزية */
+        html[dir="id"] .back-btn i { transform: rotate(180deg); }
     </style>
 </head>
 <body>
 
+    <!-- شريط التنقل يحتوي على زر العودة وزر تحويل اللغة -->
     <div class="nav-bar">
-        <div class="main-container" style="margin:0 auto; padding:0;">
-            <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-right"></i> العودة للرئيسية</a>
+        <div class="nav-container">
+            <a href="index.html" class="back-btn" id="backBtn"><i class="fa-solid fa-arrow-right"></i> العودة للرئيسية</a>
+            <button class="lang-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span id="langText">EN</span></button>
         </div>
     </div>
 
     <div class="main-container">
         
         <div style="margin-bottom: 30px;">
-            <h1 style="color: #2c3e50; font-size: 1.8rem; font-weight: 700; margin-bottom: 5px;">تفاصيل ومعاينة الشقة</h1>
-            <p style="color: #7f8c8d; font-size: 0.95rem;">شركة ود العقارية</p>
+            <h1 style="color: #2c3e50; font-size: 1.8rem; font-weight: 700; margin-bottom: 5px;" id="mainTitle">تفاصيل ومعاينة الشقة</h1>
+            <p style="color: #7f8c8d; font-size: 0.95rem;" id="companyName">شركة ود العقارية</p>
         </div>
 
         <!-- قسم الفيديو -->
         <div class="section-box">
-            <div class="section-title"><i class="fa-solid fa-circle-play"></i> فيديو المعاينة الحية</div>
+            <div class="section-title" id="videoTitle"><i class="fa-solid fa-circle-play"></i> فيديو المعاينة الحية</div>
             <div class="video-box">
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                <video controls poster="img1.jpg">
+                    <source src="video.mp4" type="video/mp4">
+                </video>
             </div>
         </div>
 
         <!-- قسم الصور -->
         <div class="section-box">
-            <div class="section-title"><i class="fa-solid fa-images"></i> معرض الصور الفوتوغرافية</div>
+            <div class="section-title" id="galleryTitle"><i class="fa-solid fa-images"></i> معرض الصور الفوتوغرافية</div>
             <div class="gallery-main">
-                <img id="mainImage" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=900&q=80" alt="المعروض الرئيسي">
+                <img id="mainImage" src="img1.jpg" alt="المعروض الرئيسي">
             </div>
             <div class="thumbnails-grid">
-                <img class="thumb active" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=500&q=80" onclick="changeImage(this)">
-                <img class="thumb" src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=500&q=80" onclick="changeImage(this)">
-                <img class="thumb" src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=500&q=80" onclick="changeImage(this)">
-                <img class="thumb" src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=500&q=80" onclick="changeImage(this)">
+                <img class="thumb active" src="img1.jpg" onclick="changeImage(this)">
+                <img class="thumb" src="img2.jpg" onclick="changeImage(this)">
+                <img class="thumb" src="img3.jpg" onclick="changeImage(this)">
+                <img class="thumb" src="img4.jpg" onclick="changeImage(this)">
             </div>
         </div>
 
         <!-- قسم الخريطة -->
         <div class="section-box">
-            <div class="section-title"><i class="fa-solid fa-map-location-dot"></i> الموقع على خرائط جوجل</div>
+            <div class="section-title" id="mapTitle"><i class="fa-solid fa-map-location-dot"></i> الموقع على خرائط جوجل</div>
             <div class="map-box">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3451.1345!2d31.2357!3d30.0444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDAyJzQwLjAiTiAzMcKwMTQnMDguNSJF!5e0!3m2!1sar!2s!4v1625000000000!5m2!1sar!2s" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
@@ -85,10 +99,11 @@
     </div>
 
     <footer>
-        <p>جميع الحقوق محفوظة © شركة ود العقارية 2026</p>
+        <p id="footerText">جميع الحقوق محفوظة © شركة ود العقارية 2026</p>
     </footer>
 
     <script>
+        // تغيير الصور المصغرة
         function changeImage(element) {
             document.getElementById('mainImage').src = element.src;
             let thumbs = document.getElementsByClassName('thumb');
@@ -96,6 +111,60 @@
                 thumbs[i].classList.remove('active');
             }
             element.classList.add('active');
+        }
+
+        // قاموس النصوص للغتين العربية والإنجليزية
+        const translations = {
+            ar: {
+                pageTitle: "تفاصيل العقار - شركة ود العقارية",
+                backBtn: '<i class="fa-solid fa-arrow-right"></i> العودة للرئيسية',
+                mainTitle: "تفاصيل ومعاينة الشقة",
+                companyName: "شركة ود العقارية",
+                videoTitle: '<i class="fa-solid fa-circle-play"></i> فيديو المعاينة الحية',
+                galleryTitle: '<i class="fa-solid fa-images"></i> معرض الصور الفوتوغرافية',
+                mapTitle: '<i class="fa-solid fa-map-location-dot"></i> الموقع على خرائط جوجل',
+                footerText: "جميع الحقوق محفوظة © شركة ود العقارية 2026",
+                langBtn: "EN"
+            },
+            en: {
+                pageTitle: "Property Details - Wed Real Estate",
+                backBtn: '<i class="fa-solid fa-arrow-left"></i> Back to Home',
+                mainTitle: "Apartment Details & Preview",
+                companyName: "Wed Real Estate Company",
+                videoTitle: '<i class="fa-solid fa-circle-play"></i> Live Video Preview',
+                galleryTitle: '<i class="fa-solid fa-images"></i> Photo Gallery',
+                mapTitle: '<i class="fa-solid fa-map-location-dot"></i> Location on Google Maps',
+                footerText: "All Rights Reserved © Wed Real Estate 2026",
+                langBtn: "AR"
+            }
+        };
+
+        // دالة تحويل اللغة وتغيير الاتجاه
+        let currentLang = 'ar';
+
+        function toggleLanguage() {
+            const html = document.getElementById('htmlPage');
+            
+            if (currentLang === 'ar') {
+                currentLang = 'en';
+                html.setAttribute('dir', 'ltr');
+                html.setAttribute('lang', 'en');
+            } else {
+                currentLang = 'ar';
+                html.setAttribute('dir', 'rtl');
+                html.setAttribute('lang', 'ar');
+            }
+
+            // تحديث النصوص بناءً على اللغة المختارة
+            document.title = translations[currentLang].pageTitle;
+            document.getElementById('backBtn').innerHTML = translations[currentLang].backBtn;
+            document.getElementById('mainTitle').textContent = translations[currentLang].mainTitle;
+            document.getElementById('companyName').textContent = translations[currentLang].companyName;
+            document.getElementById('videoTitle').innerHTML = translations[currentLang].videoTitle;
+            document.getElementById('galleryTitle').innerHTML = translations[currentLang].galleryTitle;
+            document.getElementById('mapTitle').innerHTML = translations[currentLang].mapTitle;
+            document.getElementById('footerText').textContent = translations[currentLang].footerText;
+            document.getElementById('langText').textContent = translations[currentLang].langBtn;
         }
     </script>
 </body>
