@@ -1,388 +1,291 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة وإيجار العقارات في سوريا</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
-        
-        :root {
-            --primary-color: #27ae60; /* اللون الأخضر المريح لمنصات الحجز */
-            --dark-color: #2c3e50;
-            --light-bg: #f4f6f7;
-            --accent-color: #e67e22;
-            --border: #e0e0e0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة العقارات الحديثة</title>
+<!-- استدعاء خط Cairo وأيقونات FontAwesome لجعل الموقع احترافياً -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Tajawal', sans-serif;
-        }
+<style>
+/* التنسيقات الأساسية للموقع */
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+font-family: 'Cairo', sans-serif;
+}
+body {
+background-color: #f4f7f6;
+color: #333;
+padding-bottom: 60px;
+}
+header {
+background-color: #1a252f;
+color: #fff;
+text-align: center;
+padding: 30px 10px;
+margin-bottom: 40px;
+}
+header h1 { font-size: 2rem; }
+header p { color: #1abc9c; margin-top: 5px; }
 
-        body {
-            background-color: var(--light-bg);
-            color: var(--dark-color);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+/* شبكة عرض الشقق */
+.container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 0 20px;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+gap: 30px;
+}
 
-        /* الهيدر */
-        header {
-            background-color: #fff;
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-        }
+/* بطاقة الشقة */
+.property-card {
+background: #fff;
+border-radius: 12px;
+overflow: hidden;
+box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+display: flex;
+flex-direction: column;
+}
+.property-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
 
-        .logo {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
+/* صورة الشقة ورابط الصفحة الخاصة */
+.property-image {
+position: relative;
+width: 100%;
+height: 220px;
+overflow: hidden;
+}
+.property-image img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: transform 0.5s ease;
+}
+.property-card:hover .property-image img {
+transform: scale(1.1);
+}
+.badge {
+position: absolute;
+top: 15px;
+right: 15px;
+background: #1abc9c;
+color: white;
+padding: 5px 15px;
+border-radius: 20px;
+font-size: 0.85rem;
+font-weight: 600;
+}
 
-        .logo span {
-            color: var(--dark-color);
-        }
+/* تفاصيل الشقة */
+.property-details {
+padding: 20px;
+display: flex;
+flex-direction: column;
+flex-grow: 1;
+}
+.price {
+color: #e74c3c;
+font-size: 1.3rem;
+font-weight: 700;
+margin-bottom: 10px;
+}
+.title {
+font-size: 1.15rem;
+font-weight: 600;
+margin-bottom: 10px;
+color: #2c3e50;
+}
+.description {
+font-size: 0.9rem;
+color: #7f8c8d;
+margin-bottom: 15px;
+line-height: 1.6;
+}
 
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 500;
-        }
+/* الأيقونات المصغرة لوصف الشقة */
+.features-icons {
+display: flex;
+justify-content: space-between;
+background: #f8f9fa;
+padding: 10px;
+border-radius: 8px;
+margin-bottom: 20px;
+font-size: 0.85rem;
+color: #555;
+}
+.icon-item i {
+color: #1abc9c;
+margin-left: 5px;
+}
 
-        .avatar {
-            width: 40px;
-            height: 40px;
-            background-color: var(--primary-color);
-            color: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
+/* زر الانتقال لصفحة الشقة (الفيديو والصور) */
+.view-details-btn {
+display: block;
+text-align: center;
+background: #2c3e50;
+color: white;
+text-decoration: none;
+padding: 10px;
+border-radius: 6px;
+margin-bottom: 12px;
+font-weight: 600;
+transition: background 0.3s;
+}
+.view-details-btn:hover { background: #1a252f; }
 
-        /* الحاوية الرئيسية */
-        .main-container {
-            max-width: 1200px;
-            width: 100%;
-            margin: 30px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-        }
+/* أزرار التواصل المختصرة */
+.contact-buttons {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 8px;
+}
+.btn-contact {
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 10px;
+border-radius: 6px;
+color: white;
+text-decoration: none;
+font-size: 1.1rem;
+transition: opacity 0.3s;
+}
+.btn-contact:hover { opacity: 0.9; }
+.btn-whatsapp { background-color: #25D366; }
+.btn-phone { background-color: #3498db; }
+.btn-facebook { background-color: #1877F2; }
 
-        @media (max-width: 900px) {
-            .main-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* قسم تفاصيل العقار المعروض للإيجار */
-        .rental-details {
-            background-color: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            padding: 25px;
-        }
-
-        .rental-gallery {
-            width: 100%;
-            height: 350px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .badge-status {
-            background-color: #e8f8f5;
-            color: var(--primary-color);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 15px;
-        }
-
-        .rental-title {
-            font-size: 26px;
-            margin-bottom: 10px;
-        }
-
-        .rental-location {
-            color: #7f8c8d;
-            margin-bottom: 20px;
-            font-size: 15px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 15px;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            padding: 20px 0;
-            margin-bottom: 20px;
-        }
-
-        .feature-item {
-            text-align: center;
-            padding: 10px;
-            background-color: var(--light-bg);
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .feature-item strong {
-            display: block;
-            font-size: 16px;
-            color: var(--primary-color);
-            margin-top: 5px;
-        }
-
-        .description p {
-            line-height: 1.8;
-            color: #555;
-        }
-
-        /* استمارة الحجز والتقويم */
-        .booking-card {
-            background-color: #fff;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            position: sticky;
-            top: 20px;
-            height: fit-content;
-        }
-
-        .price-tag {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 15px;
-        }
-
-        .price-tag span {
-            color: var(--primary-color);
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            outline: none;
-            font-size: 14px;
-        }
-
-        .form-group input:focus {
-            border-color: var(--primary-color);
-        }
-
-        .invoice-box {
-            background-color: #fcfcfc;
-            border: 1px dashed var(--border);
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 20px;
-            display: none; /* تظهر عند حساب الأيام */
-        }
-
-        .invoice-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .invoice-total {
-            border-top: 1px solid var(--border);
-            padding-top: 10px;
-            font-weight: bold;
-            color: var(--accent-color);
-        }
-
-        .btn-book {
-            width: 100%;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: background 0.3s;
-        }
-
-        .btn-book:hover {
-            background-color: #219653;
-        }
-    </style>
+/* تذييل الصفحة (Footer) */
+footer {
+background-color: #1a252f;
+color: white;
+text-align: center;
+padding: 25px 10px;
+margin-top: 60px;
+width: 100%;
+}
+.footer-links {
+display: flex;
+justify-content: center;
+gap: 20px;
+margin-bottom: 15px;
+flex-wrap: wrap;
+}
+.footer-btn {
+background: rgba(255, 255, 255, 0.1);
+color: #fff;
+text-decoration: none;
+padding: 8px 16px;
+border-radius: 20px;
+font-size: 0.85rem;
+transition: background 0.3s, color 0.3s;
+display: inline-flex;
+align-items: center;
+gap: 8px;
+}
+.footer-btn:hover {
+background: #1abc9c;
+color: white;
+}
+footer p {
+font-size: 0.8rem;
+color: #bdc3c7;
+}
+</style>
 </head>
 <body>
 
-    <!-- الهيدر الخاص ببوابة المستأجر -->
-    <header>
-        <div class="logo">سوريا<span>للإيجار وإدارة الأملاك</span></div>
-        <div class="user-profile">
-            <span>مرحباً، أيهم</span>
-            <div class="avatar">أ</div>
-        </div>
-    </header>
+<header>
+<h1>منصتنا العقارية المميزة</h1>
+<p>ابحث عن شقة أحلامك.. بيع، شراء، وتأجير بكل سهولة</p>
+</header>
 
-    <!-- المحتوى الرئيسي (تفاصيل العقار + لوحة الحجز) -->
-    <main class="main-container">
-        
-        <!-- قسم تفاصيل الشقة المدارة -->
-        <section class="rental-details">
-            <span class="badge-status">● متاح للحجز الفوري</span>
-            <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1000&q=80" alt="شقة لاذقية" class="rental-gallery">
-            
-            <h1 class="rental-title">شقة مصيفية مخدمة بالكامل مطلة على الشاطئ الأزرق</h1>
-            <p class="rental-location">📍 اللاذقية، الشاطئ الأزرق - قرب منتجع أفاميا</p>
-            
-            <!-- ميزات إدارية مخصصة للوضع السوري (أمور الطاقة والكهرباء) -->
-            <div class="features-grid">
-                <div class="feature-item">منظومة طاقة شمسية<strong>24 ساعة</strong></div>
-                <div class="feature-item">غرف النوم<strong>2 غرف</strong></div>
-                <div class="feature-item">المياه<strong>خط متواصل</strong></div>
-                <div class="feature-item">نوع الإيجار<strong>يومي / أسبوعي</strong></div>
-            </div>
+<div class="container">
 
-            <div class="description">
-                <h3 style="margin-bottom: 10px;">عن هذا العقار:</h3>
-                <p>شقة مفروشة بالكامل ومجهزة بأحدث التجهيزات لقضاء عطلة مميزة في مدينة اللاذقية. تتميز الشقة بوجود منظومة طاقة شمسية متكاملة لضمان استمرار الكهرباء وتشغيل المكيفات والإنترنت دون انقطاع. مياه مؤمنة على مدار الساعة، إطلالة مباشرة ساحرة على البحر، وموقع قريب من كافة المطاعم والخدمات الحيوية.</p>
-            </div>
-        </section>
+<!-- الشقة الأولى -->
+<div class="property-card">
+<div class="property-image">
+<span class="badge">للبيع</span>
+<img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=500&q=80" alt="شقة مودرن">
+</div>
+<div class="property-details">
+<div class="price">150,000 $`</div>
+<h2 class="title">شقة فاخرة بإطلالة بحرية</h2>
+<p class="description">شقة سكنية راقية بتشطيب سوبر لوكس، تقع في منطقة حيوية وقريبة من كافة الخدمات الأساسية.</p>
 
-        <!-- لوحة التحكم بالحجز والفواتير الإلكترونية للمستأجر -->
-        <aside class="booking-card">
-            <!-- السعر الافتراضي بالليرة السورية لليوم الواحد -->
-            <div class="price-tag"><span id="daily-price">2,500,000</span> ل.س / ليلة</div>
-            
-            <form id="booking-form" oninput="calculateTotal()">
-                <div class="form-group">
-                    <label for="checkin">تاريخ الاستلام (Check-in)</label>
-                    <input type="date" id="checkin" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="checkout">تاريخ التسليم (Check-out)</label>
-                    <input type="date" id="checkout" required>
-                </div>
+<!-- الأيقونات المصغرة للوصف -->
+<div class="features-icons">
+<div class="icon-item"><i class="fa-solid fa-bed"></i> 3 غرف</div>
+<div class="icon-item"><i class="fa-solid fa-bath"></i> 2 حمام</div>
+<div class="icon-item"><i class="fa-solid fa-ruler-combined"></i> 140م²</div>
+</div>
 
-                <div class="form-group">
-                    <label for="guests">عدد المرافقين</label>
-                    <select id="guests">
-                        <option value="1">شخص واحد</option>
-                        <option value="2">شخصين</option>
-                        <option value="4">عائلة (حتى 4 أشخاص)</option>
-                    </select>
-                </div>
+<!-- زر الصفحة الخاصة بالشقة (تحتوي على الفيديو والصور) -->
+<a href="apartment1-details.html" class="view-details-btn"><i class="fa-solid fa-circle-info"></i> عرض الفيديو والصور التفصيلية</a>
 
-                <!-- الفاتورة التلقائية الديناميكية لخدمات العقار -->
-                <div class="invoice-box" id="invoice">
-                    <div class="invoice-row">
-                        <span>إيجار العقار (<span id="days-count">0</span> ليالي):</span>
-                        <span id="base-total">0 ل.س</span>
-                    </div>
-                    <div class="invoice-row">
-                        <span>رسوم خدمات صيانة ونظافة:</span>
-                        <span>150,000 ل.س</span>
-                    </div>
-                    <div class="invoice-row invoice-total">
-                        <span>الإجمالي التقريبي:</span>
-                        <span id="grand-total">0 ل.س</span>
-                    </div>
-                </div>
+<!-- أزرار التواصل السريع -->
+<div class="contact-buttons">
+<a href="https://wa.me/123456789" target="_blank" class="btn-contact btn-whatsapp" title="تواصل عبر الواتساب"><i class="fa-brands fa-whatsapp"></i></a>
+<a href="tel:+123456789" class="btn-contact btn-phone" title="اتصال هاتفي"><i class="fa-solid fa-phone"></i></a>
+<a href="https://facebook.com/yourpage" target="_blank" class="btn-contact btn-facebook" title="تواصل عبر الفيسبوك"><i class="fa-brands fa-facebook-f"></i></a>
+</div>
+</div>
+</div>
 
-                <button type="button" class="btn-book" onclick="confirmBooking()">تأكيد طلب الحجز وإرساله للمالك</button>
-            </form>
-        </aside>
+<!-- الشقة الثانية -->
+<div class="property-card">
+<div class="property-image">
+<span class="badge" style="background:#e67e22;">للايجار</span>
+<img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=500&q=80" alt="شقة عائلية">
+</div>
+<div class="property-details">
+<div class="price">600 `$ / شهرياً</div>
+<h2 class="title">شقة عائلية مؤثثة بالكامل</h2>
+<p class="description">شقة دافئة ومؤثثة بأثاث مودرن نظيف، جاهزة للسكن الفوري في حي هادئ وآمن ومناسب للعائلات.</p>
 
-    </main>
+<!-- الأيقونات المصغرة للوصف -->
+<div class="features-icons">
+<div class="icon-item"><i class="fa-solid fa-bed"></i> 2 غرف</div>
+<div class="icon-item"><i class="fa-solid fa-bath"></i> 1 حمام</div>
+<div class="icon-item"><i class="fa-solid fa-ruler-combined"></i> 95م²</div>
+</div>
 
-    <script>
-        // تحديد السعر الأساسي لليلة بالليرة السورية رقمياً للحسابات
-        const pricePerNight = 2500000;
-        const serviceFee = 150000;
+<!-- زر الصفحة الخاصة بالشقة -->
+<a href="apartment2-details.html" class="view-details-btn"><i class="fa-solid fa-circle-info"></i> عرض الفيديو والصور التفصيلية</a>
 
-        // دالة لحساب عدد الأيام وتحديث الفاتورة فورياً
-        function calculateTotal() {
-            const checkinVal = document.getElementById('checkin').value;
-            const checkoutVal = document.getElementById('checkout').value;
-            const invoiceBox = document.getElementById('invoice');
+<!-- أزرار التواصل السريع -->
+<div class="contact-buttons">
+<a href="https://wa.me/123456789" target="_blank" class="btn-contact btn-whatsapp" title="تواصل عبر الواتساب"><i class="fa-brands fa-whatsapp"></i></a>
+<a href="tel:+123456789" class="btn-contact btn-phone" title="اتصال هاتفي"><i class="fa-solid fa-phone"></i></a>
+<a href="https://facebook.com/yourpage" target="_blank" class="btn-contact btn-facebook" title="تواصل عبر الفيسبوك"><i class="fa-brands fa-facebook-f"></i></a>
+</div>
+</div>
+</div>
 
-            if (checkinVal && checkoutVal) {
-                const date1 = new Date(checkinVal);
-                const date2 = new Date(checkoutVal);
-                
-                // حساب الفارق الزمني بالأيام
-                const timeDiff = date2.getTime() - date1.getTime();
-                const days = Math.ceil(timeDiff / (1000 * 3600 * 24));
+</div>
 
-                if (days > 0) {
-                    const baseTotal = days * pricePerNight;
-                    const grandTotal = baseTotal + serviceFee;
+<!-- تذييل الصفحة المتضمن للأزرار المصغرة المطلوبة -->
+<footer>
+<div class="footer-links">
+<!-- زر الشروط والأحكام -->
+<a href="terms.html" class="footer-btn">
+<i class="fa-solid fa-gavel"></i> الشروط والأحكام
+</a>
+<!-- زر مواقع العقارات على خرائط جوجل -->
+<a href="https://goo.gl/maps/xyzYourMapLink" target="_blank" class="footer-btn">
+<i class="fa-solid fa-map-location-dot"></i> مواقع شققنا على الخريطة
+</a>
+</div>
+<p>جميع الحقوق محفوظة © منصة العقارات 2026</p>
+</footer>
 
-                    // تحديث نصوص الفاتورة في الواجهة
-                    document.getElementById('days-count').innerText = days;
-                    document.getElementById('base-total').innerText = baseTotal.toLocaleString() + " ل.س";
-                    document.getElementById('grand-total').innerText = grandTotal.toLocaleString() + " ل.س";
-                    
-                    // إظهار صندوق الفاتورة بسلاسة
-                    invoiceBox.style.display = 'block';
-                } else {
-                    invoiceBox.style.display = 'none';
-                }
-            } else {
-                invoiceBox.style.display = 'none';
-            }
-        }
-
-        // دالة تأكيد الحجز وإرسال الطلب لإدارة الأملاك
-        function confirmBooking() {
-            const checkin = document.getElementById('checkin').value;
-            const checkout = document.getElementById('checkout').value;
-
-            if(!checkin || !checkout) {
-                alert("الرجاء اختيار تاريخ الاستلام والتسليم أولاً.");
-                return;
-            }
-            
-            const grandTotalText = document.getElementById('grand-total').innerText;
-            alert(`تم إرسال طلب الحجز الخاص بك بنجاح إلى المالك لإقراره.\nالمجموع الكلي المقدر: ${grandTotalText}\nسيتم التواصل معك عبر الهاتف للتأكيد.`);
-        }
-
-        // تعيين الحد الأدنى لتاريخ اليوم في المدخلات لمنع حجز تواريخ قديمة
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('checkin').min = today;
-        document.getElementById('checkout').min = today;
-    </script>
 </body>
 </html>
