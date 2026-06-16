@@ -116,7 +116,7 @@
         .footer-btn:hover { background: #1abc9c; }
         #footerCopy { font-size: 0.85rem; color: #bdc3c7; }
 
-        /* تحسينات إضافية للهواتف الصغيرة جداً (الشاشات أقل من 360 بكسل) */
+        /* تحسينات إضافية للهواتف الصغيرة جداً */
         @media (max-width: 360px) {
             header h1 { font-size: 1.6rem; }
             .features-icons { flex-direction: column; gap: 8px; align-items: flex-start; }
@@ -135,21 +135,22 @@
 </header>
 
 <div class="container">
-    <div class="property-card">
+    <!-- كرت 1 -->
+    <div class="property-card" data-id="1">
         <div class="property-image">
-            <span class="badge badge-sale" id="badge1">للبيع</span>
+            <span class="badge badge-sale data-badge">للبيع</span>
             <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=500&q=80" alt="شقة">
         </div>
         <div class="property-details">
-            <div class="price" id="price1">150,000 $</div>
-            <h2 class="title" id="title1">شقة فاخرة بإطلالة بحرية</h2>
-            <p class="description" id="desc1">شقة سكنية راقية بتشطيب سوبر لوكس، تقع في منطقة حيوية وقريبة من كافة الخدمات الأساسية والمراكز التجارية.</p>
+            <div class="price data-price">150,000 $</div>
+            <h2 class="title data-title">شقة فاخرة بإطلالة بحرية</h2>
+            <p class="description data-desc">شقة سكنية راقية بتشطيب سوبر لوكس، تقع في منطقة حيوية وقريبة من كافة الخدمات الأساسية والمراكز التجارية.</p>
             <div class="features-icons">
-                <div class="icon-item" id="f1_1"><i class="fa-solid fa-bed"></i> 3 غرف</div>
-                <div class="icon-item" id="f1_2"><i class="fa-solid fa-bath"></i> 2 حمام</div>
-                <div class="icon-item" id="f1_3"><i class="fa-solid fa-ruler-combined"></i> 140م²</div>
+                <div class="icon-item"><i class="fa-solid fa-bed"></i> <span class="data-f1">3 غرف</span></div>
+                <div class="icon-item"><i class="fa-solid fa-bath"></i> <span class="data-f2">2 حمام</span></div>
+                <div class="icon-item"><i class="fa-solid fa-ruler-combined"></i> <span class="data-f3">140م²</span></div>
             </div>
-            <a href="apartment-details.html" class="view-details-btn" id="viewBtn1"><i class="fa-solid fa-video"></i> عرض الفيديو والصور التفصيلية</a>
+            <a href="apartment-details.html" class="view-details-btn data-view-btn"><i class="fa-solid fa-video"></i> <span>عرض الفيديو والصور التفصيلية</span></a>
             <div class="contact-buttons">
                 <a href="https://wa.me/201234567890" target="_blank" class="btn-contact btn-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
                 <a href="tel:+201234567890" class="btn-contact btn-phone"><i class="fa-solid fa-phone"></i></a>
@@ -158,21 +159,22 @@
         </div>
     </div>
 
-    <div class="property-card">
+    <!-- كرت 2 -->
+    <div class="property-card" data-id="2">
         <div class="property-image">
-            <span class="badge badge-sale" id="badge2">للبيع</span>
+            <span class="badge badge-sale data-badge">للبيع</span>
             <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=500&q=80" alt="شقة عائلية">
         </div>
         <div class="property-details">
-            <div class="price" id="price2">210,000 $</div>
-            <h2 class="title" id="title2">شقة عائلية فسيحة بحي راقي</h2>
-            <p class="description" id="desc2">شقة ممتازة للعائلات الكبيرة بمساحة واسعة وتوزيع ذكي للغرف، بالقرب من المدارس والحدائق العامة.</p>
+            <div class="price data-price">210,000 $</div>
+            <h2 class="title data-title">شقة عائلية فسيحة بحي راقي</h2>
+            <p class="description data-desc">شقة ممتازة للعائلات الكبيرة بمساحة واسعة وتوزيع ذكي للغرف، بالقرب من المدارس والحدائق العامة.</p>
             <div class="features-icons">
-                <div class="icon-item" id="f2_1"><i class="fa-solid fa-bed"></i> 4 غرف</div>
-                <div class="icon-item" id="f2_2"><i class="fa-solid fa-bath"></i> 3 حمامات</div>
-                <div class="icon-item" id="f2_3"><i class="fa-solid fa-ruler-combined"></i> 195م²</div>
+                <div class="icon-item"><i class="fa-solid fa-bed"></i> <span class="data-f1">4 غرف</span></div>
+                <div class="icon-item"><i class="fa-solid fa-bath"></i> <span class="data-f2">3 حمامات</span></div>
+                <div class="icon-item"><i class="fa-solid fa-ruler-combined"></i> <span class="data-f3">195م²</span></div>
             </div>
-            <a href="apartment-details.html" class="view-details-btn" id="viewBtn2"><i class="fa-solid fa-video"></i> عرض الفيديو والصور التفصيلية</a>
+            <a href="apartment-details.html" class="view-details-btn data-view-btn"><i class="fa-solid fa-video"></i> <span>عرض الفيديو والصور التفصيلية</span></a>
             <div class="contact-buttons">
                 <a href="https://wa.me/201234567890" target="_blank" class="btn-contact btn-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
                 <a href="tel:+201234567890" class="btn-contact btn-phone"><i class="fa-solid fa-phone"></i></a>
@@ -181,21 +183,22 @@
         </div>
     </div>
 
-    <div class="property-card">
+    <!-- كرت 3 -->
+    <div class="property-card" data-id="3">
         <div class="property-image">
-            <span class="badge badge-rent" id="badge3">للايجار</span>
+            <span class="badge badge-rent data-badge">للايجار</span>
             <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=500&q=80" alt="استوديو">
         </div>
         <div class="property-details">
-            <div class="price" id="price3">650 $ / شهرياً</div>
-            <h2 class="title" id="title3">استوديو مودرن مؤثث بالكامل</h2>
-            <p class="description" id="desc3">استوديو بتصميم عصري مخصص للشباب أو حديثي الزواج، مجهز بكامل الأجهزة الكهربائية والمكيفات بوسط المدينة.</p>
+            <div class="price data-price">650 $ / شهرياً</div>
+            <h2 class="title data-title">استوديو مودرن مؤثث بالكامل</h2>
+            <p class="description data-desc">استوديو بتصميم عصري مخصص للشباب أو حديثي الزواج، مجهز بكامل الأجهزة الكهربائية والمكيفات بوسط المدينة.</p>
             <div class="features-icons">
-                <div class="icon-item" id="f3_1"><i class="fa-solid fa-bed"></i> 1 غرفة</div>
-                <div class="icon-item" id="f3_2"><i class="fa-solid fa-bath"></i> 1 حمام</div>
-                <div class="icon-item" id="f3_3"><i class="fa-solid fa-ruler-combined"></i> 65م²</div>
+                <div class="icon-item"><i class="fa-solid fa-bed"></i> <span class="data-f1">1 غرفة</span></div>
+                <div class="icon-item"><i class="fa-solid fa-bath"></i> <span class="data-f2">1 حمام</span></div>
+                <div class="icon-item"><i class="fa-solid fa-ruler-combined"></i> <span class="data-f3">65م²</span></div>
             </div>
-            <a href="apartment-details.html" class="view-details-btn" id="viewBtn3"><i class="fa-solid fa-video"></i> عرض الفيديو والصور التفصيلية</a>
+            <a href="apartment-details.html" class="view-details-btn data-view-btn"><i class="fa-solid fa-video"></i> <span>عرض الفيديو والصور التفصيلية</span></a>
             <div class="contact-buttons">
                 <a href="https://wa.me/201234567890" target="_blank" class="btn-contact btn-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
                 <a href="tel:+201234567890" class="btn-contact btn-phone"><i class="fa-solid fa-phone"></i></a>
@@ -204,21 +207,22 @@
         </div>
     </div>
 
-    <div class="property-card">
+    <!-- كرت 4 -->
+    <div class="property-card" data-id="4">
         <div class="property-image">
-            <span class="badge badge-sale" id="badge4">للبيع</span>
+            <span class="badge badge-sale data-badge">للبيع</span>
             <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=500&q=80" alt="رووف بنتهاوس">
         </div>
         <div class="property-details">
-            <div class="price" id="price4">320,000 $</div>
-            <h2 class="title" id="title4">شقة بنتهاوس (رووف) مع تراس خاص</h2>
-            <p class="description" id="desc4">إطلالة بانورامية ساحرة على المدينة مع تراس خارجي واسع مجهز لجلسات الشواء، تشطيبات فندقية فاخرة جداً.</p>
+            <div class="price data-price">320,000 $</div>
+            <h2 class="title data-title">شقة بنتهاوس (رووف) مع تراس خاص</h2>
+            <p class="description data-desc">إطلالة بانورامية ساحرة على المدينة مع تراس خارجي واسع مجهز لجلسات الشواء، تشطيبات فندقية فاخرة جداً.</p>
             <div class="features-icons">
-                <div class="icon-item" id="f4_1"><i class="fa-solid fa-bed"></i> 3 غرف</div>
-                <div class="icon-item" id="f4_2"><i class="fa-solid fa-bath"></i> 3 حمامات</div>
-                <div class="icon-item" id="f4_3"><i class="fa-solid fa-ruler-combined"></i> 220م²</div>
+                <div class="icon-item"><i class="fa-solid fa-bed"></i> <span class="data-f1">3 غرف</span></div>
+                <div class="icon-item"><i class="fa-solid fa-bath"></i> <span class="data-f2">3 حمامات</span></div>
+                <div class="icon-item"><i class="fa-solid fa-ruler-combined"></i> <span class="data-f3">220م²</span></div>
             </div>
-            <a href="apartment-details.html" class="view-details-btn" id="viewBtn4"><i class="fa-solid fa-video"></i> عرض الفيديو والصور التفصيلية</a>
+            <a href="apartment-details.html" class="view-details-btn data-view-btn"><i class="fa-solid fa-video"></i> <span>عرض الفيديو والصور التفصيلية</span></a>
             <div class="contact-buttons">
                 <a href="https://wa.me/201234567890" target="_blank" class="btn-contact btn-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
                 <a href="tel:+201234567890" class="btn-contact btn-phone"><i class="fa-solid fa-phone"></i></a>
@@ -230,8 +234,8 @@
 
 <footer>
     <div class="footer-links">
-        <a href="terms.html" class="footer-btn" id="footerLink1"><i class="fa-solid fa-gavel"></i> الشروط والأحكام</a>
-        <a href="https://maps.google.com" target="_blank" class="footer-btn" id="footerLink2"><i class="fa-solid fa-map-location-dot"></i> مواقعنا على خرائط جوجل</a>
+        <a href="terms.html" class="footer-btn" id="footerLink1"><i class="fa-solid fa-gavel"></i> <span>الشروط والأحكام</span></a>
+        <a href="https://maps.google.com" target="_blank" class="footer-btn" id="footerLink2"><i class="fa-solid fa-map-location-dot"></i> <span>مواقعنا على خرائط جوجل</span></a>
     </div>
     <p id="footerCopy">جميع الحقوق محفوظة © شركة ود العقارية 2026</p>
 </footer>
@@ -243,25 +247,15 @@ const translations = {
         headerTitle: "شركة ود العقارية",
         headerSub: "ابحث عن شقة أحلامك.. بيع، شراء، وتأجير بكل سهولة",
         langBtn: "EN",
-        viewBtn: '<i class="fa-solid fa-video"></i> عرض الفيديو والصور التفصيلية',
-        footerLink1: '<i class="fa-solid fa-gavel"></i> الشروط والأحكام',
-        footerLink2: '<i class="fa-solid fa-map-location-dot"></i> مواقعنا على خرائط جوجل',
+        viewBtn: "عرض الفيديو والصور التفصيلية",
+        footerLink1: "الشروط والأحكام",
+        footerLink2: "مواقعنا على خرائط جوجل",
         footerCopy: "جميع الحقوق محفوظة © شركة ود العقارية 2026",
         shoppes: {
-            b1: "للبيع", b2: "للبيع", b3: "للايجار", b4: "للبيع",
-            p1: "150,000 $", p2: "210,000 $", p3: "650 $ / شهرياً", p4: "320,000 $",
-            t1: "شقة فاخرة بإطلالة بحرية",
-            d1: "شقة سكنية راقية بتشطيب سوبر لوكس، تقع في منطقة حيوية وقريبة من كافة الخدمات الأساسية والمراكز التجارية.",
-            f1_1: "3 غرف", f1_2: "2 حمام", f1_3: "140م²",
-            t2: "شقة عائلية فسيحة بحي راقي",
-            d2: "شقة ممتازة للعائلات الكبيرة بمساحة واسعة وتوزيع ذكي للغرف، بالقرب من المدارس والحدائق العامة.",
-            f2_1: "4 غرف", f2_2: "3 حمامات", f2_3: "195م²",
-            t3: "استوديو مودرن مؤثث بالكامل",
-            d3: "استوديو بتصميم عصري مخصص للشباب أو حديثي الزواج، مجهز بكامل الأجهزة الكهربائية والمكيفات بوسط المدينة.",
-            f3_1: "1 غرفة", f3_2: "1 حمام", f3_3: "65م²",
-            t4: "شقة بنتهاوس (رووف) مع تراس خاص",
-            d4: "إطلالة بانورامية ساحرة على المدينة مع تراس خارجي واسع مجهز لجلسات الشواء، تشطيبات فندقية فاخرة جداً.",
-            f4_1: "3 غرف", f4_2: "3 حمامات", f4_3: "220م²"
+            1: { b: "للبيع", p: "150,000 $", t: "شقة فاخرة بإطلالة بحرية", d: "شقة سكنية راقية بتشطيب سوبر لوكس، تقع في منطقة حيوية وقريبة من كافة الخدمات الأساسية والمراكز التجارية.", f1: "3 غرف", f2: "2 حمام", f3: "140م²" },
+            2: { b: "للبيع", p: "210,000 $", t: "شقة عائلية فسيحة بحي راقي", d: "شقة ممتازة للعائلات الكبيرة بمساحة واسعة وتوزيع ذكي للغرف، بالقرب من المدارس والحدائق العامة.", f1: "4 غرف", f2: "3 حمامات", f3: "195م²" },
+            3: { b: "للايجار", p: "650 $ / شهرياً", t: "استوديو مودرن مؤثث بالكامل", d: "استوديو بتصميم عصري مخصص للشباب أو حديثي الزواج، مجهز بكامل الأجهزة الكهربائية والمكيفات بوسط المدينة.", f1: "1 غرفة", f2: "1 حمام", f3: "65م²" },
+            4: { b: "للبيع", p: "320,000 $", t: "شقة بنتهاوس (رووف) مع تراس خاص", d: "إطلالة بانورامية ساحرة على المدينة مع تراس خارجي واسع مجهز لجلسات الشواء، تشطيبات فندقية فاخرة جداً.", f1: "3 غرف", f2: "3 حمامات", f3: "220م²" }
         }
     },
     en: {
@@ -269,25 +263,15 @@ const translations = {
         headerTitle: "Wed Real Estate",
         headerSub: "Find your dream apartment.. Buy, sell, and rent with ease",
         langBtn: "AR",
-        viewBtn: '<i class="fa-solid fa-video"></i> View Video & Details',
-        footerLink1: '<i class="fa-solid fa-gavel"></i> Terms & Conditions',
-        footerLink2: '<i class="fa-solid fa-map-location-dot"></i> Our Locations on Google Maps',
+        viewBtn: "View Video & Details",
+        footerLink1: "Terms & Conditions",
+        footerLink2: "Our Locations on Google Maps",
         footerCopy: "All Rights Reserved © Wed Real Estate 2026",
         shoppes: {
-            b1: "For Sale", b2: "For Sale", b3: "For Rent", b4: "For Sale",
-            p1: "150,000 $", p2: "210,000 $", p3: "650 $ / Monthly", p4: "320,000 $",
-            t1: "Luxury Apartment with Sea View",
-            d1: "High-end residential apartment with super luxury finishing, located in a vital area close to all essential services and commercial centers.",
-            f1_1: "3 Beds", f1_2: "2 Baths", f1_3: "140m²",
-            t2: "Spacious Family Apartment",
-            d2: "Excellent apartment for large families with a spacious area and smart layout, near schools and public parks.",
-            f2_1: "4 Beds", f2_2: "3 Baths", f2_3: "195m²",
-            t3: "Fully Furnished Modern Studio",
-            d3: "Modern design studio tailored for singles or newlyweds, fully equipped with appliances and air conditioning in downtown.",
-            f3_1: "1 Bed", f3_2: "1 Bath", f3_3: "65m²",
-            t4: "Penthouse Apartment with Private Terrace",
-            d4: "Charming panoramic city views with a large outdoor terrace equipped for BBQ sessions, ultra-luxury hotel-like finishes.",
-            f4_1: "3 Beds", f4_2: "3 Baths", f4_3: "220m²"
+            1: { b: "For Sale", p: "150,000 $", t: "Luxury Apartment with Sea View", d: "High-end residential apartment with super luxury finishing, located in a vital area close to all essential services and commercial centers.", f1: "3 Beds", f2: "2 Baths", f3: "140m²" },
+            2: { b: "For Sale", p: "210,000 $", t: "Spacious Family Apartment", d: "Excellent apartment for large families with a spacious area and smart layout, near schools and public parks.", f1: "4 Beds", f2: "3 Baths", f3: "195m²" },
+            3: { b: "For Rent", p: "650 $ / Monthly", t: "Fully Furnished Modern Studio", d: "Modern design studio tailored for singles or newlyweds, fully equipped with appliances and air conditioning in downtown.", f1: "1 Bed", f2: "1 Bath", f3: "65m²" },
+            4: { b: "For Sale", p: "320,000 $", t: "Penthouse Apartment with Private Terrace", d: "Charming panoramic city views with a large outdoor terrace equipped for BBQ sessions, ultra-luxury hotel-like finishes.", f1: "3 Beds", f2: "3 Baths", f3: "220m²" }
         }
     }
 };
@@ -296,66 +280,38 @@ let currentLang = 'ar';
 
 function toggleLanguage() {
     const html = document.getElementById('htmlPage');
+    currentLang = currentLang === 'ar' ? 'en' : 'ar';
+    
+    // تغيير الاتجاه واللغة في حاوية HTML الأساسية
+    html.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+    html.setAttribute('lang', currentLang);
 
-    if (currentLang === 'ar') {
-        currentLang = 'en';
-        html.setAttribute('dir', 'ltr');
-        html.setAttribute('lang', 'en');
-    } else {
-        currentLang = 'ar';
-        html.setAttribute('dir', 'rtl');
-        html.setAttribute('lang', 'ar');
-    }
-
+    // تحديث النصوص الثابتة
     document.title = translations[currentLang].pageTitle;
     document.getElementById('headerTitle').textContent = translations[currentLang].headerTitle;
     document.getElementById('headerSub').textContent = translations[currentLang].headerSub;
     document.getElementById('langText').textContent = translations[currentLang].langBtn;
-    document.getElementById('footerLink1').innerHTML = translations[currentLang].footerLink1;
-    document.getElementById('footerLink2').innerHTML = translations[currentLang].footerLink2;
+    document.querySelector('#footerLink1 span').textContent = translations[currentLang].footerLink1;
+    document.querySelector('#footerLink2 span').textContent = translations[currentLang].footerLink2;
     document.getElementById('footerCopy').textContent = translations[currentLang].footerCopy;
 
-    for(let i = 1; i <= 4; i++) {
-        document.getElementById(`viewBtn${i}`).innerHTML = translations[currentLang].viewBtn;
-    }
-
-    const data = translations[currentLang].shoppes;
-
-    // الشقة 1
-    document.getElementById('badge1').textContent = data.b1;
-    document.getElementById('price1').textContent = data.p1;
-    document.getElementById('title1').textContent = data.t1;
-    document.getElementById('desc1').textContent = data.d1;
-    document.getElementById('f1_1').innerHTML = `<i class="fa-solid fa-bed"></i> ${data.f1_1}`;
-    document.getElementById('f1_2').innerHTML = `<i class="fa-solid fa-bath"></i> ${data.f1_2}`;
-    document.getElementById('f1_3').innerHTML = `<i class="fa-solid fa-ruler-combined"></i> ${data.f1_3}`;
-
-    // الشقة 2
-    document.getElementById('badge2').textContent = data.b2;
-    document.getElementById('price2').textContent = data.p2;
-    document.getElementById('title2').textContent = data.t2;
-    document.getElementById('desc2').textContent = data.d2;
-    document.getElementById('f2_1').innerHTML = `<i class="fa-solid fa-bed"></i> ${data.f2_1}`;
-    document.getElementById('f2_2').innerHTML = `<i class="fa-solid fa-bath"></i> ${data.f2_2}`;
-    document.getElementById('f2_3').innerHTML = `<i class="fa-solid fa-ruler-combined"></i> ${data.f2_3}`;
-
-    // الشقة 3
-    document.getElementById('badge3').textContent = data.b3;
-    document.getElementById('price3').textContent = data.p3;
-    document.getElementById('title3').textContent = data.t3;
-    document.getElementById('desc3').textContent = data.d3;
-    document.getElementById('f3_1').innerHTML = `<i class="fa-solid fa-bed"></i> ${data.f3_1}`;
-    document.getElementById('f3_2').innerHTML = `<i class="fa-solid fa-bath"></i> ${data.f3_2}`;
-    document.getElementById('f3_3').innerHTML = `<i class="fa-solid fa-ruler-combined"></i> ${data.f3_3}`;
-
-    // الشقة 4
-    document.getElementById('badge4').textContent = data.b4;
-    document.getElementById('price4').textContent = data.p4;
-    document.getElementById('title4').textContent = data.t4;
-    document.getElementById('desc4').textContent = data.d4;
-    document.getElementById('f4_1').innerHTML = `<i class="fa-solid fa-bed"></i> ${data.f4_1}`;
-    document.getElementById('f4_2').innerHTML = `<i class="fa-solid fa-bath"></i> ${data.f4_2}`;
-    document.getElementById('f4_3').innerHTML = `<i class="fa-solid fa-ruler-combined"></i> ${data.f4_3}`;
+    // تحديث كروت العقارات ديناميكياً بدون تكرار الكود لكل كرت
+    const cards = document.querySelectorAll('.property-card');
+    cards.forEach(card => {
+        const id = card.getAttribute('data-id');
+        const data = translations[currentLang].shoppes[id];
+        
+        if (data) {
+            card.querySelector('.data-badge').textContent = data.b;
+            card.querySelector('.data-price').textContent = data.p;
+            card.querySelector('.data-title').textContent = data.t;
+            card.querySelector('.data-desc').textContent = data.d;
+            card.querySelector('.data-f1').textContent = data.f1;
+            card.querySelector('.data-f2').textContent = data.f2;
+            card.querySelector('.data-f3').textContent = data.f3;
+            card.querySelector('.data-view-btn span').textContent = translations[currentLang].viewBtn;
+        }
+    });
 }
 </script>
 </body>
