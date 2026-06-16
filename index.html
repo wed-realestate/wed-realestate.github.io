@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">شركة ود العقارية - Wed Real Estate</title>
+    <title>شركة ود العقارية - Wed Real Estate</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -44,7 +44,6 @@
             position: absolute; 
             top: 15px; 
         }
-        /* تحديد مكان الزر بناءً على اتجاه الصفحة */
         html[dir="rtl"] .lang-btn-wrapper { left: 20px; }
         html[dir="ltr"] .lang-btn-wrapper { right: 20px; }
 
@@ -67,13 +66,12 @@
             transform: scale(1.05);
         }
 
-        /* حاوية المحتوى الرئيسية المتجاوبة */
+        /* حاوية المحتوى الرئيسية */
         .container { 
             max-width: 1200px; 
             margin: 0 auto; 
             padding: 0 20px 60px 20px; 
             display: grid; 
-            /* تعديل الأبعاد لتناسب الشاشات الصغيرة جداً دون خروج العناصر */
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
             gap: 30px; 
         }
@@ -99,6 +97,7 @@
             width: 100%; 
             height: 220px; 
             overflow: hidden; 
+            background-color: #eef2f3; /* حماية في حال تأخر تحميل الصورة */
         }
         .property-image img { 
             width: 100%; 
@@ -119,10 +118,10 @@
             border-radius: 20px; 
             font-size: 0.85rem; 
             font-weight: 600; 
-            z-index: 1; 
+            z-index: 2; 
         }
-        html[dir="rtl"] .badge { right: 15px; }
-        html[dir="ltr"] .badge { left: 15px; }
+        html[dir="rtl"] .badge { right: 15px; left: auto; }
+        html[dir="ltr"] .badge { left: 15px; right: auto; }
         
         .badge-sale { background: #1abc9c; }
         .badge-rent { background: #e67e22; }
@@ -176,7 +175,6 @@
         }
         .icon-item i { 
             color: #1abc9c; 
-            /* استخدام خاصية حديثة متوافقة مع الاتجاهين تلقائياً */
             margin-inline-end: 2px; 
         }
 
@@ -197,7 +195,7 @@
             background: #1abc9c; 
         }
 
-        /* أزرار الاتصال المحدثة للموبايل */
+        /* أزرار الاتصال */
         .contact-buttons { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
@@ -222,7 +220,7 @@
         .btn-phone { background-color: #3498db; }
         .btn-facebook { background-color: #1877F2; }
 
-        /* التذييل (Footer) */
+        /* التذييل */
         footer { 
             background-color: #1a252f; 
             color: white; 
@@ -257,7 +255,6 @@
             opacity: 0.8;
         }
 
-        /* تعديلات طفيفة للهواتف الصغيرة جداً */
         @media (max-width: 480px) {
             header { padding: 60px 10px 30px 10px; }
             header h1 { font-size: 1.8rem; }
@@ -274,29 +271,29 @@
                 <span id="langText">EN</span>
             </button>
         </div>
-        <h1 id="headerTitle">شركة ود العقارية</h1>
-        <p id="headerSub">ابحث عن شقة أحلامك.. بيع، شراء، وتأجير بكل سهولة</p>
+        <h1 id="headerTitle" data-ar="شركة ود العقارية" data-en="Wed Real Estate">شركة ود العقارية</h1>
+        <p id="headerSub" data-ar="ابحث عن شقة أحلامك.. بيع، شراء، وتأجير بكل سهولة" data-en="Find your dream apartment.. Buy, sell, and rent with ease">ابحث عن شقة أحلامك.. بيع، شراء، وتأجير بكل سهولة</p>
     </header>
 
     <div class="container">
         
         <div class="property-card">
             <div class="property-image">
-                <span class="badge badge-sale" id="badge1">للبيع</span>
-                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=500&q=80" alt="شقة فاخرة بإطلالة بحرية">
+                <span class="badge badge-sale translate-text" data-ar="للبيع" data-en="For Sale">للبيع</span>
+                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=500&q=80" alt="Property Image">
             </div>
             <div class="property-details">
-                <div class="price" id="price1">150,000 $</div>
-                <h2 class="title" id="title1">شقة فاخرة بإطلالة بحرية</h2>
-                <p class="description" id="desc1">شقة سكنية راقية بتشطيب سوبر لوكس، تقع في منطقة حيوية وقريبة من كافة الخدمات الأساسية والمراكز التجارية.</p>
+                <div class="price translate-text" data-ar="150,000 $" data-en="150,000 $">150,000 $</div>
+                <h2 class="title translate-text" data-ar="شقة فاخرة بإطلالة بحرية" data-en="Luxury Apartment with Sea View">شقة فاخرة بإطلالة بحرية</h2>
+                <p class="description translate-text" data-ar="شقة سكنية راقية بتشطيب سوبر لوكس، تقع في منطقة حيوية وقريبة من كافة الخدمات الأساسية والمراكز التجارية." data-en="High-end residential apartment with super lux finishing, located in a vital area close to all essential services.">شقة سكنية راقية بتشطيب سوبر لوكس، تقع في منطقة حيوية وقريبة من كافة الخدمات الأساسية والمراكز التجارية.</p>
                 
                 <div class="features-icons">
-                    <div class="icon-item" id="f1_1"><i class="fa-solid fa-bed"></i> <span>3 غرف</span></div>
-                    <div class="icon-item" id="f1_2"><i class="fa-solid fa-bath"></i> <span>2 حمام</span></div>
-                    <div class="icon-item" id="f1_3"><i class="fa-solid fa-chart-area"></i> <span>150 م²</span></div>
+                    <div class="icon-item"><i class="fa-solid fa-bed"></i> <span class="translate-text" data-ar="3 غرف" data-en="3 Rooms">3 غرف</span></div>
+                    <div class="icon-item"><i class="fa-solid fa-bath"></i> <span class="translate-text" data-ar="2 حمام" data-en="2 Baths">2 حمام</span></div>
+                    <div class="icon-item"><i class="fa-solid fa-chart-area"></i> <span class="translate-text" data-ar="150 م²" data-en="150 m²">150 م²</span></div>
                 </div>
 
-                <a href="#" class="view-details-btn" id="viewDetailsBtn1">عرض التفاصيل</a>
+                <a href="#" class="view-details-btn translate-text" data-ar="عرض التفاصيل" data-en="View Details">عرض التفاصيل</a>
 
                 <div class="contact-buttons">
                     <a href="https://wa.me/123456789" class="btn-contact btn-whatsapp" aria-label="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
@@ -308,21 +305,21 @@
 
         <div class="property-card">
             <div class="property-image">
-                <span class="badge badge-rent" id="badge2">للإيجار</span>
-                <img src="https://images.unsplash.com/photo-1580587471535-09979902c62c?auto=format&fit=crop&w=500&q=80" alt="شقة عائلية للإيجار">
+                <span class="badge badge-rent translate-text" data-ar="للإيجار" data-en="For Rent">للإيجار</span>
+                <img src="https://images.unsplash.com/photo-1580587471535-09979902c62c?auto=format&fit=crop&w=500&q=80" alt="Property Image">
             </div>
             <div class="property-details">
-                <div class="price" id="price2">3,500 $/شهر</div>
-                <h2 class="title" id="title2">شقة عائلية واسعة للإيجار</h2>
-                <p class="description" id="desc2">شقة مفروشة بالكامل في موقع متميز، مثالية للعائلات، قريبة من المدارس والحدائق.</p>
+                <div class="price translate-text" data-ar="3,500 $/شهر" data-en="3,500 $/month">3,500 $/شهر</div>
+                <h2 class="title translate-text" data-ar="شقة عائلية واسعة للإيجار" data-en="Spacious Family Apartment for Rent">شقة عائلية واسعة للإيجار</h2>
+                <p class="description translate-text" data-ar="شقة مفروشة بالكامل في موقع متميز، مثالية للعائلات، قريبة من المدارس والحدائق." data-en="Fully furnished apartment in a prime location, perfect for families, close to schools and parks.">شقة مفروشة بالكامل في موقع متميز، مثالية للعائلات، قريبة من المدارس والحدائق.</p>
                 
                 <div class="features-icons">
-                    <div class="icon-item" id="f2_1"><i class="fa-solid fa-bed"></i> <span>4 غرف</span></div>
-                    <div class="icon-item" id="f2_2"><i class="fa-solid fa-bath"></i> <span>3 حمام</span></div>
-                    <div class="icon-item" id="f2_3"><i class="fa-solid fa-chart-area"></i> <span>200 م²</span></div>
+                    <div class="icon-item"><i class="fa-solid fa-bed"></i> <span class="translate-text" data-ar="4 غرف" data-en="4 Rooms">4 غرف</span></div>
+                    <div class="icon-item"><i class="fa-solid fa-bath"></i> <span class="translate-text" data-ar="3 حمام" data-en="3 Baths">3 حمام</span></div>
+                    <div class="icon-item"><i class="fa-solid fa-chart-area"></i> <span class="translate-text" data-ar="200 م²" data-en="200 m²">200 م²</span></div>
                 </div>
 
-                <a href="#" class="view-details-btn" id="viewDetailsBtn2">عرض التفاصيل</a>
+                <a href="#" class="view-details-btn translate-text" data-ar="عرض التفاصيل" data-en="View Details">عرض التفاصيل</a>
 
                 <div class="contact-buttons">
                     <a href="https://wa.me/123456789" class="btn-contact btn-whatsapp" aria-label="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
@@ -336,86 +333,65 @@
 
     <footer>
         <div class="footer-links">
-            <a href="#" class="footer-btn" id="aboutBtn"><i class="fa-solid fa-info-circle"></i> <span>من نحن</span></a>
-            <a href="#" class="footer-btn" id="contactBtn"><i class="fa-solid fa-envelope"></i> <span>اتصل بنا</span></a>
-            <a href="#" class="footer-btn" id="featuredBtn"><i class="fa-solid fa-home"></i> <span>عقارات مميزة</span></a>
-            <a href="#" class="footer-btn" id="locationsBtn"><i class="fa-solid fa-map-marker-alt"></i> <span>مواقعنا</span></a>
+            <a href="#" class="footer-btn"><i class="fa-solid fa-info-circle"></i> <span class="translate-text" data-ar="من نحن" data-en="About Us">من نحن</span></a>
+            <a href="#" class="footer-btn"><i class="fa-solid fa-envelope"></i> <span class="translate-text" data-ar="اتصل بنا" data-en="Contact Us">اتصل بنا</span></a>
+            <a href="#" class="footer-btn"><i class="fa-solid fa-home"></i> <span class="translate-text" data-ar="عقارات مميزة" data-en="Properties">عقارات مميزة</span></a>
+            <a href="#" class="footer-btn"><i class="fa-solid fa-map-marker-alt"></i> <span class="translate-text" data-ar="مواقعنا" data-en="Locations">مواقعنا</span></a>
         </div>
-        <p>&copy; <span id="currentYear"></span> شركة ود العقارية. جميع الحقوق محفوظة.</p>
+        <p>&copy; <span id="currentYear"></span> <span class="translate-text" data-ar="شركة ود العقارية. جميع الحقوق محفوظة." data-en="Wed Real Estate. All rights reserved.">شركة ود العقارية. جميع الحقوق محفوظة.</span></p>
     </footer>
 
     <script>
-        // تحديث السنة تلقائياً في الفوتر
+        // تعيين السنة الحالية ديناميكياً
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // نظام تبديل اللغة الكامل (عربي / إنجليزي)
         function toggleLanguage() {
             const langTextElement = document.getElementById('langText');
             const htmlElement = document.getElementById('htmlPage');
+            const isEnglish = langTextElement.textContent === 'EN';
             
-            if (langTextElement.textContent === 'EN') {
-                // التحويل إلى الإنجليزية
+            // 1. تبديل نص الزر والاتجاهات
+            if (isEnglish) {
                 langTextElement.textContent = 'AR';
                 htmlElement.setAttribute('dir', 'ltr');
                 htmlElement.setAttribute('lang', 'en');
-                
-                // تحديث نصوص الهيدر والفوتر
-                document.getElementById('headerTitle').textContent = 'Wed Real Estate';
-                document.getElementById('headerSub').textContent = 'Find your dream apartment.. Buy, sell, and rent with ease';
-                document.getElementById('aboutBtn').querySelector('span').textContent = 'About Us';
-                document.getElementById('contactBtn').querySelector('span').textContent = 'Contact Us';
-                document.getElementById('featuredBtn').querySelector('span').textContent = 'Featured Properties';
-                document.getElementById('locationsBtn').querySelector('span').textContent = 'Our Locations';
-                
-                // عقار 1
-                document.getElementById('badge1').textContent = 'For Sale';
-                document.getElementById('title1').textContent = 'Luxury Apartment with Sea View';
-                document.getElementById('desc1').textContent = 'High-end residential apartment with super lux finishing, located in a vital area close to all essential services.';
-                document.getElementById('f1_1').querySelector('span').textContent = '3 Rooms';
-                document.getElementById('f1_2').querySelector('span').textContent = '2 Baths';
-                document.getElementById('viewDetailsBtn1').textContent = 'View Details';
-
-                // عقار 2
-                document.getElementById('badge2').textContent = 'For Rent';
-                document.getElementById('price2').textContent = '3,500 $/month';
-                document.getElementById('title2').textContent = 'Spacious Family Apartment for Rent';
-                document.getElementById('desc2').textContent = 'Fully furnished apartment in a prime location, perfect for families, close to schools and parks.';
-                document.getElementById('f2_1').querySelector('span').textContent = '4 Rooms';
-                document.getElementById('f2_2').querySelector('span').textContent = '3 Baths';
-                document.getElementById('viewDetailsBtn2').textContent = 'View Details';
-                
             } else {
-                // العودة إلى العربية
                 langTextElement.textContent = 'EN';
                 htmlElement.setAttribute('dir', 'rtl');
                 htmlElement.setAttribute('lang', 'ar');
-                
-                // إرجاع نصوص الهيدر والفوتر
-                document.getElementById('headerTitle').textContent = 'شركة ود العقارية';
-                document.getElementById('headerSub').textContent = 'ابحث عن شقة أحلامك.. بيع، شراء، وتأجير بكل سهولة';
-                document.getElementById('aboutBtn').querySelector('span').textContent = 'من نحن';
-                document.getElementById('contactBtn').querySelector('span').textContent = 'اتصل بنا';
-                document.getElementById('featuredBtn').querySelector('span').textContent = 'عقارات مميزة';
-                document.getElementById('locationsBtn').querySelector('span').textContent = 'مواقعنا';
-                
-                // عقار 1
-                document.getElementById('badge1').textContent = 'للبيع';
-                document.getElementById('title1').textContent = 'شقة فاخرة بإطلالة بحرية';
-                document.getElementById('desc1').textContent = 'شقة سكنية راقية بتشطيب سوبر لوكس، تقع في منطقة حيوية وقريبة من كافة الخدمات الأساسية والمراكز التجارية.';
-                document.getElementById('f1_1').querySelector('span').textContent = '3 غرف';
-                document.getElementById('f1_2').querySelector('span').textContent = '2 حمام';
-                document.getElementById('viewDetailsBtn1').textContent = 'عرض التفاصيل';
-
-                // عقار 2
-                document.getElementById('badge2').textContent = 'للإيجار';
-                document.getElementById('price2').textContent = '3,500 $/شهر';
-                document.getElementById('title2').textContent = 'شقة عائلية واسعة للإيجار';
-                document.getElementById('desc2').textContent = 'شقة مفروشة بالكامل في موقع متميز، مثالية للعائلات، قريبة من المدارس والحدائق.';
-                document.getElementById('f2_1').querySelector('span').textContent = '4 غرف';
-                document.getElementById('f2_2').querySelector('span').textContent = '3 حمام';
-                document.getElementById('viewDetailsBtn2').textContent = 'عرض التفاصيل';
             }
+            
+            const currentLang = isEnglish ? 'en' : 'ar';
+
+            // 2. تحديث نصوص الهيدر المحددة بذكاء
+            const headerTitle = document.getElementById('headerTitle');
+            const headerSub = document.getElementById('headerSub');
+            headerTitle.textContent = headerTitle.getAttribute(`data-${currentLang}`);
+            headerSub.textContent = headerSub.getAttribute(`data-${currentLang}`);
+
+            // 3. تحديث كافة العناصر التي تملك كلاس الترجمة تلقائياً دون تداخل المعرفات (IDs)
+            const elementsToTranslate = document.querySelectorAll('.translate-text');
+            elementsToTranslate.forEach(element => {
+                const translatedText = element.getAttribute(`data-${currentLang}`);
+                if (translatedText) {
+                    element.textContent = translatedText;
+                }
+            });
         }
+
+        // معالجة مشكلة العودة من صفحة التفاصيل (تصفير الكاش في بعض المتصفحات الذكية)
+        window.addEventListener('pageshow', function (event) {
+            // للتأكد من أن الصفحة تعود لوضعها الطبيعي المستقر دون تداخل عند الضغط على زر العودة
+            if (event.persisted) {
+                const htmlElement = document.getElementById('htmlPage');
+                const langTextElement = document.getElementById('langText');
+                if(htmlElement.getAttribute('dir') === 'ltr') {
+                    langTextElement.textContent = 'AR';
+                } else {
+                    langTextElement.textContent = 'EN';
+                }
+            }
+        });
     </script>
 </body>
 </html>
