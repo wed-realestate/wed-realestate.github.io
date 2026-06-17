@@ -91,8 +91,8 @@
         /* كرت العقار */
         .property-card { 
             background: var(--bg-card);
-            border-radius: 3px; 
-            overflow: show; 
+            border-radius: 8px; /* تم تعديله لجمالية أفضل ومتناسقة مع الانحناءات الداخلية */
+            overflow: visible; 
             border: 3px solid var(--border-card); 
             box-shadow: 0 4px 10px rgba(0,0,0,0.03); 
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; 
@@ -105,7 +105,15 @@
             border-color: #1abc9c; 
         }
 
-        .property-image { position: relative; width: 100%; height: 200px; overflow: hidden; background: #eef2f5; }
+        .property-image { 
+            position: relative; 
+            width: 100%; 
+            height: 200px; 
+            overflow: hidden; 
+            background: #eef2f5; 
+            border-top-left-radius: 5px; /* يمنع خروج زوايا الصورة الحادة عن انحناء الكارت العلوي */
+            border-top-right-radius: 5px;
+        }
         .property-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
         .property-card:hover .property-image img { transform: scale(1.05); }
 
