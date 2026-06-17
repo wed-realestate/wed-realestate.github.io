@@ -413,6 +413,34 @@ function setLanguage(lang) {
         }
     });
 }
+
+// ==========================================
+// حماية الصفحة: تعطيل الزر الأيمن واختصارات لوحة المفاتيح
+// ==========================================
+
+// 1. منع فتح القائمة عند النقر بالزر الأيمن للفأرة
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+// 2. منع اختصارات لوحة المفاتيح المخصصة للفحص (F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U)
+document.addEventListener('keydown', event => {
+    // تعطيل زر F12
+    if (event.key === 'F12' || event.keyCode === 123) {
+        event.preventDefault();
+        return false;
+    }
+    
+    // تعطيل اختصارات Ctrl+Shift+I (تفقد العناصر) و Ctrl+Shift+J (فتح الكونسول) و Ctrl+Shift+C
+    if (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J' || event.key === 'C' || event.keyCode === 73 || event.keyCode === 74 || event.keyCode === 67)) {
+        event.preventDefault();
+        return false;
+    }
+    
+    // تعطيل اختصار Ctrl+U (عرض سورس كود الصفحة)
+    if (event.ctrlKey && (event.key === 'u' || event.key === 'U' || event.keyCode === 85)) {
+        event.preventDefault();
+        return false;
+    }
+});
 </script>
 </body>
 </html>
