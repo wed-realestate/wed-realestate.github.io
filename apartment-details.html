@@ -69,4 +69,226 @@
         .section-title i { color: #1abc9c; }
 
         /* مشغل الفيديو */
-        .video-box { width: 100%; border-radius: 8px; overflow: hidden; background: #000; box-shadow:
+        .video-box { width: 100%; border-radius: 8px; overflow: hidden; background: #000; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .video-box video { width: 100%; height: auto; display: block; max-height: 450px; }
+
+        /* معرض الصور مع تأثير التلاشي والانتقال الحر */
+        .gallery-main { width: 100%; height: 400px; border-radius: 8px; overflow: hidden; margin-bottom: 12px; background: #eee; position: relative; }
+        .gallery-main img { width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 0.3s ease-in-out, transform 0.5s ease; }
+        .gallery-main:hover img { transform: scale(1.02); }
+        
+        /* حالة التلاشي أثناء تبديل الصورة عبر الـ JavaScript */
+        .gallery-main img.fade-out { opacity: 0; }
+
+        /* شبكة الصور المصغرة وتأثيراتها */
+        .thumbnails-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .thumb { width: 100%; height: 80px; border-radius: 6px; object-fit: cover; cursor: pointer; opacity: 0.5; border: 2px solid transparent; transition: opacity 0.3s ease, border-color 0.3s ease, transform 0.3s ease; }
+        .thumb:hover { opacity: 0.8; transform: translateY(-2px); }
+        .thumb.active { opacity: 1; border-color: #1abc9c; transform: scale(1.03) translateY(-2px); }
+
+        .map-box { width: 100%; height: 350px; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+        footer { background-color: var(--bg-nav); color: white; text-align: center; padding: 25px 10px; margin-top: 40px; }
+        footer p { font-size: 0.9rem; }
+
+        html[dir="ltr"] #backIcon { transform: rotate(180deg); }
+    </style>
+</head>
+<body>
+
+<div class="nav-bar">
+    <div class="nav-container">
+        <a href="index.html" class="back-btn" id="backBtn">
+            <i class="fa-solid fa-arrow-right" id="backIcon"></i> 
+            <span class="data-text">العودة للرئيسية</span>
+        </a>
+        <div class="nav-controls">
+            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="lang-btn" onclick="toggleLanguage()">
+                <i class="fa-solid fa-globe"></i> 
+                <span id="langText">EN</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="main-container">
+    <div style="margin-bottom: 30px;">
+        <h1 style="color: var(--text-title); font-size: 1.8rem; font-weight: 700; margin-bottom: 5px;" id="mainTitle">تفاصيل ومعاينة الشقة</h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem;" id="companyName">شركة ود العقارية</p>
+    </div>
+
+    <div class="section-box">
+        <div class="section-title" id="videoTitle"><i class="fa-solid fa-circle-play"></i> <span class="data-text">فيديو المعاينة الحية</span></div>
+        <div class="video-box">
+            <video controls poster="img1.jpg">
+                <source src="video.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="section-box">
+        <div class="section-title" id="galleryTitle"><i class="fa-solid fa-images"></i> <span class="data-text">معرض الصور الفوتوغرافية</span></div>
+        <div class="gallery-main">
+            <img id="mainImage" src="img1.jpg" alt="المعروض الرئيسي">
+        </div>
+        <div class="thumbnails-grid">
+            <img class="thumb active" src="img1.jpg" onclick="changeImage(this)" loading="lazy">
+            <img class="thumb" src="img2.jpg" onclick="changeImage(this)" loading="lazy">
+            <img class="thumb" src="img3.jpg" onclick="changeImage(this)" loading="lazy">
+            <img class="thumb" src="img4.jpg" onclick="changeImage(this)" loading="lazy">
+        </div>
+    </div>
+
+    <div class="section-box">
+        <div class="section-title" id="mapTitle"><i class="fa-solid fa-map-location-dot"></i> <span class="data-text">الموقع على خرائط جوجل</span></div>
+        <div class="map-box">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3451.1345!2d31.2357!3d30.0444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDAyJzQwLjAiTiAzMcKwMTQnMDguNSJF!5e0!3m2!1sar!2s!4v1625000000000!5m2!1sar!2s" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p id="footerText">جميع الحقوق محفوظة © شركة ود العقارية 2026</p>
+</footer>
+
+<script>
+// تغيير الصور المصغرة مع تأثير التلاشي السلس الـ (Fade Effect)
+function changeImage(element) {
+    const mainImg = document.getElementById('mainImage');
+    
+    if (mainImg.src !== element.src) {
+        mainImg.classList.add('fade-out');
+        
+        setTimeout(() => {
+            mainImg.src = element.src;
+            mainImg.classList.remove('fade-out');
+        }, 200); // يتوافق التوقيت مع سرعة الـ transition بالـ CSS
+    }
+
+    let thumbs = document.getElementsByClassName('thumb');
+    for(let i=0; i<thumbs.length; i++) {
+        thumbs[i].classList.remove('active');
+    }
+    element.classList.add('active');
+}
+
+// قاموس النصوص الكامل للغتين
+const translations = {
+    ar: {
+        pageTitle: "تفاصيل العقار - شركة ود العقارية",
+        backBtn: "العودة للرئيسية",
+        mainTitle: "تفاصيل ومعاينة الشقة",
+        companyName: "شركة ود العقارية",
+        videoTitle: "فيديو المعاينة الحية",
+        galleryTitle: "معرض الصور الفوتوغرافية",
+        mapTitle: "الموقع على خرائط جوجل",
+        footerText: "جميع الحقوق محفوظة © شركة ود العقارية 2026",
+        langBtn: "EN"
+    },
+    en: {
+        pageTitle: "Property Details - Wed Real Estate",
+        backBtn: "Back to Home",
+        mainTitle: "Apartment Details & Preview",
+        companyName: "Wed Real Estate",
+        videoTitle: "Live Preview Video",
+        galleryTitle: "Photo Gallery",
+        mapTitle: "Google Maps Location",
+        footerText: "All Rights Reserved © Wed Real Estate 2026",
+        langBtn: "AR"
+    }
+};
+
+// إعدادات المظهر والوضع الليلي/النهاري الذكي
+const htmlElement = document.documentElement;
+const savedTheme = localStorage.getItem('theme');
+const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+if (savedTheme) {
+    setTheme(savedTheme);
+} else {
+    setTheme(systemPrefersDark ? 'dark' : 'light');
+}
+
+// دالة تعيين المظهر وتحديث الأيقونة
+function setTheme(theme) {
+    htmlElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.innerHTML = theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+}
+
+// دالة التبديل اليدوي عند الضغط على الزر
+function toggleTheme() {
+    const currentTheme = htmlElement.getAttribute('data-theme');
+    setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+}
+
+// الاستماع لتغييرات إعدادات النظام في حال لم يقم المستخدم بالاختيار يدوياً
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) {
+        setTheme(e.matches ? 'dark' : 'light');
+    }
+});
+
+// إعدادات الترجمة واللغة
+let currentLang = localStorage.getItem('selectedLang') || 'ar';
+
+document.addEventListener("DOMContentLoaded", () => {
+    setLanguage(currentLang); 
+});
+
+function toggleLanguage() {
+    currentLang = currentLang === 'ar' ? 'en' : 'ar';
+    localStorage.setItem('selectedLang', currentLang);
+    setLanguage(currentLang);
+}
+
+function setLanguage(lang) {
+    const html = document.getElementById('htmlPage');
+    html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    html.setAttribute('lang', lang);
+
+    document.title = translations[lang].pageTitle;
+    document.querySelector('#backBtn .data-text').textContent = translations[lang].backBtn;
+    document.getElementById('mainTitle').textContent = translations[lang].mainTitle;
+    document.getElementById('companyName').textContent = translations[lang].companyName;
+    document.querySelector('#videoTitle .data-text').textContent = translations[lang].videoTitle;
+    document.querySelector('#galleryTitle .data-text').textContent = translations[lang].galleryTitle;
+    document.querySelector('#mapTitle .data-text').textContent = translations[lang].mapTitle;
+    document.getElementById('footerText').textContent = translations[lang].footerText;
+    document.getElementById('langText').textContent = translations[lang].langBtn;
+}
+
+// ==========================================
+// حماية الصفحة: تعطيل الزر الأيمن واختصارات لوحة المفاتيح
+// ==========================================
+
+// 1. منع فتح القائمة عند النقر بالزر الأيمن للفأرة
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+// 2. منع اختصارات لوحة المفاتيح المخصصة للفحص (F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U)
+document.addEventListener('keydown', event => {
+    // تعطيل زر F12
+    if (event.key === 'F12' || event.keyCode === 123) {
+        event.preventDefault();
+        return false;
+    }
+    
+    // تعطيل اختصارات Ctrl+Shift+I و Ctrl+Shift+J و Ctrl+Shift+C
+    if (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J' || event.key === 'C' || event.keyCode === 73 || event.keyCode === 74 || event.keyCode === 67)) {
+        event.preventDefault();
+        return false;
+    }
+    
+    // تعطيل اختصار Ctrl+U (عرض سورس كود الصفحة)
+    if (event.ctrlKey && (event.key === 'u' || event.key === 'U' || event.keyCode === 85)) {
+        event.preventDefault();
+        return false;
+    }
+});
+</script>
+</body>
+</html>
