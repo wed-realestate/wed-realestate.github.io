@@ -40,6 +40,27 @@
 
         .map-box { width: 100%; height: 350px; border-radius: 8px; overflow: hidden; }
 
+        /* كرت العقار مع الإطار المضاف */
+        .property-card { 
+            background: #fff;
+            border-radius: 3px; 
+            overflow: show; 
+            border: 3px solid #e2f0ea; /* الإطار الخفيف الافتراضي */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        .property-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 12px 25px rgba(0,0,0,0.08); 
+            border-color: #1abc9c; /* يتغير لون الإطار عند التمرير بالماوس */
+        }
+
+        .property-image { position: relative; width: 100%; height: 200px; overflow: hidden; background: #eef2f5; }
+        .property-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .property-card:hover .property-image img { transform: scale(1.05); }
+
         footer { background-color: #1a252f; color: white; text-align: center; padding: 25px 10px; margin-top: 40px; }
         footer p { font-size: 0.9rem; }
 
@@ -49,7 +70,6 @@
 </head>
 <body>
 
-<!-- شريط التنقل يحتوي على زر العودة وزر تحويل اللغة -->
 <div class="nav-bar">
     <div class="nav-container">
         <a href="index.html" class="back-btn" id="backBtn">
@@ -69,7 +89,6 @@
         <p style="color: #7f8c8d; font-size: 0.95rem;" id="companyName">شركة ود العقارية</p>
     </div>
 
-    <!-- قسم الفيديو -->
     <div class="section-box">
         <div class="section-title" id="videoTitle"><i class="fa-solid fa-circle-play"></i> <span class="data-text">فيديو المعاينة الحية</span></div>
         <div class="video-box">
@@ -79,7 +98,6 @@
         </div>
     </div>
 
-    <!-- قسم الصور -->
     <div class="section-box">
         <div class="section-title" id="galleryTitle"><i class="fa-solid fa-images"></i> <span class="data-text">معرض الصور الفوتوغرافية</span></div>
         <div class="gallery-main">
@@ -93,7 +111,6 @@
         </div>
     </div>
 
-    <!-- قسم الخريطة -->
     <div class="section-box">
         <div class="section-title" id="mapTitle"><i class="fa-solid fa-map-location-dot"></i> <span class="data-text">الموقع على خرائط جوجل</span></div>
         <div class="map-box">
@@ -123,58 +140,4 @@ const translations = {
         pageTitle: "تفاصيل العقار - شركة ود العقارية",
         backBtn: "العودة للرئيسية",
         mainTitle: "تفاصيل ومعاينة الشقة",
-        companyName: "شركة ود العقارية",
-        videoTitle: "فيديو المعاينة الحية",
-        galleryTitle: "معرض الصور الفوتوغرافية",
-        mapTitle: "الموقع على خرائط جوجل",
-        footerText: "جميع الحقوق محفوظة © شركة ود العقارية 2026",
-        langBtn: "EN"
-    },
-    en: {
-        pageTitle: "Property Details - Wed Real Estate",
-        backBtn: "Back to Home",
-        mainTitle: "Apartment Details & Preview",
-        companyName: "Wed Real Estate Company",
-        videoTitle: "Live Video Preview",
-        galleryTitle: "Photo Gallery",
-        mapTitle: "Location on Google Maps",
-        footerText: "All Rights Reserved © Wed Real Estate 2026",
-        langBtn: "AR"
-    }
-};
-
-// قراءة اللغة المحفوظة في المتصفح أو تعيين العربية كافتراضية
-let currentLang = localStorage.getItem('selectedLang') || 'ar';
-
-// تطبيق اللغة المحفوظة بمجرد تحميل الصفحة
-document.addEventListener("DOMContentLoaded", () => {
-    setLanguage(currentLang); 
-});
-
-function toggleLanguage() {
-    currentLang = currentLang === 'ar' ? 'en' : 'ar';
-    localStorage.setItem('selectedLang', currentLang); // حفظ اختيار المستخدم ليُطبق على الصفحة الرئيسية أيضاً
-    setLanguage(currentLang);
-}
-
-function setLanguage(lang) {
-    const html = document.getElementById('htmlPage');
-    
-    // ضبط الاتجاه واللغة في وسم الـ HTML الرئيسي
-    html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-    html.setAttribute('lang', lang);
-
-    // تحديث النصوص والترجمات دون المساس بالأيقونات
-    document.getElementById('pageTitle').textContent = translations[lang].pageTitle;
-    document.querySelector('#backBtn .data-text').textContent = translations[lang].backBtn;
-    document.getElementById('mainTitle').textContent = translations[lang].mainTitle;
-    document.getElementById('companyName').textContent = translations[lang].companyName;
-    document.querySelector('#videoTitle .data-text').textContent = translations[lang].videoTitle;
-    document.querySelector('#galleryTitle .data-text').textContent = translations[lang].galleryTitle;
-    document.querySelector('#mapTitle .data-text').textContent = translations[lang].mapTitle;
-    document.getElementById('footerText').textContent = translations[lang].footerText;
-    document.getElementById('langText').textContent = translations[lang].langBtn;
-}
-</script>
-</body>
-</html>
+        companyName: "
