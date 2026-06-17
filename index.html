@@ -8,12 +8,40 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
-        body { background-color: #f4f7f6; color: #333; overflow-x: hidden; }
+        /* تعريف متغيرات الألوان للوضعين اللامع والمظلم */
+        :root {
+            --bg-body: #f4f7f6;
+            --text-main: #333;
+            --text-title: #2c3e50;
+            --text-muted: #7f8c8d;
+            --bg-card: #fff;
+            --border-card: #e2f0ea;
+            --bg-features: #f8f9fa;
+            --text-features: #555;
+            --bg-header: #1a252f;
+            --bg-footer: #1a252f;
+        }
+
+        /* تعديل الألوان عند تفعيل الوضع الليلي */
+        [data-theme="dark"] {
+            --bg-body: #121212;
+            --text-main: #e0e0e0;
+            --text-title: #ffffff;
+            --text-muted: #b0bec5;
+            --bg-card: #1e1e1e;
+            --border-card: #2c3e50;
+            --bg-features: #2a2a2a;
+            --text-features: #ccc;
+            --bg-header: #0a0f14;
+            --bg-footer: #0a0f14;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+        body { background-color: var(--bg-body); color: var(--text-main); overflow-x: hidden; }
 
         /* الهيدر المتجاوب */
         header { 
-            background-color: #1a252f; 
+            background-color: var(--bg-header); 
             color: #fff; 
             text-align: center; 
             padding: 60px 20px 40px 20px; 
@@ -23,11 +51,18 @@
         header h1 { font-size: 2rem; line-height: 1.4; }
         header p { color: #1abc9c; margin-top: 10px; font-size: 1rem; }
 
-        /* زر تغيير اللغة المتجاوب */
-        .lang-btn-wrapper { position: absolute; top: 15px; left: 20px; }
-        html[dir="ltr"] .lang-btn-wrapper { left: auto; right: 20px; }
+        /* حاوية أزرار التحكم في أعلى الصفحة */
+        .controls-wrapper { 
+            position: absolute; 
+            top: 15px; 
+            left: 20px; 
+            display: flex; 
+            gap: 10px; 
+            align-items: center;
+        }
+        html[dir="ltr"] .controls-wrapper { left: auto; right: 20px; }
 
-        .lang-btn { 
+        .lang-btn, .theme-btn { 
             background: #1abc9c; 
             color: #fff; 
             border: none; 
@@ -39,9 +74,9 @@
             display: inline-flex; 
             align-items: center; 
             gap: 5px; 
-            transition: background 0.3s; 
+            height: 32px;
         }
-        .lang-btn:hover { background: #16a085; }
+        .lang-btn:hover, .theme-btn:hover { background: #16a085; }
 
         /* حاوية الكروت المرنة */
         .container { 
@@ -53,12 +88,12 @@
             gap: 25px; 
         }
 
-        /* كرت العقار مع الإطار المضاف */
+        /* كرت العقار */
         .property-card { 
-            background: #fff;
+            background: var(--bg-card);
             border-radius: 3px; 
             overflow: show; 
-            border: 3px solid #e2f0ea; /* الإطار الخفيف الافتراضي */
+            border: 3px solid var(--border-card); 
             box-shadow: 0 4px 10px rgba(0,0,0,0.03); 
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; 
             display: flex; 
@@ -66,8 +101,8 @@
         }
         .property-card:hover { 
             transform: translateY(-5px); 
-            box-shadow: 0 12px 25px rgba(0,0,0,0.08); 
-            border-color: #1abc9c; /* يتغير لون الإطار عند التمرير بالماوس */
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15); 
+            border-color: #1abc9c; 
         }
 
         .property-image { position: relative; width: 100%; height: 200px; overflow: hidden; background: #eef2f5; }
@@ -83,19 +118,19 @@
         /* تفاصيل العقار */
         .property-details { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
         .price { color: #e74c3c; font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; }
-        .title { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: #2c3e50; line-height: 1.4; }
-        .description { font-size: 0.85rem; color: #7f8c8d; margin-bottom: 15px; line-height: 1.6; height: 55px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+        .title { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: var(--text-title); line-height: 1.4; }
+        .description { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.6; height: 55px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
 
         /* الأيقونات والمميزات */
         .features-icons { 
             display: flex; 
             justify-content: space-between; 
-            background: #f8f9fa; 
+            background: var(--bg-features); 
             padding: 10px; 
             border-radius: 8px; 
             margin-bottom: 15px; 
             font-size: 0.8rem; 
-            color: #555; 
+            color: var(--text-features); 
             gap: 5px;
         }
         .icon-item { display: flex; align-items: center; white-space: nowrap; }
@@ -128,7 +163,7 @@
         .btn-facebook { background-color: #1877F2; }
 
         /* الفوتر المتجاوب */
-        footer { background-color: #1a252f; color: white; text-align: center; padding: 30px 15px; margin-top: 40px; }
+        footer { background-color: var(--bg-footer); color: white; text-align: center; padding: 30px 15px; margin-top: 40px; }
         .footer-links { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
         .footer-btn { background: rgba(255, 255, 255, 0.1); color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; transition: background 0.3s; display: inline-flex; align-items: center; gap: 8px; }
         .footer-btn:hover { background: #1abc9c; }
@@ -145,15 +180,19 @@
 <body>
 
 <header>
-    <div class="lang-btn-wrapper">
-        <button class="lang-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span id="langText">EN</span></button>
+    <div class="controls-wrapper">
+        <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+        <button class="lang-btn" onclick="toggleLanguage()">
+            <i class="fa-solid fa-globe"></i> <span id="langText">EN</span>
+        </button>
     </div>
     <h1 id="headerTitle">شركة ود العقارية</h1>
     <p id="headerSub">ابحث عن شقة أحلامك.. بيع، شراء، وتأجير بكل سهولة</p>
 </header>
 
 <div class="container">
-    <!-- كرت 1 -->
     <div class="property-card" data-id="1">
         <div class="property-image">
             <span class="badge badge-sale data-badge">للبيع</span>
@@ -177,7 +216,6 @@
         </div>
     </div>
 
-    <!-- كرت 2 -->
     <div class="property-card" data-id="2">
         <div class="property-image">
             <span class="badge badge-sale data-badge">للبيع</span>
@@ -201,7 +239,6 @@
         </div>
     </div>
 
-    <!-- كرت 3 -->
     <div class="property-card" data-id="3">
         <div class="property-image">
             <span class="badge badge-rent data-badge">للايجار</span>
@@ -225,7 +262,6 @@
         </div>
     </div>
 
-    <!-- كرت 4 -->
     <div class="property-card" data-id="4">
         <div class="property-image">
             <span class="badge badge-sale data-badge">للبيع</span>
@@ -294,28 +330,64 @@ const translations = {
     }
 };
 
-// قراءة اللغة المحفوظة في المتصفح أو تعيين العربية كافتراضية
 let currentLang = localStorage.getItem('selectedLang') || 'ar';
 
-// تطبيق اللغة المحفوظة مباشرة بمجرد تحميل الصفحة
+// منطق الوضع الليلي والنهاري
+const htmlElement = document.documentElement;
+
+// 1. فحص الإعدادات المفضلة (الذاكرة المحلية أولاً، ثم إعدادات الجهاز)
+const savedTheme = localStorage.getItem('theme');
+const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+if (savedTheme) {
+    setTheme(savedTheme);
+} else {
+    setTheme(systemPrefersDark ? 'dark' : 'light');
+}
+
+// دالة تعيين المظهر وتحديث الأيقونة
+function setTheme(theme) {
+    htmlElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    
+    const themeBtn = document.getElementById('themeBtn');
+    if (theme === 'dark') {
+        themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>'; // أيقونة الشمس للتحويل للنهاري
+    } else {
+        themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>'; // أيقونة القمر للتحويل لليلي
+    }
+}
+
+// دالة التبديل اليدوي عند الضغط على الزر
+function toggleTheme() {
+    const currentTheme = htmlElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+}
+
+// الاستماع لتغييرات إعدادات النظام في حال لم يقم المستخدم بالاختيار يدوياً
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) {
+        setTheme(e.matches ? 'dark' : 'light');
+    }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
     setLanguage(currentLang); 
 });
 
 function toggleLanguage() {
     currentLang = currentLang === 'ar' ? 'en' : 'ar';
-    localStorage.setItem('selectedLang', currentLang); // حفظ اختيار المستخدم
+    localStorage.setItem('selectedLang', currentLang);
     setLanguage(currentLang);
 }
 
 function setLanguage(lang) {
     const html = document.getElementById('htmlPage');
     
-    // ضبط الاتجاه واللغة في وسم الـ HTML الرئيسي
     html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
     html.setAttribute('lang', lang);
 
-    // تحديث النصوص الثابتة بالموقع
     document.title = translations[lang].pageTitle;
     document.getElementById('headerTitle').textContent = translations[lang].headerTitle;
     document.getElementById('headerSub').textContent = translations[lang].headerSub;
@@ -324,7 +396,6 @@ function setLanguage(lang) {
     document.querySelector('#footerLink2 span').textContent = translations[lang].footerLink2;
     document.getElementById('footerCopy').textContent = translations[lang].footerCopy;
 
-    // تحديث تفاصيل كروت العقارات ديناميكياً بحلقة تكرار ذكية
     const cards = document.querySelectorAll('.property-card');
     cards.forEach(card => {
         const id = card.getAttribute('data-id');
