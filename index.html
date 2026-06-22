@@ -387,20 +387,26 @@ function renderProperties(properties) {
         const pBaths = property["الحمامات"] || property["الحمام"] || property["Bathrooms"] || 0;
         const pArea = property["المساحة"] || property["Area"] || "";
         
-        const pImgOrVideo = property["الصورة الرئيسية"] || property["Image"] || property["فيديو"] || property["Video"] || "";
-       const pId = property["id"] || property["ID"] || property["Id"] || property["المعرف"] || property["تسل"] || "";
-        const pWhatsapp = property["واتساب"] || property["Whatsapp"] || "";
-        const pPhone = property["الهاتف"] || property["Phone"] || "";
-        const pFacebook = property["فيسبوك"] || property["Facebook"] || "#";
+     // بداية فصل ميديا العرض الرئيسي عن الميديا الثانوية
+const pId = property["id"] || property["ID"] || property["Id"] || property["المعرف"] || property["تسل"] || "";
+const pWhatsapp = property["واتساب"] || property["Whatsapp"] || "";
+const pPhone = property["الهاتف"] || property["Phone"] || "";
+const pFacebook = property["فيسبوك"] || property["Facebook"] || "#";
 
-        let mediaHtml = "";
-        if (pImgOrVideo.endsWith(".mp4") || pImgOrVideo.includes("video")) {
-            mediaHtml = `<video src="${pImgOrVideo}" autoplay loop muted playsinline></video>`;
-        } else if (pImgOrVideo !== "") {
-            mediaHtml = `<img src="${pImgOrVideo}" alt="${pName}">`;
-        } else {
-            const randomImg = fallbackImages[index % fallbackImages.length];
-            mediaHtml = `<img src="${randomImg}" alt="${pName}">`;
+// قراءة صورة العرض الأساسية فقط (رابط واحد فقط لمنع المزج)
+const mainMediaStr = property["الصورة الرئيسية"] || property["صورة العرض"] || property["Image"] || "";
+const mainMediaUrl = mainMediaStr.split(',')[0].trim(); 
+
+let mediaHtml = "";
+if (mainMediaUrl.endsWith(".mp4") || mainMediaUrl.includes("video")) {
+    mediaHtml = `<video src="${mainMediaUrl}" autoplay loop muted playsinline></video>`;
+} else if (mainMediaUrl !== "") {
+    mediaHtml = `<img src="${mainMediaUrl}" alt="${pName}">`;
+} else {
+    const randomImg = fallbackImages[index % fallbackImages.length];
+    mediaHtml = `<img src="${randomImg}" alt="${pName}">`;
+}
+// نهاية فصل ميديا العرض الرئيسي عن الميديا الثانوية
         }
 
         container.innerHTML += `
