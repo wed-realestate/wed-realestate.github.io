@@ -54,6 +54,7 @@
 
         .loading { text-align: center; padding: 50px 0; font-size: 1.2rem; color: var(--text-muted); }
         .error-msg { text-align: center; padding: 50px 0; color: #e74c3c; }
+        .debug-info { margin-top: 15px; font-size: 0.85rem; color: #7f8c8d; background: #eee; padding: 10px; border-radius: 50px; display: inline-block;}
     </style>
     </head>
 <body>
@@ -69,9 +70,11 @@
 </div>
 <script>
 // بداية مجموعة الإعدادات والروابط العامة
-const API_URL = "https://script.google.com/macros/s/AKfycbwWyAhLic8IbD9FQDDltNfLjh0fn-Q39UaRNGm1Um0R7SZn08WggmC2wvmpBaBdsVVN/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzPjN2Dyd5CxQtXNoRTbZ4xMUB6toG_W6iaiKmPQGZm5e5d7SEHLD7B9bTqbM-MPsIm/exec";
+
+// جلب البارامترات بطريقة تضمن قراءة الـ ID سواء كان كبيراً أو صغيراً في الرابط (id أو ID)
 const urlParams = new URLSearchParams(window.location.search);
-const propertyId = urlParams.get('id');
+let propertyId = urlParams.get('id') || urlParams.get('ID') || urlParams.get('Id');
 const currentLang = urlParams.get('lang') || 'ar';
 // نهاية مجموعة الإعدادات والروابط العامة
 
@@ -91,7 +94,7 @@ async function fetchPropertyDetails() {
     
     if (!propertyId) {
         container.className = "error-msg";
-        container.innerHTML = "<h3>معرف العقار غير صحيح أو مفقود.</h3>";
+        container.innerHTML = "<h3>معرف العقار مفقود من رابط الصفحة.</h3><div class='debug-info'>تأكد من وجود ?id= في الرابط</div>";
         return;
     }
 
@@ -99,15 +102,16 @@ async function fetchPropertyDetails() {
         const response = await fetch(API_URL);
         const properties = await response.json();
         
-        // تعديل أمان فحص المعرف: فحص الحقول بكافة الصيغ الممكنة وبدون حساسية لحالة الأحرف
+        // فحص مرن للغاية يزيل الفراغات ويقارن النصوص مباشرة
         const property = properties.find(p => {
-            const actualId = p["id"] || p["ID"] || p["Id"] || p["المعرف"] || "";
+            const actualId = p["id"] || p["ID"] || p["Id"] || p["المعرف"];
             return String(actualId).trim() === String(propertyId).trim();
         });
 
         if (!property) {
             container.className = "error-msg";
             container.innerHTML = currentLang === 'ar' ? "<h3>العقار المطلوب غير موجود.</h3>" : "<h3>Property not found.</h3>";
+            container.innerHTML += `<br><div class='debug-info'>المعرف المطلوب: ${propertyId} | إجمالي العقارات المستلمة: ${properties.length}</div>`;
             return;
         }
 
@@ -126,24 +130,20 @@ function renderDetails(property) {
     const container = document.getElementById("detailsContainer");
     container.className = "main-card";
 
-    // استخلاص البيانات النصية حسب اللغة
     const title = currentLang === 'ar' ? (property["الاسم"] || property["Name"]) : (property["Name"] || property["الاسم"]);
     const desc = currentLang === 'ar' ? (property["الوصف"] || property["Description"]) : (property["Description"] || property["الوصف"]);
     const price = property["السعر"] || property["Price"] || "";
 
-    // استخلاص روابط الميديا وتقطيعها
     const extraImagesStr = property["الصور الإضافية"] || property["More Images"] || "";
     const extraVideosStr = property["فيديو"] || property["Video"] || property["الفيديوهات"] || "";
     const imagesArray = extraImagesStr ? extraImagesStr.split(',').map(img => img.trim()) : [];
     const videosArray = extraVideosStr ? extraVideosStr.split(',').map(vid => vid.trim()) : [];
 
-    // معالجة الصور الإضافية
     let imagesHtml = "";
     imagesArray.forEach(url => {
         if(url) imagesHtml += `<div class="media-item"><img src="${url}" alt="${title}" onclick="window.open('${url}', '_blank')"></div>`;
     });
 
-    // معالجة الفيديوهات
     let videosHtml = "";
     videosArray.forEach(url => {
         if(url) videosHtml += `<div class="media-item"><video src="${url}" controls playsinline></video></div>`;
@@ -152,7 +152,6 @@ function renderDetails(property) {
     const mediaSectionTitle = currentLang === 'ar' ? "ألبوم الصور العقارية" : "Property Photo Gallery";
     const videoSectionTitle = currentLang === 'ar' ? "العروض المرئية والفيديو" : "Video Presentations";
 
-    // حقن الكود النهائي داخل الصفحة
     container.innerHTML = `
         <h1 class="property-title">${title}</h1>
         <span class="price">${price}</span>
