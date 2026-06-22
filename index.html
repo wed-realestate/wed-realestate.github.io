@@ -86,7 +86,6 @@
         }
         .lang-btn:hover, .theme-btn:hover { background: #16a085; }
 
-        /* حاوية الجريد الرئيسية المستجيبة لبطاقات العقارات */
         .container { 
             max-width: 1200px; 
             margin: 0 auto; 
@@ -252,84 +251,174 @@
 </footer>
 
 <script>
-// إعدادات الـ API والمظهر العام
 const API_URL = "https://script.google.com/macros/s/AKfycbwWyAhLic8IbD9FQDDltNfLjh0fn-Q39UaRNGm1Um0R7SZn08WggmC2wvmpBaBdsVVN/exec";
 
-// دالة لتوليد أرقام عشوائية لعداد المشاهدين المتفاعل
+// قاموس الترجمة الثابتة للعناصر الأساسية بالصفحة
+const translations = {
+    ar: {
+        title: "شركة ود العقارية - WD Real Estate",
+        headerTitle: "شركة ود العقارية",
+        headerSub: "ابحث عن شقة أحلامك.. بيع، شراء، وتأجير بكل سهولة",
+        terms: "الشروط والأحكام",
+        maps: "مواقعنا على خرائط جوجل",
+        copy: "جميع الحقوق محفوظة © شركة ود العقارية 2026",
+        viewDetails: "عرض التفاصيل",
+        rooms: "غرف",
+        baths: "حمام",
+        watching: "يشاهدون الآن",
+        errorTitle: "تعذر تحميل العقارات حالياً",
+        errorSub: "يرجى التحقق من اتصال شبكة الإنترنت أو سلامة رابط الـ API المتصل بجوجل شيت."
+    },
+    en: {
+        title: "WD Real Estate Company",
+        headerTitle: "WD Real Estate",
+        headerSub: "Find your dream apartment.. buy, sell, and rent with ease",
+        terms: "Terms & Conditions",
+        maps: "Our Locations on Google Maps",
+        copy: "All Rights Reserved © WD Real Estate Company 2026",
+        viewDetails: "View Details",
+        rooms: "Rooms",
+        baths: "Baths",
+        watching: "watching now",
+        errorTitle: "Unable to load properties currently",
+        errorSub: "Please check your internet connection or the validity of the Google Sheet API link."
+    }
+};
+
+let currentLang = "ar";
+let cachedProperties = [];
+
 function getRandomViews() {
     return Math.floor(Math.random() * (45 - 12 + 1)) + 12;
 }
 
-// دالة جلب العقارات وحقنها في الواجهة بشكل مطابق للـ CSS الأصلي
-async function loadProperties() {
+// دالة بناء بطاقات العقار وتصييرها حسب اللغة النشطة
+function renderProperties(properties) {
     const container = document.getElementById("propertiesContainer");
+    container.innerHTML = "";
 
-    try {
-        const response = await fetch(API_URL);
-        const properties = await response.json();
+    if (!properties || properties.length === 0) {
+        showErrorMessage();
+        return;
+    }
 
-        container.innerHTML = "";
+    properties.forEach(property => {
+        // آلية فحص مرنة للمفاتيح لتجنب اختلاف تسميات الأعمدة في Google Sheet
+        const pName = property["الاسم"] || property["Name"] || "";
+        const pPrice = property["السعر"] || property["Price"] || "";
+        const pType = property["النوع"] || property["Type"] || "للبيع";
+        const pDesc = property["الوصف"] || property["Description"] || "";
+        const pRooms = property["الغرف"] || property["الغرفة"] || property["Rooms"] || 0;
+        const pBaths = property["الحمامات"] || property["الحمام"] || property["Bathrooms"] || 0;
+        const pArea = property["المساحة"] || property["Area"] || "";
+        const pImg = property["الصورة الرئيسية"] || property["Image"] || "https://via.placeholder.com/400x250";
+        const pId = property["id"] || property["ID"] || "";
+        
+        const pWhatsapp = property["واتساب"] || property["Whatsapp"] || "";
+        const pPhone = property["الهاتف"] || property["Phone"] || "";
+        const pFacebook = property["فيسبوك"] || property["Facebook"] || "#";
 
-        properties.forEach(property => {
-            // فحص نوع العملية لتحديد لون وتسمية شارة العقار
-            const isRent = property["النوع"]?.includes("إيجار") || property["النوع"]?.includes("Rent");
-            const badgeClass = isRent ? "badge-rent" : "badge-sale";
-            const badgeText = property["النوع"] || "للبيع";
+        const isRent = pType.includes("إيجار") || pType.toLowerCase().includes("rent");
+        const badgeClass = isRent ? "badge-rent" : "badge-sale";
 
-            container.innerHTML += `
-            <div class="property-card">
-                <div class="property-image">
-                    <span class="badge ${badgeClass}">${badgeText}</span>
-                    <img src="${property["الصورة الرئيسية"] || 'https://via.placeholder.com/400x250'}" alt="${property["الاسم"]}">
+        container.innerHTML += `
+        <div class="property-card">
+            <div class="property-image">
+                <span class="badge ${badgeClass}">${pType}</span>
+                <img src="${pImg}" alt="${pName}">
+            </div>
+            
+            <div class="property-details">
+                <div class="price-row">
+                    <span class="price">${pPrice}</span>
+                    <span class="live-counter">
+                        <i class="fa-solid fa-eye"></i> <span>${getRandomViews()} ${translations[currentLang].watching}</span>
+                    </span>
                 </div>
                 
-                <div class="property-details">
-                    <div class="price-row">
-                        <span class="price">${property["السعر"]}</span>
-                        <span class="live-counter">
-                            <i class="fa-solid fa-eye"></i> <span>${getRandomViews()} يشاهدون الآن</span>
-                        </span>
-                    </div>
-                    
-                    <h3 class="title">${property["الاسم"]}</h3>
-                    <p class="description">${property["الوصف"] || "اضغط على عرض التفاصيل لمعرفة المزيد عن هذا العقار المميز."}</p>
-                    
-                    <div class="features-icons">
-                        <span class="icon-item"><i class="fa-solid fa-bed"></i> ${property["الغرفة"] || property["الغرف"] || 0} غرف</span>
-                        <span class="icon-item"><i class="fa-solid fa-bath"></i> ${property["الحمام"] || property["الحمامات"] || 0} حمام</span>
-                        <span class="icon-item"><i class="fa-solid fa-ruler-combined"></i> ${property["المساحة"]}</span>
-                    </div>
-                    
-                    <a href="apartment-details.html?id=${property["id"]}" class="view-details-btn">
-                        عرض التفاصيل
-                    </a>
-                    
-                    <div class="contact-buttons">
-                        <a href="https://wa.me/${property["واتساب"] || ''}" target="_blank" class="btn-contact btn-whatsapp">
-                            <i class="fa-brands fa-whatsapp"></i>
-                        </a>
-                        <a href="tel:${property["الهاتف"] || ''}" class="btn-contact btn-phone">
-                            <i class="fa-solid fa-phone"></i>
-                        </a>
-                        <a href="${property["فيسبوك"] || '#'}" target="_blank" class="btn-contact btn-facebook">
-                            <i class="fa-brands fa-facebook-f"></i>
-                        </a>
-                    </div>
+                <h3 class="title">${pName}</h3>
+                <p class="description">${pDesc}</p>
+                
+                <div class="features-icons">
+                    <span class="icon-item"><i class="fa-solid fa-bed"></i> ${pRooms} ${translations[currentLang].rooms}</span>
+                    <span class="icon-item"><i class="fa-solid fa-bath"></i> ${pBaths} ${translations[currentLang].baths}</span>
+                    <span class="icon-item"><i class="fa-solid fa-ruler-combined"></i> ${pArea}</span>
                 </div>
-            </div>`;
-        });
-
-    } catch (error) {
-        console.error("Error loading properties:", error);
-        container.innerHTML = `
-        <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
-            <h2 style="color: #e74c3c;">تعذر تحميل العقارات حالياً</h2>
-            <p style="color: var(--text-muted);">يرجى التحقق من اتصال شبكة الإنترنت أو سلامة رابط الـ API المتصل بجوجل شيت.</p>
+                
+                <a href="apartment-details.html?id=${pId}&lang=${currentLang}" class="view-details-btn">
+                    ${translations[currentLang].viewDetails}
+                </a>
+                
+                <div class="contact-buttons">
+                    <a href="https://wa.me/${pWhatsapp}" target="_blank" class="btn-contact btn-whatsapp">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                    <a href="tel:${pPhone}" class="btn-contact btn-phone">
+                        <i class="fa-solid fa-phone"></i>
+                    </a>
+                    <a href="${pFacebook}" target="_blank" class="btn-contact btn-facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                </div>
+            </div>
         </div>`;
+    });
+}
+
+function showErrorMessage() {
+    const container = document.getElementById("propertiesContainer");
+    container.innerHTML = `
+    <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+        <h2 style="color: #e74c3c;">${translations[currentLang].errorTitle}</h2>
+        <p style="color: var(--text-muted); margin-top:10px;">${translations[currentLang].errorSub}</p>
+    </div>`;
+}
+
+async function loadProperties() {
+    try {
+        const response = await fetch(API_URL);
+        cachedProperties = await response.json();
+        renderProperties(cachedProperties);
+    } catch (error) {
+        console.error("Fetch operational error:", error);
+        showErrorMessage();
     }
 }
 
-// دالة التحكم في الوضع الداكن والفاتح (Dark/Light Theme)
+// دالة تحويل اللغات الكاملة مع تعديل نصوص الـ DOM والاتجاهات
+function toggleLanguage() {
+    const html = document.getElementById("htmlPage");
+    const langText = document.getElementById("langText");
+    
+    currentLang = currentLang === "ar" ? "en" : "ar";
+    
+    // تحديث خصائص الاتجاهات وهيكل الصفحة
+    if (currentLang === "en") {
+        html.setAttribute("dir", "ltr");
+        html.setAttribute("lang", "en");
+        langText.innerText = "AR";
+    } else {
+        html.setAttribute("dir", "rtl");
+        html.setAttribute("lang", "ar");
+        langText.innerText = "EN";
+    }
+
+    // ترجمة العناصر الثابتة بالصفحة
+    document.getElementById("pageTitle").innerText = translations[currentLang].title;
+    document.getElementById("headerTitle").innerText = translations[currentLang].headerTitle;
+    document.getElementById("headerSub").innerText = translations[currentLang].headerSub;
+    document.querySelector("#footerLink1 span").innerText = translations[currentLang].terms;
+    document.querySelector("#footerLink2 span").innerText = translations[currentLang].maps;
+    document.getElementById("footerCopy").innerText = translations[currentLang].copy;
+
+    // إعادة تصيير بطاقات العقارات بناءً على اللغة الجديدة
+    if (cachedProperties.length > 0) {
+        renderProperties(cachedProperties);
+    } else {
+        showErrorMessage();
+    }
+}
+
 function toggleTheme() {
     const html = document.getElementById("htmlPage");
     const themeBtn = document.getElementById("themeBtn");
@@ -343,26 +432,9 @@ function toggleTheme() {
     }
 }
 
-// دالة تمهيدية للتحكم في اللغات (تحتاج لربط مصفوفة الترجمة الخاصة بك لاحقاً)
-function toggleLanguage() {
-    const html = document.getElementById("htmlPage");
-    const langText = document.getElementById("langText");
-    
-    if (html.getAttribute("dir") === "rtl") {
-        html.setAttribute("dir", "ltr");
-        html.setAttribute("lang", "en");
-        langText.innerText = "AR";
-    } else {
-        html.setAttribute("dir", "rtl");
-        html.setAttribute("lang", "ar");
-        langText.innerText = "EN";
-    }
-}
-
-// تشغيل جلب البيانات فور تحميل المستند
 document.addEventListener("DOMContentLoaded", loadProperties);
 
-// تفعيل دوال حماية المحتوى والتعطيل الافتراضي للاختصارات و الـ Inspect Element
+// حماية الشفرة البرمجية ومنع التفتيش
 document.addEventListener('contextmenu', event => event.preventDefault());
 document.addEventListener('keydown', event => {
     if (event.key === 'F12' || event.keyCode === 123) event.preventDefault();
