@@ -17,6 +17,7 @@
             --bg-section: #fff;
             --border-card: #e2f0ea;
             --shadow: rgba(0,0,0,0.05);
+            --logo-border: rgba(0, 0, 0, 0.1);
         }
 
         [data-theme="dark"] {
@@ -28,6 +29,7 @@
             --bg-section: #1e1e1e;
             --border-card: #2c3e50;
             --shadow: rgba(0,0,0,0.3);
+            --logo-border: rgba(255, 255, 255, 0.15);
         }
 
         * { 
@@ -43,7 +45,8 @@
         
         body { background-color: var(--bg-body); color: var(--text-main); }
 
-        .nav-bar { background-color: var(--bg-nav); padding: 15px 20px; }
+        /* شريط التنقل */
+        .nav-bar { background-color: var(--bg-nav); padding: 15px 20px; position: relative; }
         .nav-container { max-width: 800px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .nav-controls { display: flex; gap: 10px; align-items: center; }
 
@@ -55,7 +58,11 @@
         .lang-btn:hover, .theme-btn:hover { background: #16a085; transform: scale(1.05); }
         .theme-btn:active, .lang-btn:active { transform: scale(0.95); }
 
-        .main-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        /* حاوية الشعار العلوي */
+        .brand-header { display: flex; justify-content: center; padding: 30px 20px 10px; }
+        .brand-logo { max-width: 180px; height: auto; border: 1px solid var(--logo-border); border-radius: 12px; padding: 8px; background: #000000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+
+        .main-container { max-width: 800px; margin: 20px auto 40px; padding: 0 20px; }
 
         .section-box { background: var(--bg-section); padding: 20px; border-radius: 12px; box-shadow: 0 10px 20px var(--shadow); margin-bottom: 25px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .section-box:hover { transform: translateY(-2px); box-shadow: 0 15px 30px var(--shadow); }
@@ -76,7 +83,6 @@
         .thumb:hover { opacity: 0.8; transform: translateY(-2px); }
         .thumb.active { opacity: 1; border-color: #1abc9c; transform: scale(1.03) translateY(-2px); }
 
-        /* تنسيق أزرار التواصل الثلاثية والمواصفات العقارية */
         .price-text { color: #e74c3c; font-size: 1.8rem; font-weight: 700; margin-bottom: 15px; display: block; }
         .description-text { color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; font-size: 0.95rem; }
         
@@ -128,8 +134,12 @@
     </div>
 </div>
 
+<div class="brand-header">
+    <img src="logo.png" alt="Wad Real Estate" class="brand-logo">
+</div>
+
 <div class="main-container">
-    <div style="margin-bottom: 30px;">
+    <div style="margin-bottom: 30px; text-align: center;">
         <h1 style="color: var(--text-title); font-size: 1.8rem; font-weight: 700; margin-bottom: 5px;" id="mainTitle">تفاصيل ومعاينة الشقة</h1>
         <p style="color: var(--text-muted); font-size: 0.95rem;" id="companyName">شركة ود العقارية</p>
     </div>
@@ -273,7 +283,6 @@ function renderDetails() {
     document.getElementById("pBaths").innerText = `${propertyData["الحمامات"] || propertyData["Bathrooms"] || 0} ${translations[currentLang].baths}`;
     document.getElementById("pArea").innerText = propertyData["المساحة"] || propertyData["Area"] || "";
 
-    // قنوات الاتصال والتواصل الاجتماعي
     const phone = propertyData["الهاتف"] || propertyData["Phone"] || "";
     const whatsapp = propertyData["واتساب"] || propertyData["Whatsapp"] || phone;
     const facebook = propertyData["فيسبوك"] || propertyData["Facebook"] || "";
@@ -291,7 +300,6 @@ function renderDetails() {
         document.querySelector(".contact-grid").style.gridTemplateColumns = "1fr 1fr";
     }
 
-    // إدارة الفيديو المباشر من الشيت
     const videoUrl = propertyData["الفيديوهات"] || propertyData["Video"] || "";
     const videoBox = document.getElementById("videoSection");
     if (videoUrl) {
@@ -301,7 +309,6 @@ function renderDetails() {
         videoBox.style.display = "none";
     }
 
-    // بناء المعرض والشرائح الفرعية ديناميكياً
     const gridContainer = document.getElementById("thumbnailsGrid");
     gridContainer.innerHTML = "";
     
@@ -321,17 +328,27 @@ function renderDetails() {
     }
     gridContainer.innerHTML = thumbHtml;
 
-    // الخرائط والموقع
     const mapBox = document.getElementById("mapBox");
     const mapBoxSection = document.getElementById("mapSection");
     const mapUrl = propertyData["الموقع"] || propertyData["Location"] || "";
     
     if (mapUrl) {
         let embedUrl = mapUrl.trim();
-        if(embedUrl.includes("maps/place") || embedUrl.includes("goo.gl")) {
-            mapBox.innerHTML = `<a href="${embedUrl}" target="_blank" class="btn-action btn-phone" style="background:#2c3e50;"><i class="fa-solid fa-map-location-dot"></i> ${translations[currentLang].mapBtn}</a>`;
+        if(embedUrl.includes("maps/place") || embedUrl.includes("goo.gl") || !embedUrl.includes("iframe")) {
+            mapBox.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; padding: 20px; box-sizing: border-box;">
+                    <a href="${embedUrl}" target="_blank" class="btn-action btn-phone" style="background:#1abc9c; width: 100%; max-width: 300px; text-align: center; justify-content: center;">
+                        <i class="fa-solid fa-map-location-dot"></i> ${translations[currentLang].mapBtn}
+                    </a>
+                </div>`;
         } else {
-            mapBox.innerHTML = `<iframe src="${embedUrl}" allowfullscreen="" loading="lazy"></iframe>`;
+            if (embedUrl.startsWith('<iframe')) {
+                mapBox.innerHTML = embedUrl;
+                const iframe = mapBox.querySelector('iframe');
+                if(iframe) { iframe.style.width = "100%"; iframe.style.height = "100%"; iframe.style.border = "0"; }
+            } else {
+                mapBox.innerHTML = `<iframe src="${embedUrl}" allowfullscreen="" loading="lazy"></iframe>`;
+            }
         }
         mapBoxSection.style.display = "block";
     } else {
@@ -339,7 +356,6 @@ function renderDetails() {
     }
 }
 
-// التبديل بين اللغتين بدون فقدان البيانات الجارية
 function setLanguage(lang) {
     const html = document.getElementById('htmlPage');
     html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
@@ -367,7 +383,6 @@ function toggleLanguage() {
     if(propertyData) renderDetails();
 }
 
-// التحكم بالوضع الليلي الذكي
 const htmlElement = document.documentElement;
 const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 setTheme(savedTheme);
