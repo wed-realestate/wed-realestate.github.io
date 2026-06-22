@@ -62,7 +62,6 @@
 
         .details-container { max-width: 800px; margin: 30px auto; padding: 0 20px 40px; }
         
-        /* معرض الصور الإضافية والفيديو */
         .media-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 25px; }
         .media-item { width: 100%; height: 200px; border-radius: 8px; overflow: hidden; object-fit: cover; border: 2px solid var(--border-card); }
         .video-item { grid-column: 1 / -1; height: 400px; width: 100%; background: #000; }
@@ -76,14 +75,16 @@
         .feature-box { display: flex; align-items: center; gap: 8px; color: var(--text-features); font-weight: 600; }
         .feature-box i { color: #1abc9c; font-size: 1.2rem; }
 
-        /* الخريطة */
         .map-wrapper { width: 100%; height: 350px; border-radius: 12px; overflow: hidden; border: 2px solid var(--border-card); margin-top: 20px; }
         .map-wrapper iframe { width: 100%; height: 100%; border: none; }
 
-        .contact-section { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
-        .btn-action { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 14px; border-radius: 8px; color: white; text-decoration: none; font-weight: bold; font-size: 1.1rem; }
+        /* أزرار التواصل الثلاثية */
+        .contact-section { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 25px; }
+        .btn-action { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 12px; border-radius: 8px; color: white; text-decoration: none; font-weight: bold; font-size: 1rem; transition: transform 0.2s; }
+        .btn-action:hover { transform: scale(1.03); }
         .btn-whatsapp { background-color: #25D366; }
         .btn-phone { background-color: #3498db; }
+        .btn-facebook { background-color: #1877F2; }
 
         @media (max-width: 580px) {
             header { padding-top: 80px; }
@@ -123,7 +124,8 @@
 
         <div class="contact-section">
             <a id="lnkWhatsapp" target="_blank" class="btn-action btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> <span id="lblWhatsapp">واتساب</span></a>
-            <a id="lnkPhone" class="btn-action btn-phone"><i class="fa-solid fa-phone"></i> <span id="lblPhone">اتصال تلفني</span></a>
+            <a id="lnkPhone" class="btn-action btn-phone"><i class="fa-solid fa-phone"></i> <span id="lblPhone">اتصال</span></a>
+            <a id="lnkFacebook" target="_blank" class="btn-action btn-facebook"><i class="fa-brands fa-facebook-f"></i> <span id="lblFacebook">فيسبوك</span></a>
         </div>
     </div>
 
@@ -140,7 +142,8 @@ const translations = {
         rooms: "غرف",
         baths: "حمام",
         whatsapp: "واتساب",
-        phone: "اتصال تلفني",
+        phone: "اتصال",
+        facebook: "فيسبوك",
         noDesc: "لا يوجد وصف متوفر حالياً."
     },
     en: {
@@ -150,7 +153,8 @@ const translations = {
         rooms: "Rooms",
         baths: "Baths",
         whatsapp: "WhatsApp",
-        phone: "Call Now",
+        phone: "Call",
+        facebook: "Facebook",
         noDesc: "No description available."
     }
 };
@@ -197,12 +201,22 @@ function renderDetails() {
     document.getElementById("pBaths").innerText = `${propertyData["الحمامات"] || propertyData["Bathrooms"] || 0} ${translations[currentLang].baths}`;
     document.getElementById("pArea").innerText = propertyData["المساحة"] || propertyData["Area"] || "";
 
+    // معالجة بيانات الاتصال من الشيت
     const phone = propertyData["الهاتف"] || propertyData["Phone"] || "";
     const whatsapp = propertyData["واتساب"] || propertyData["Whatsapp"] || phone;
+    const facebook = propertyData["فيسبوك"] || propertyData["Facebook"] || "#";
+
     document.getElementById("lnkWhatsapp").href = `https://wa.me/${whatsapp}`;
     document.getElementById("lnkPhone").href = `tel:${phone}`;
+    document.getElementById("lnkFacebook").href = facebook;
+    
+    // إخفاء زر الفيسبوك تلقائياً إذا لم يكن الرابط متوفراً في الشيت
+    if(!propertyData["فيسبوك"] && !propertyData["Facebook"]) {
+        document.getElementById("lnkFacebook").style.display = "none";
+        document.querySelector(".contact-section").style.gridTemplateColumns = "1fr 1fr";
+    }
 
-    // 1. معالجة الصور الإضافية (More Images) والفيديو (Video)
+    // معالجة الميديا
     const galleryContainer = document.getElementById("mediaGallery");
     galleryContainer.innerHTML = "";
 
@@ -220,15 +234,14 @@ function renderDetails() {
         });
     }
 
-    // 2. معالجة الموقع الجغرافي (Location Iframe / URL)
+    // معالجة الخريطة
     const mapContainer = document.getElementById("mapContainer");
     mapContainer.innerHTML = "";
     const mapUrl = propertyData["الموقع"] || propertyData["Location"] || "";
     if (mapUrl) {
         let embedUrl = mapUrl.trim();
-        // تحويل روابط الخرائط العادية إلى روابط قابلة للتضمين Iframe إن لم تكن كذلك
         if(embedUrl.includes("maps/place") || embedUrl.includes("goo.gl")) {
-            mapContainer.innerHTML = `<a href="${embedUrl}" target="_blank" class="btn-action btn-phone" style="background:#2c3e50;"><i class="fa-solid fa-map-location-dot"></i> عرض الموقع على الخريطة</a>`;
+            mapContainer.innerHTML = `<a href="${embedUrl}" target="_blank" class="btn-action btn-phone" style="background:#2c3e50; grid-column: 1/-1;"><i class="fa-solid fa-map-location-dot"></i> عرض الموقع على الخريطة</a>`;
         } else {
             mapContainer.innerHTML = `<div class="map-wrapper"><iframe src="${embedUrl}" allowfullscreen="" loading="lazy"></iframe></div>`;
         }
@@ -244,17 +257,14 @@ function applyLanguageUI() {
     html.setAttribute("lang", currentLang);
     langText.innerText = currentLang === "en" ? "AR" : "EN";
     
-    if(currentLang === "en") {
-        backBtn.querySelector("i").className = "fa-solid fa-arrow-left";
-    } else {
-        backBtn.querySelector("i").className = "fa-solid fa-arrow-right";
-    }
+    backBtn.querySelector("i").className = currentLang === "en" ? "fa-solid fa-arrow-left" : "fa-solid fa-arrow-right";
 
     document.getElementById("pageTitle").innerText = translations[currentLang].title;
     document.getElementById("headerTitle").innerText = translations[currentLang].headerTitle;
     document.getElementById("backText").innerText = translations[currentLang].back;
     document.getElementById("lblWhatsapp").innerText = translations[currentLang].whatsapp;
     document.getElementById("lblPhone").innerText = translations[currentLang].phone;
+    document.getElementById("lblFacebook").innerText = translations[currentLang].facebook;
 }
 
 function toggleLanguage() {
