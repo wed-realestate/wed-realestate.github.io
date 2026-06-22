@@ -39,7 +39,7 @@
             margin: 0; 
             padding: 0; 
             font-family: 'Cairo', sans-serif; 
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; 
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s; 
         }
         
         body { 
@@ -123,7 +123,7 @@
             overflow: hidden; 
             border: 2px solid var(--border-card); 
             box-shadow: 0 4px 15px rgba(0,0,0,0.04); 
-            transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease, border-color 0.3s ease; 
+            transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s, border-color 0.3s; 
             display: flex; 
             flex-direction: column; 
         }
@@ -231,7 +231,7 @@
         .view-details-btn { display: block; text-align: center; background: #2c3e50; color: white; text-decoration: none; padding: 12px; border-radius: 8px; margin-bottom: 12px; font-weight: 600; font-size: 0.95rem; transition: background 0.3s; }
         .view-details-btn:hover { background: #1abc9c; }
 
-        .contact-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .contact-buttons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
         .btn-contact { 
             display: flex; 
             justify-content: center; 
@@ -241,12 +241,11 @@
             color: white; 
             text-decoration: none; 
             font-size: 1.3rem; 
-            transition: transform 0.2s ease, background-color 0.3s, opacity 0.3s; 
+            transition: transform 0.2s, background-color 0.3s, opacity 0.3s; 
         }
         .btn-contact:hover { transform: scale(1.06); opacity: 0.9; }
         .btn-whatsapp { background-color: #25D366; }
         .btn-phone { background-color: #3498db; }
-        .btn-facebook { background-color: #1877F2; }
 
         footer { background-color: var(--bg-footer); color: white; text-align: center; padding: 35px 15px; margin-top: 50px; }
         .footer-links { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
@@ -297,6 +296,9 @@
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbzPjN2Dyd5CxQtXNoRTbZ4xMUB6toG_W6iaiKmPQGZm5e5d7SEHLD7B9bTqbM-MPsIm/exec";
+const CACHE_KEY = "wd_properties_cache";
+const CACHE_TIME_KEY = "wd_properties_cache_time";
+const CACHE_DURATION = 5 * 60 * 1000; // كاش لمدة 5 دقائق لتسريع التحميل
 
 const translations = {
     ar: {
@@ -332,37 +334,25 @@ let cachedProperties = [];
 
 const fallbackImages = [
     "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&auto=format&fit=crop"
+    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&auto=format&fit=crop"
 ];
 
 function initializeEyeAutomation() {
-    const eyeElements = document.querySelectorAll('.live-counter-eye');
-    
-    eyeElements.forEach(eye => {
+    document.querySelectorAll('.live-counter-eye').forEach(eye => {
         function scheduleNextToggle() {
-            const randomTime = Math.floor(Math.random() * (180000 - 60000 + 1)) + 60000;
-            
             setTimeout(() => {
-                if(eye.classList.contains('is-visible')) {
-                    eye.classList.remove('is-visible');
-                } else {
-                    eye.classList.add('is-visible');
-                }
+                eye.classList.toggle('is-visible');
                 scheduleNextToggle();
-            }, randomTime);
+            }, Math.floor(Math.random() * 120000) + 60000);
         }
         scheduleNextToggle();
-        if(Math.random() > 0.5) {
-            eye.classList.add('is-visible');
-        }
+        if(Math.random() > 0.5) eye.classList.add('is-visible');
     });
 }
 
 function renderProperties(properties) {
     const container = document.getElementById("propertiesContainer");
-    container.innerHTML = "";
+    let htmlContent = "";
 
     if (!properties || properties.length === 0) {
         showErrorMessage();
@@ -370,64 +360,52 @@ function renderProperties(properties) {
     }
 
     properties.forEach((property, index) => {
+        // استقبال البيانات حسب الأعمدة المحددة من طرفك (يدعم العربية والإنجليزية)
         const pName = currentLang === "ar" ? (property["الاسم"] || property["Name"]) : (property["Name"] || property["الاسم"]);
         const pDesc = currentLang === "ar" ? (property["الوصف"] || property["Description"] || "لا يوجد وصف متوفر حالياً.") : (property["Description"] || property["الوصف"] || "No description available.");
         const pType = currentLang === "ar" ? (property["النوع"] || property["Type"] || "للبيع") : (property["Type"] || property["النوع"] || "For Sale");
-        
         const badgeColor = property["لون العلامة"] || property["Badge Color"] || "#1abc9c";
-        
         const pPrice = property["السعر"] || property["Price"] || "";
-        const pRooms = property["الغرف"] || property["الغرفة"] || property["Rooms"] || 0;
-        const pBaths = property["الحمامات"] || property["الحمام"] || property["Bathrooms"] || 0;
+        const pRooms = property["الغرف"] || property["Rooms"] || 0;
+        const pBaths = property["الحمامات"] || property["Bathrooms"] || 0;
         const pArea = property["المساحة"] || property["Area"] || "";
-        
-        const pId = property["id"] || property["ID"] || property["Id"] || property["المعرف"] || property["تسل"] || "";
-        const pWhatsapp = property["واتساب"] || property["Whatsapp"] || "";
         const pPhone = property["الهاتف"] || property["Phone"] || "";
-        const pFacebook = property["فيسبوك"] || property["Facebook"] || "#";
-
-        // صيانة عزل الميديا الرئيسية عن الفرعية والفيديوهات
-        const mainMediaStr = property["الصورة الرئيسية"] || property["صورة العرض"] || property["Image"] || "";
+        const pWhatsapp = property["واتساب"] || property["Whatsapp"] || pPhone; // استخدام الهاتف كبديل للواتساب تلقائياً
+        
+        // جلب الصور الرئيسية وفصلها عند وجود فاصلة
+        const mainMediaStr = property["الصور الرئيسية"] || property["الصورة الرئيسية"] || property["Image"] || "";
         const mainMediaUrl = mainMediaStr.split(',')[0].trim(); 
 
         let mediaHtml = "";
         if (mainMediaUrl.endsWith(".mp4") || mainMediaUrl.includes("video")) {
             mediaHtml = `<video src="${mainMediaUrl}" autoplay loop muted playsinline></video>`;
         } else if (mainMediaUrl !== "") {
-            mediaHtml = `<img src="${mainMediaUrl}" alt="${pName}">`;
+            mediaHtml = `<img src="${mainMediaUrl}" alt="${pName}" loading="lazy">`;
         } else {
-            const randomImg = fallbackImages[index % fallbackImages.length];
-            mediaHtml = `<img src="${randomImg}" alt="${pName}">`;
+            mediaHtml = `<img src="${fallbackImages[index % fallbackImages.length]}" alt="${pName}" loading="lazy">`;
         }
 
-        container.innerHTML += `
+        htmlContent += `
         <div class="property-card">
             <div class="property-image">
                 <span class="badge" style="background-color: ${badgeColor};">${pType}</span>
                 ${mediaHtml}
             </div>
-            
             <div class="property-details">
                 <div class="price-row">
                     <span class="price">${pPrice}</span>
-                    <span class="live-counter-eye">
-                        <i class="fa-solid fa-eye"></i>
-                    </span>
+                    <span class="live-counter-eye"><i class="fa-solid fa-eye"></i></span>
                 </div>
-                
                 <h3 class="title">${pName}</h3>
                 <p class="description">${pDesc}</p>
-                
                 <div class="features-icons">
                     <span class="icon-item"><i class="fa-solid fa-bed"></i> ${pRooms} ${translations[currentLang].rooms}</span>
                     <span class="icon-item"><i class="fa-solid fa-bath"></i> ${pBaths} ${translations[currentLang].baths}</span>
                     <span class="icon-item"><i class="fa-solid fa-ruler-combined"></i> ${pArea}</span>
                 </div>
-                
-                <a href="apartment-details.html?id=${pId}&lang=${currentLang}" class="view-details-btn">
+                <a href="apartment-details.html?id=${index}&lang=${currentLang}" class="view-details-btn">
                     ${translations[currentLang].viewDetails}
                 </a>
-                
                 <div class="contact-buttons">
                     <a href="https://wa.me/${pWhatsapp}" target="_blank" class="btn-contact btn-whatsapp">
                         <i class="fa-brands fa-whatsapp"></i>
@@ -435,20 +413,17 @@ function renderProperties(properties) {
                     <a href="tel:${pPhone}" class="btn-contact btn-phone">
                         <i class="fa-solid fa-phone"></i>
                     </a>
-                    <a href="${pFacebook}" target="_blank" class="btn-contact btn-facebook">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
                 </div>
             </div>
         </div>`;
     });
 
+    container.innerHTML = htmlContent;
     initializeEyeAutomation();
 }
 
 function showErrorMessage() {
-    const container = document.getElementById("propertiesContainer");
-    container.innerHTML = `
+    document.getElementById("propertiesContainer").innerHTML = `
     <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
         <h2 style="color: #e74c3c;">${translations[currentLang].errorTitle}</h2>
         <p style="color: var(--text-muted); margin-top:12px; font-size:1rem;">${translations[currentLang].errorSub}</p>
@@ -456,13 +431,30 @@ function showErrorMessage() {
 }
 
 async function loadProperties() {
+    const cachedData = localStorage.getItem(CACHE_KEY);
+    const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
+    
+    // محاولة التحميل من الذاكرة المحلية أولاً لتسريع الاستجابة
+    if (cachedData && cachedTime && (Date.now() - cachedTime < CACHE_DURATION)) {
+        cachedProperties = JSON.parse(cachedData);
+        renderProperties(cachedProperties);
+        return;
+    }
+
     try {
         const response = await fetch(API_URL);
         cachedProperties = await response.json();
+        localStorage.setItem(CACHE_KEY, JSON.stringify(cachedProperties));
+        localStorage.setItem(CACHE_TIME_KEY, Date.now());
         renderProperties(cachedProperties);
     } catch (error) {
-        console.error("Fetch operation blocked or broken:", error);
-        showErrorMessage();
+        console.error("Fetch API error:", error);
+        if (cachedData) { // في حال فشل الاتصال، استخدم الكاش القديم كبديل أمان
+            cachedProperties = JSON.parse(cachedData);
+            renderProperties(cachedProperties);
+        } else {
+            showErrorMessage();
+        }
     }
 }
 
@@ -472,15 +464,9 @@ function toggleLanguage() {
     
     currentLang = currentLang === "ar" ? "en" : "ar";
     
-    if (currentLang === "en") {
-        html.setAttribute("dir", "ltr");
-        html.setAttribute("lang", "en");
-        langText.innerText = "AR";
-    } else {
-        html.setAttribute("dir", "rtl");
-        html.setAttribute("lang", "ar");
-        langText.innerText = "EN";
-    }
+    html.setAttribute("dir", currentLang === "en" ? "ltr" : "rtl");
+    html.setAttribute("lang", currentLang);
+    langText.innerText = currentLang === "en" ? "AR" : "EN";
 
     document.getElementById("pageTitle").innerText = translations[currentLang].title;
     document.getElementById("headerTitle").innerText = translations[currentLang].headerTitle;
@@ -489,11 +475,8 @@ function toggleLanguage() {
     document.querySelector("#footerLink2 span").innerText = translations[currentLang].maps;
     document.getElementById("footerCopy").innerText = translations[currentLang].copy;
 
-    if (cachedProperties.length > 0) {
-        renderProperties(cachedProperties);
-    } else {
-        showErrorMessage();
-    }
+    if (cachedProperties.length > 0) renderProperties(cachedProperties);
+    else showErrorMessage();
 }
 
 function toggleTheme() {
@@ -510,13 +493,6 @@ function toggleTheme() {
 }
 
 document.addEventListener("DOMContentLoaded", loadProperties);
-
-document.addEventListener('contextmenu', event => event.preventDefault());
-document.addEventListener('keydown', event => {
-    if (event.key === 'F12' || event.keyCode === 123) event.preventDefault();
-    if (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'C')) event.preventDefault();
-    if (event.ctrlKey && (event.key === 'u' || event.key === 'U')) event.preventDefault();
-});
 </script>
 
 </body>
