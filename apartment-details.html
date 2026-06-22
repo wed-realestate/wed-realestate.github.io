@@ -8,176 +8,104 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root {
-            --bg-body: #f4f7f6;
-            --text-main: #333;
-            --text-title: #2c3e50;
-            --text-muted: #7f8c8d;
-            --bg-card: #fff;
-            --border-card: #e2f0ea;
-            --bg-header: #1a252f;
-        }
-        [data-theme="dark"] {
-            --bg-body: #121212;
-            --text-main: #e0e0e0;
-            --text-title: #ffffff;
-            --text-muted: #b0bec5;
-            --bg-card: #1e1e1e;
-            --border-card: #2c3e50;
-            --bg-header: #0a0f14;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; transition: all 0.3s ease; }
+        :root { --bg-body: #f4f7f6; --text-main: #333; --text-title: #2c3e50; --text-muted: #7f8c8d; --bg-card: #fff; --border-card: #e2f0ea; --bg-header: #1a252f; }
+        [data-theme="dark"] { --bg-body: #121212; --text-main: #e0e0e0; --text-title: #ffffff; --text-muted: #b0bec5; --bg-card: #1e1e1e; --border-card: #2c3e50; --bg-header: #0a0f14; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; transition: all 0.3s; }
         body { background-color: var(--bg-body); color: var(--text-main); padding-bottom: 40px; }
-        
-        header { 
-            background-color: var(--bg-header); color: #fff; padding: 20px; 
-            display: flex; justify-content: space-between; align-items: center; position: relative;
-        }
+        header { background-color: var(--bg-header); color: #fff; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
         .back-btn { background: #1abc9c; color: white; text-decoration: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; }
-        .back-btn:hover { background: #16a085; }
-
         .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
-        .main-card { background: var(--bg-card); border-radius: 12px; border: 2px solid var(--border-card); overflow: hidden; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
-        
+        .main-card { background: var(--bg-card); border-radius: 12px; border: 2px solid var(--border-card); padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
         .property-title { color: var(--text-title); font-size: 1.8rem; margin-bottom: 15px; }
         .price { color: #e74c3c; font-size: 1.6rem; font-weight: 700; margin-bottom: 20px; display: inline-block; }
         .description { font-size: 1rem; color: var(--text-main); line-height: 1.7; margin-bottom: 25px; }
-
         .media-section { margin-top: 30px; }
         .media-title { font-size: 1.3rem; color: var(--text-title); margin-bottom: 15px; border-right: 4px solid #1abc9c; padding-right: 10px; }
-        html[dir="ltr"] .media-title { border-right: none; border-left: 4px solid #1abc9c; padding-right: 0; padding-left: 10px; }
-        
+        html[dir="ltr"] .media-title { border-right: none; border-left: 4px solid #1abc9c; padding-left: 10px; }
         .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 25px; }
-        .media-item { width: 100%; border-radius: 8px; overflow: hidden; background: #000; border: 1px solid var(--border-card); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .media-item { width: 100%; border-radius: 8px; overflow: hidden; background: #000; border: 1px solid var(--border-card); }
         .media-item img, .media-item video { width: 100%; height: 200px; object-fit: cover; display: block; }
-        .media-item video { background: #000; }
-
-        .loading { text-align: center; padding: 50px 0; font-size: 1.2rem; color: var(--text-muted); }
-        .error-msg { text-align: center; padding: 50px 0; color: #e74c3c; }
-        .debug-info { margin-top: 15px; font-size: 0.85rem; color: #7f8c8d; background: #eee; padding: 10px; border-radius: 50px; display: inline-block;}
+        .loading, .error-msg { text-align: center; padding: 50px 0; font-size: 1.2rem; }
     </style>
-    </head>
+</head>
 <body>
 
 <header>
     <a href="index.html" class="back-btn" id="backBtn"><i class="fa-solid fa-arrow-right"></i> عودة للرئيسية</a>
-    <h2 id="navBrand">شركة ود العقارية</h2>
+    <h2>شركة ود العقارية</h2>
 </header>
 <div class="container">
     <div id="detailsContainer" class="loading">
         <i class="fa-solid fa-circle-notch fa-spin"></i> جاري تحميل تفاصيل العقار...
     </div>
 </div>
-<script>
-// بداية مجموعة الإعدادات والروابط العامة
-const API_URL = "https://script.google.com/macros/s/AKfycbzPjN2Dyd5CxQtXNoRTbZ4xMUB6toG_W6iaiKmPQGZm5e5d7SEHLD7B9bTqbM-MPsIm/exec";
 
-// جلب البارامترات بطريقة تضمن قراءة الـ ID سواء كان كبيراً أو صغيراً في الرابط (id أو ID)
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbwWyAhLic8IbD9FQDDltNfLjh0fn-Q39UaRNGm1Um0R7SZn08WggmC2wvmpBaBdsVVN/exec";
+
 const urlParams = new URLSearchParams(window.location.search);
 let propertyId = urlParams.get('id') || urlParams.get('ID') || urlParams.get('Id');
 const currentLang = urlParams.get('lang') || 'ar';
-// نهاية مجموعة الإعدادات والروابط العامة
 
-// بداية مجموعة إعدادات اللغات والاتجاهات
 if (currentLang === 'en') {
-    const html = document.getElementById("htmlPage");
-    html.setAttribute("dir", "ltr");
-    html.setAttribute("lang", "en");
+    document.getElementById("htmlPage").setAttribute("dir", "ltr");
+    document.getElementById("htmlPage").setAttribute("lang", "en");
     document.getElementById("backBtn").innerHTML = 'Back to Home <i class="fa-solid fa-arrow-left"></i>';
     document.getElementById("backBtn").href = "index.html?lang=en";
 }
-// نهاية مجموعة إعدادات اللغات والاتجاهات
 
-// بداية دالة الاتصال بالـ API وجلب العقار
 async function fetchPropertyDetails() {
     const container = document.getElementById("detailsContainer");
-    
-    if (!propertyId) {
-        container.className = "error-msg";
-        container.innerHTML = "<h3>معرف العقار مفقود من رابط الصفحة.</h3><div class='debug-info'>تأكد من وجود ?id= في الرابط</div>";
-        return;
-    }
+    if (!propertyId) { container.innerHTML = "<h3>معرف العقار مفقود.</h3>"; return; }
 
     try {
         const response = await fetch(API_URL);
         const properties = await response.json();
         
-        // فحص مرن للغاية يزيل الفراغات ويقارن النصوص مباشرة
+        // مطابقة المعرف بأمان وحذف أي مسافات زائدة من شيت البيانات
         const property = properties.find(p => {
-            const actualId = p["id"] || p["ID"] || p["Id"] || p["المعرف"];
+            const actualId = p["id"] || p["ID"] || p["Id"] || p["المعرف"] || p["تسل"];
             return String(actualId).trim() === String(propertyId).trim();
         });
 
         if (!property) {
-            container.className = "error-msg";
-            container.innerHTML = currentLang === 'ar' ? "<h3>العقار المطلوب غير موجود.</h3>" : "<h3>Property not found.</h3>";
-            container.innerHTML += `<br><div class='debug-info'>المعرف المطلوب: ${propertyId} | إجمالي العقارات المستلمة: ${properties.length}</div>`;
+            container.innerHTML = "<h3>العقار المطلوب غير موجود.</h3>";
             return;
         }
-
         renderDetails(property);
-
-    } catch (error) {
-        console.error("Error loading details:", error);
-        container.className = "error-msg";
-        container.innerHTML = "<h3>فشل تحميل البيانات، يرجى المحاولة لاحقاً.</h3>";
-    }
+    } catch (error) { container.innerHTML = "<h3>فشل تحميل البيانات.</h3>"; }
 }
-// نهاية دالة الاتصال بالـ API وجلب العقار
 
-// بداية دالة معالجة وعرض البيانات والميديا الإضافية في الصفحة
 function renderDetails(property) {
     const container = document.getElementById("detailsContainer");
     container.className = "main-card";
 
     const title = currentLang === 'ar' ? (property["الاسم"] || property["Name"]) : (property["Name"] || property["الاسم"]);
     const desc = currentLang === 'ar' ? (property["الوصف"] || property["Description"]) : (property["Description"] || property["الوصف"]);
-    const price = property["السعر"] || property["Price"] || "";
 
+    // تفكيك ألبومات الميديا الإضافية الخاصة بصفحة التفاصيل فقط
     const extraImagesStr = property["الصور الإضافية"] || property["More Images"] || "";
     const extraVideosStr = property["فيديو"] || property["Video"] || property["الفيديوهات"] || "";
+    
     const imagesArray = extraImagesStr ? extraImagesStr.split(',').map(img => img.trim()) : [];
     const videosArray = extraVideosStr ? extraVideosStr.split(',').map(vid => vid.trim()) : [];
 
     let imagesHtml = "";
-    imagesArray.forEach(url => {
-        if(url) imagesHtml += `<div class="media-item"><img src="${url}" alt="${title}" onclick="window.open('${url}', '_blank')"></div>`;
-    });
+    imagesArray.forEach(url => { if(url) imagesHtml += `<div class="media-item"><img src="${url}" onclick="window.open('${url}', '_blank')"></div>`; });
 
     let videosHtml = "";
-    videosArray.forEach(url => {
-        if(url) videosHtml += `<div class="media-item"><video src="${url}" controls playsinline></video></div>`;
-    });
-
-    const mediaSectionTitle = currentLang === 'ar' ? "ألبوم الصور العقارية" : "Property Photo Gallery";
-    const videoSectionTitle = currentLang === 'ar' ? "العروض المرئية والفيديو" : "Video Presentations";
+    videosArray.forEach(url => { if(url) videosHtml += `<div class="media-item"><video src="${url}" controls></video></div>`; });
 
     container.innerHTML = `
         <h1 class="property-title">${title}</h1>
-        <span class="price">${price}</span>
+        <span class="price">${property["السعر"] || property["Price"] || ""}</span>
         <p class="description">${desc}</p>
-
-        ${imagesArray.length > 0 ? `
-            <div class="media-section">
-                <h3 class="media-title">${mediaSectionTitle}</h3>
-                <div class="media-grid">${imagesHtml}</div>
-            </div>
-        ` : ''}
-        ${videosArray.length > 0 ? `
-            <div class="media-section">
-                <h3 class="media-title">${videoSectionTitle}</h3>
-                <div class="media-grid">${videosHtml}</div>
-            </div>
-        ` : ''}
-        `;
-    
-    document.title = `${title} - شركة ود العقارية`;
+        ${imagesArray.length > 0 ? `<div class="media-section"><h3 class="media-title">${currentLang === 'ar' ? "ألبوم الصور" : "Photo Gallery"}</h3><div class="media-grid">${imagesHtml}</div></div>` : ''}
+        ${videosArray.length > 0 ? `<div class="media-section"><h3 class="media-title">${currentLang === 'ar' ? "الفيديوهات" : "Videos"}</h3><div class="media-grid">${videosHtml}</div></div>` : ''}
+    `;
 }
-// نهاية دالة معالجة وعرض البيانات والميديا الإضافية في الصفحة
 
-// بداية الاستماع لحدث اكتمال تحميل الصفحة لبدء التشغيل
 document.addEventListener("DOMContentLoaded", fetchPropertyDetails);
-// نهاية الاستماع لحدث اكتمال تحميل الصفحة لبدء التشغيل
 </script>
 </body>
 </html>
