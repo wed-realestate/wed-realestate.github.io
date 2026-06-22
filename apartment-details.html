@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">تفاصيل العقار - شركة ود العقارية</title>
+    <title id="pageTitle">تفاصيل العقار - WD Real Estate</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         :root {
             --bg-body: #f4f7f6;
@@ -15,8 +15,12 @@
             --text-muted: #7f8c8d;
             --bg-card: #fff;
             --border-card: #e2f0ea;
+            --bg-features: #f8f9fa;
+            --text-features: #555;
             --bg-header: #1a252f;
+            --bg-footer: #1a252f;
         }
+
         [data-theme="dark"] {
             --bg-body: #121212;
             --text-main: #e0e0e0;
@@ -24,153 +28,255 @@
             --text-muted: #b0bec5;
             --bg-card: #1e1e1e;
             --border-card: #2c3e50;
+            --bg-features: #2a2a2a;
+            --text-features: #ccc;
             --bg-header: #0a0f14;
+            --bg-footer: #0a0f14;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
-        body { background-color: var(--bg-body); color: var(--text-main); padding-bottom: 40px; }
+
+        * { 
+            box-sizing: border-box; margin: 0; padding: 0; 
+            font-family: 'Cairo', sans-serif; 
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s; 
+        }
         
+        body { background-color: var(--bg-body); color: var(--text-main); overflow-x: hidden; }
+
         header { 
-            background-color: var(--bg-header); color: #fff; padding: 20px; 
-            display: flex; justify-content: space-between; align-items: center; position: relative;
+            background-color: var(--bg-header); color: #fff; text-align: center; 
+            padding: 40px 20px; position: relative; display: flex; align-items: center; justify-content: center;
         }
-        .back-btn { background: #1abc9c; color: white; text-decoration: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; }
-        .back-btn:hover { background: #16a085; }
+        header h1 { font-size: 1.8rem; }
 
-        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
-        .main-card { background: var(--bg-card); border-radius: 12px; border: 2px solid var(--border-card); overflow: hidden; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
+        .controls-wrapper { position: absolute; top: 25px; left: 20px; display: flex; gap: 10px; z-index: 10; }
+        html[dir="ltr"] .controls-wrapper { left: auto; right: 20px; }
+
+        .back-btn, .lang-btn, .theme-btn { 
+            background: #1abc9c; color: #fff; border: none; padding: 6px 14px; 
+            border-radius: 20px; font-size: 0.85rem; font-weight: 700; cursor: pointer; 
+            display: inline-flex; align-items: center; gap: 6px; height: 35px; text-decoration: none;
+        }
+        .back-btn { background: #34495e; }
+        .back-btn:hover { background: #2c3e50; }
+        .lang-btn:hover, .theme-btn:hover { background: #16a085; }
+
+        .details-container { max-width: 800px; margin: 30px auto; padding: 0 20px 40px; }
         
-        .property-title { color: var(--text-title); font-size: 1.8rem; margin-bottom: 15px; }
-        .price { color: #e74c3c; font-size: 1.6rem; font-weight: 700; margin-bottom: 20px; display: inline-block; }
-        .description { font-size: 1rem; color: var(--text-main); line-height: 1.7; margin-bottom: 25px; }
+        /* معرض الصور الإضافية والفيديو */
+        .media-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .media-item { width: 100%; height: 200px; border-radius: 8px; overflow: hidden; object-fit: cover; border: 2px solid var(--border-card); }
+        .video-item { grid-column: 1 / -1; height: 400px; width: 100%; background: #000; }
 
-        .media-section { margin-top: 30px; }
-        .media-title { font-size: 1.3rem; color: var(--text-title); margin-bottom: 15px; border-right: 4px solid #1abc9c; padding-right: 10px; }
-        html[dir="ltr"] .media-title { border-right: none; border-left: 4px solid #1abc9c; padding-left: 10px; padding-right: 0; }
-        
-        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 25px; }
-        .media-item { width: 100%; border-radius: 8px; overflow: hidden; background: #000; border: 1px solid var(--border-card); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .media-item img, .media-item video { width: 100%; height: 200px; object-fit: cover; display: block; }
-        .media-item video { background: #000; }
+        .info-panel { background: var(--bg-card); border: 2px solid var(--border-card); padding: 25px; border-radius: 12px; margin-bottom: 25px; }
+        .price { color: #e74c3c; font-size: 1.8rem; font-weight: 700; margin-bottom: 15px; display: block; }
+        .title { font-size: 1.5rem; margin-bottom: 15px; color: var(--text-title); }
+        .description { color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; font-size: 1rem; }
 
-        .loading { text-align: center; padding: 50px 0; font-size: 1.2rem; color: var(--text-muted); }
-        .error-msg { text-align: center; padding: 50px 0; color: #e74c3c; }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; background: var(--bg-features); padding: 15px; border-radius: 8px; margin-bottom: 25px; }
+        .feature-box { display: flex; align-items: center; gap: 8px; color: var(--text-features); font-weight: 600; }
+        .feature-box i { color: #1abc9c; font-size: 1.2rem; }
+
+        /* الخريطة */
+        .map-wrapper { width: 100%; height: 350px; border-radius: 12px; overflow: hidden; border: 2px solid var(--border-card); margin-top: 20px; }
+        .map-wrapper iframe { width: 100%; height: 100%; border: none; }
+
+        .contact-section { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
+        .btn-action { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 14px; border-radius: 8px; color: white; text-decoration: none; font-weight: bold; font-size: 1.1rem; }
+        .btn-whatsapp { background-color: #25D366; }
+        .btn-phone { background-color: #3498db; }
+
+        @media (max-width: 580px) {
+            header { padding-top: 80px; }
+            .controls-wrapper { width: calc(100% - 40px); justify-content: space-between; }
+            .features-grid { grid-template-columns: 1fr; }
+            .contact-section { grid-template-columns: 1fr; }
+            .video-item { height: 250px; }
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <a href="index.html" class="back-btn" id="backBtn"><i class="fa-solid fa-arrow-right"></i> عودة للرئيسية</a>
-    <h2 id="navBrand">شركة ود العقارية</h2>
+    <div class="controls-wrapper">
+        <a href="index.html" class="back-btn" id="backBtn"><i class="fa-solid fa-arrow-right"></i> <span id="backText">الرئيسية</span></a>
+        <div>
+            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn"><i class="fa-solid fa-moon"></i></button>
+            <button class="lang-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span id="langText">EN</span></button>
+        </div>
+    </div>
+    <h1 id="headerTitle">تفاصيل العقار</h1>
 </header>
 
-<div class="container">
-    <div id="detailsContainer" class="loading">
-        <i class="fa-solid fa-circle-notch fa-spin"></i> جاري تحميل تفاصيل العقار...
+<div class="details-container">
+    <div id="mediaGallery" class="media-gallery"></div>
+    
+    <div class="info-panel">
+        <span id="pPrice" class="price"></span>
+        <h2 id="pTitle" class="title"></h2>
+        <p id="pDesc" class="description"></p>
+        
+        <div class="features-grid">
+            <div class="feature-box"><i class="fa-solid fa-bed"></i> <span id="pRooms"></span></div>
+            <div class="feature-box"><i class="fa-solid fa-bath"></i> <span id="pBaths"></span></div>
+            <div class="feature-box"><i class="fa-solid fa-ruler-combined"></i> <span id="pArea"></span></div>
+        </div>
+
+        <div class="contact-section">
+            <a id="lnkWhatsapp" target="_blank" class="btn-action btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> <span id="lblWhatsapp">واتساب</span></a>
+            <a id="lnkPhone" class="btn-action btn-phone"><i class="fa-solid fa-phone"></i> <span id="lblPhone">اتصال تلفني</span></a>
+        </div>
     </div>
+
+    <div id="mapContainer"></div>
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbzPjN2Dyd5CxQtXNoRTbZ4xMUB6toG_W6iaiKmPQGZm5e5d7SEHLD7B9bTqbM-MPsIm/exec";
-const urlParams = new URLSearchParams(window.location.search);
-const propertyId = urlParams.get('id');
-const currentLang = urlParams.get('lang') || 'ar';
+const CACHE_KEY = "wd_properties_cache";
+const translations = {
+    ar: {
+        title: "تفاصيل العقار - WD Real Estate",
+        headerTitle: "تفاصيل العقار",
+        back: "الرئيسية",
+        rooms: "غرف",
+        baths: "حمام",
+        whatsapp: "واتساب",
+        phone: "اتصال تلفني",
+        noDesc: "لا يوجد وصف متوفر حالياً."
+    },
+    en: {
+        title: "Property Details - WD Real Estate",
+        headerTitle: "Property Details",
+        back: "Home",
+        rooms: "Rooms",
+        baths: "Baths",
+        whatsapp: "WhatsApp",
+        phone: "Call Now",
+        noDesc: "No description available."
+    }
+};
 
-// إعداد التوجه الجغرافي واللغة قبل جلب البيانات
-if (currentLang === 'en') {
-    const html = document.getElementById("htmlPage");
-    html.setAttribute("dir", "ltr");
-    html.setAttribute("lang", "en");
-    document.getElementById("backBtn").innerHTML = 'Back to Home <i class="fa-solid fa-arrow-left"></i>';
-    document.getElementById("backBtn").href = "index.html?lang=en";
-    document.getElementById("navBrand").innerText = "WD Real Estate";
-    document.getElementById("detailsContainer").innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Loading property details...';
+let currentLang = "ar";
+let propertyIndex = null;
+let propertyData = null;
+
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
 }
 
-async function fetchPropertyDetails() {
-    const container = document.getElementById("detailsContainer");
-    
-    if (!propertyId) {
-        container.className = "error-msg";
-        container.innerHTML = currentLang === 'ar' ? "<h3>معرف العقار غير صحيح أو مفقود.</h3>" : "<h3>Invalid or missing property ID.</h3>";
+function loadPropertyDetails() {
+    propertyIndex = getQueryParam("id");
+    const langParam = getQueryParam("lang");
+    if (langParam) currentLang = langParam;
+
+    const cachedData = localStorage.getItem(CACHE_KEY);
+    if (!cachedData || propertyIndex === null) {
+        window.location.href = "index.html";
         return;
     }
 
-    try {
-        const response = await fetch(API_URL);
-        const properties = await response.json();
-        
-        const property = properties.find(p => {
-            const actualId = p["id"] || p["ID"] || p["Id"] || p["المعرف"] || p["تسل"] || "";
-            return String(actualId).trim() === String(propertyId).trim();
+    const properties = JSON.parse(cachedData);
+    propertyData = properties[propertyIndex];
+    if (!propertyData) {
+        window.location.href = "index.html";
+        return;
+    }
+
+    applyLanguageUI();
+    renderDetails();
+}
+
+function renderDetails() {
+    const pName = currentLang === "ar" ? (propertyData["الاسم"] || propertyData["Name"]) : (propertyData["Name"] || propertyData["الاسم"]);
+    const pDesc = currentLang === "ar" ? (propertyData["الوصف"] || propertyData["Description"] || translations[currentLang].noDesc) : (propertyData["Description"] || propertyData["الوصف"] || translations[currentLang].noDesc);
+    
+    document.getElementById("pTitle").innerText = pName;
+    document.getElementById("pDesc").innerText = pDesc;
+    document.getElementById("pPrice").innerText = propertyData["السعر"] || propertyData["Price"] || "";
+    document.getElementById("pRooms").innerText = `${propertyData["الغرف"] || propertyData["Rooms"] || 0} ${translations[currentLang].rooms}`;
+    document.getElementById("pBaths").innerText = `${propertyData["الحمامات"] || propertyData["Bathrooms"] || 0} ${translations[currentLang].baths}`;
+    document.getElementById("pArea").innerText = propertyData["المساحة"] || propertyData["Area"] || "";
+
+    const phone = propertyData["الهاتف"] || propertyData["Phone"] || "";
+    const whatsapp = propertyData["واتساب"] || propertyData["Whatsapp"] || phone;
+    document.getElementById("lnkWhatsapp").href = `https://wa.me/${whatsapp}`;
+    document.getElementById("lnkPhone").href = `tel:${phone}`;
+
+    // 1. معالجة الصور الإضافية (More Images) والفيديو (Video)
+    const galleryContainer = document.getElementById("mediaGallery");
+    galleryContainer.innerHTML = "";
+
+    const videoUrl = propertyData["الفيديوهات"] || propertyData["Video"] || "";
+    if (videoUrl) {
+        galleryContainer.innerHTML += `<video src="${videoUrl.trim()}" class="media-item video-item" controls muted playsinline></video>`;
+    }
+
+    const extraImagesStr = propertyData["الصور الإضافية"] || propertyData["More Images"] || "";
+    if (extraImagesStr) {
+        extraImagesStr.split(',').forEach(imgUrl => {
+            if (imgUrl.trim()) {
+                galleryContainer.innerHTML += `<img src="${imgUrl.trim()}" class="media-item" alt="${pName}" loading="lazy">`;
+            }
         });
+    }
 
-        if (!property) {
-            container.className = "error-msg";
-            container.innerHTML = currentLang === 'ar' ? "<h3>العقار المطلوب غير موجود.</h3>" : "<h3>Property not found.</h3>";
-            return;
+    // 2. معالجة الموقع الجغرافي (Location Iframe / URL)
+    const mapContainer = document.getElementById("mapContainer");
+    mapContainer.innerHTML = "";
+    const mapUrl = propertyData["الموقع"] || propertyData["Location"] || "";
+    if (mapUrl) {
+        let embedUrl = mapUrl.trim();
+        // تحويل روابط الخرائط العادية إلى روابط قابلة للتضمين Iframe إن لم تكن كذلك
+        if(embedUrl.includes("maps/place") || embedUrl.includes("goo.gl")) {
+            mapContainer.innerHTML = `<a href="${embedUrl}" target="_blank" class="btn-action btn-phone" style="background:#2c3e50;"><i class="fa-solid fa-map-location-dot"></i> عرض الموقع على الخريطة</a>`;
+        } else {
+            mapContainer.innerHTML = `<div class="map-wrapper"><iframe src="${embedUrl}" allowfullscreen="" loading="lazy"></iframe></div>`;
         }
-
-        renderDetails(property);
-
-    } catch (error) {
-        console.error("Error loading details:", error);
-        container.className = "error-msg";
-        container.innerHTML = currentLang === 'ar' ? "<h3>فشل تحميل البيانات، يرجى المحاولة لاحقاً.</h3>" : "<h3>Failed to load data, please try again later.</h3>";
     }
 }
 
-function renderDetails(property) {
-    const container = document.getElementById("detailsContainer");
-    container.className = "main-card";
+function applyLanguageUI() {
+    const html = document.getElementById("htmlPage");
+    const langText = document.getElementById("langText");
+    const backBtn = document.getElementById("backBtn");
 
-    const title = currentLang === 'ar' ? (property["الاسم"] || property["Name"]) : (property["Name"] || property["الاسم"]);
-    const desc = currentLang === 'ar' ? (property["الوصف"] || property["Description"] || "لا يوجد وصف متوفر حالياً.") : (property["Description"] || property["الوصف"] || "No description available.");
-    const price = property["السعر"] || property["Price"] || "";
-
-    // استخلاص روابط الميديا من الجداول وعزلها
-    const extraImagesStr = property["الصور الإضافية"] || property["More Images"] || property["صور إضافية"] || "";
-    const extraVideosStr = property["فيديو"] || property["Video"] || property["الفيديوهات"] || "";
+    html.setAttribute("dir", currentLang === "en" ? "ltr" : "rtl");
+    html.setAttribute("lang", currentLang);
+    langText.innerText = currentLang === "en" ? "AR" : "EN";
     
-    const imagesArray = extraImagesStr ? extraImagesStr.split(',').map(img => img.trim()).filter(url => url !== "") : [];
-    const videosArray = extraVideosStr ? extraVideosStr.split(',').map(vid => vid.trim()).filter(url => url !== "") : [];
+    if(currentLang === "en") {
+        backBtn.querySelector("i").className = "fa-solid fa-arrow-left";
+    } else {
+        backBtn.querySelector("i").className = "fa-solid fa-arrow-right";
+    }
 
-    let imagesHtml = "";
-    imagesArray.forEach(url => {
-        imagesHtml += `<div class="media-item"><img src="${url}" alt="${title}" onclick="window.open('${url}', '_blank')" style="cursor:pointer;"></div>`;
-    });
-
-    let videosHtml = "";
-    videosArray.forEach(url => {
-        videosHtml += `<div class="media-item"><video src="${url}" controls playsinline></video></div>`;
-    });
-
-    const mediaSectionTitle = currentLang === 'ar' ? "ألبوم الصور العقارية" : "Property Photo Gallery";
-    const videoSectionTitle = currentLang === 'ar' ? "العروض المرئية والفيديو" : "Video Presentations";
-
-    container.innerHTML = `
-        <h1 class="property-title">${title}</h1>
-        <span class="price">${price}</span>
-        <p class="description">${desc}</p>
-
-        ${imagesArray.length > 0 ? `
-            <div class="media-section">
-                <h3 class="media-title">${mediaSectionTitle}</h3>
-                <div class="media-grid">${imagesHtml}</div>
-            </div>
-        ` : ''}
-        
-        ${videosArray.length > 0 ? `
-            <div class="media-section">
-                <h3 class="media-title">${videoSectionTitle}</h3>
-                <div class="media-grid">${videosHtml}</div>
-            </div>
-        ` : ''}
-    `;
-    
-    document.title = `${title} - ${currentLang === 'ar' ? 'شركة ود العقارية' : 'WD Real Estate'}`;
+    document.getElementById("pageTitle").innerText = translations[currentLang].title;
+    document.getElementById("headerTitle").innerText = translations[currentLang].headerTitle;
+    document.getElementById("backText").innerText = translations[currentLang].back;
+    document.getElementById("lblWhatsapp").innerText = translations[currentLang].whatsapp;
+    document.getElementById("lblPhone").innerText = translations[currentLang].phone;
 }
 
-document.addEventListener("DOMContentLoaded", fetchPropertyDetails);
+function toggleLanguage() {
+    currentLang = currentLang === "ar" ? "en" : "ar";
+    applyLanguageUI();
+    if (propertyData) renderDetails();
+}
+
+function toggleTheme() {
+    const html = document.getElementById("htmlPage");
+    const themeBtn = document.getElementById("themeBtn");
+    
+    if (html.getAttribute("data-theme") === "dark") {
+        html.removeAttribute("data-theme");
+        themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+    } else {
+        html.setAttribute("data-theme", "dark");
+        themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadPropertyDetails);
 </script>
 </body>
 </html>
