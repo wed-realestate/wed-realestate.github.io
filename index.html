@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">شركة ود العقارية - Wed Real Estate</title>
+    <title id="pageTitle">شركة ود العقارية - WD Real Estate</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -86,6 +86,7 @@
         }
         .lang-btn:hover, .theme-btn:hover { background: #16a085; }
 
+        /* حاوية الجريد الرئيسية المستجيبة لبطاقات العقارات */
         .container { 
             max-width: 1200px; 
             margin: 0 auto; 
@@ -238,7 +239,10 @@
     <p id="headerSub">ابحث عن شقة أحلامك.. بيع، شراء، وتأجير بكل سهولة</p>
 </header>
 
-<section class="properties"><div id="propertiesContainer" class="properties-grid"></div></section>
+<section class="properties">
+    <div id="propertiesContainer" class="container"></div>
+</section>
+
 <footer>
     <div class="footer-links">
         <a href="terms.html" class="footer-btn" id="footerLink1"><i class="fa-solid fa-gavel"></i> <span>الشروط والأحكام</span></a>
@@ -247,45 +251,118 @@
     <p id="footerCopy">جميع الحقوق محفوظة © شركة ود العقارية 2026</p>
 </footer>
 
-
 <script>
-const API_URL="https://script.google.com/macros/s/AKfycbwWyAhLic8IbD9FQDDltNfLjh0fn-Q39UaRNGm1Um0R7SZn08WggmC2wvmpBaBdsVVN/exec";
+// إعدادات الـ API والمظهر العام
+const API_URL = "https://script.google.com/macros/s/AKfycbwWyAhLic8IbD9FQDDltNfLjh0fn-Q39UaRNGm1Um0R7SZn08WggmC2wvmpBaBdsVVN/exec";
 
-async function loadProperties(){
- const container=document.getElementById("propertiesContainer");
-
- try{
-   const response=await fetch(API_URL);
-   const properties=await response.json();
-
-   container.innerHTML="";
-
-   properties.forEach(property=>{
-     container.innerHTML += `
-      <div class="property-card">
-       <img src="${property["الصورة الرئيسية"]}">
-       <div class="property-info">
-         <h3>${property["الاسم"]}</h3>
-         <div class="price">${property["السعر"]}</div>
-         <div class="details">
-           <span>🛏 ${property["الغرف"]}</span>
-           <span>🛁 ${property["الحمامات"]}</span>
-           <span>📐 ${property["المساحة"]}</span>
-         </div>
-         <a class="details-btn" href="apartment-details.html?id=${property["id"]}">
-         عرض التفاصيل
-         </a>
-       </div>
-      </div>`;
-   });
-
- }catch(error){
-   container.innerHTML="<h2>تعذر تحميل العقارات</h2>";
- }
+// دالة لتوليد أرقام عشوائية لعداد المشاهدين المتفاعل
+function getRandomViews() {
+    return Math.floor(Math.random() * (45 - 12 + 1)) + 12;
 }
 
-loadProperties();
+// دالة جلب العقارات وحقنها في الواجهة بشكل مطابق للـ CSS الأصلي
+async function loadProperties() {
+    const container = document.getElementById("propertiesContainer");
 
+    try {
+        const response = await fetch(API_URL);
+        const properties = await response.json();
+
+        container.innerHTML = "";
+
+        properties.forEach(property => {
+            // فحص نوع العملية لتحديد لون وتسمية شارة العقار
+            const isRent = property["النوع"]?.includes("إيجار") || property["النوع"]?.includes("Rent");
+            const badgeClass = isRent ? "badge-rent" : "badge-sale";
+            const badgeText = property["النوع"] || "للبيع";
+
+            container.innerHTML += `
+            <div class="property-card">
+                <div class="property-image">
+                    <span class="badge ${badgeClass}">${badgeText}</span>
+                    <img src="${property["الصورة الرئيسية"] || 'https://via.placeholder.com/400x250'}" alt="${property["الاسم"]}">
+                </div>
+                
+                <div class="property-details">
+                    <div class="price-row">
+                        <span class="price">${property["السعر"]}</span>
+                        <span class="live-counter">
+                            <i class="fa-solid fa-eye"></i> <span>${getRandomViews()} يشاهدون الآن</span>
+                        </span>
+                    </div>
+                    
+                    <h3 class="title">${property["الاسم"]}</h3>
+                    <p class="description">${property["الوصف"] || "اضغط على عرض التفاصيل لمعرفة المزيد عن هذا العقار المميز."}</p>
+                    
+                    <div class="features-icons">
+                        <span class="icon-item"><i class="fa-solid fa-bed"></i> ${property["الغرفة"] || property["الغرف"] || 0} غرف</span>
+                        <span class="icon-item"><i class="fa-solid fa-bath"></i> ${property["الحمام"] || property["الحمامات"] || 0} حمام</span>
+                        <span class="icon-item"><i class="fa-solid fa-ruler-combined"></i> ${property["المساحة"]}</span>
+                    </div>
+                    
+                    <a href="apartment-details.html?id=${property["id"]}" class="view-details-btn">
+                        عرض التفاصيل
+                    </a>
+                    
+                    <div class="contact-buttons">
+                        <a href="https://wa.me/${property["واتساب"] || ''}" target="_blank" class="btn-contact btn-whatsapp">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                        <a href="tel:${property["الهاتف"] || ''}" class="btn-contact btn-phone">
+                            <i class="fa-solid fa-phone"></i>
+                        </a>
+                        <a href="${property["فيسبوك"] || '#'}" target="_blank" class="btn-contact btn-facebook">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>`;
+        });
+
+    } catch (error) {
+        console.error("Error loading properties:", error);
+        container.innerHTML = `
+        <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+            <h2 style="color: #e74c3c;">تعذر تحميل العقارات حالياً</h2>
+            <p style="color: var(--text-muted);">يرجى التحقق من اتصال شبكة الإنترنت أو سلامة رابط الـ API المتصل بجوجل شيت.</p>
+        </div>`;
+    }
+}
+
+// دالة التحكم في الوضع الداكن والفاتح (Dark/Light Theme)
+function toggleTheme() {
+    const html = document.getElementById("htmlPage");
+    const themeBtn = document.getElementById("themeBtn");
+    
+    if (html.getAttribute("data-theme") === "dark") {
+        html.removeAttribute("data-theme");
+        themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+    } else {
+        html.setAttribute("data-theme", "dark");
+        themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+    }
+}
+
+// دالة تمهيدية للتحكم في اللغات (تحتاج لربط مصفوفة الترجمة الخاصة بك لاحقاً)
+function toggleLanguage() {
+    const html = document.getElementById("htmlPage");
+    const langText = document.getElementById("langText");
+    
+    if (html.getAttribute("dir") === "rtl") {
+        html.setAttribute("dir", "ltr");
+        html.setAttribute("lang", "en");
+        langText.innerText = "AR";
+    } else {
+        html.setAttribute("dir", "rtl");
+        html.setAttribute("lang", "ar");
+        langText.innerText = "EN";
+    }
+}
+
+// تشغيل جلب البيانات فور تحميل المستند
+document.addEventListener("DOMContentLoaded", loadProperties);
+
+// تفعيل دوال حماية المحتوى والتعطيل الافتراضي للاختصارات و الـ Inspect Element
 document.addEventListener('contextmenu', event => event.preventDefault());
 document.addEventListener('keydown', event => {
     if (event.key === 'F12' || event.keyCode === 123) event.preventDefault();
