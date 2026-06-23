@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <script>
-        // 🛑 ضع رابط الـ API الخاص بـ Google Sheets هنا بين العلامتين "" 🛑
+        // 🛑 وضع رابط الـ API الخاص بـ Google Sheets هنا بين العلامتين "" 🛑
         window.GOOGLE_SHEETS_API_URL = "https://script.google.com/macros/s/AKfycbwvo0tQi6W5Y-1s6Twii_vXNtebf8vcdEzNBIL36cHKWmAtDmsRP3LspOOPXNuPKVXs/exec";
     </script>
     <title id="pageTitle">تفاصيل العقار - شركة ود العقارية</title>
@@ -118,7 +118,8 @@
             }) || rows[propertyId - 1];
 
             if (item) {
-                document.getElementById('mainTitle').textContent = item.العقار || item.title || "تفاصيل العقار";
+                const currentPropertyTitle = item.العقار || item.title || "تفاصيل العقار";
+                document.getElementById('mainTitle').textContent = currentPropertyTitle;
 
                 const imgFields = ['الصورة', 'صورة2', 'صورة3', 'صورة4', 'image', 'image2', 'image3', 'image4'];
                 let validImages = [];
@@ -139,12 +140,16 @@
                     document.getElementById('videoSection').style.display = 'block';
                 }
 
+                // تنقية رابط الخريطة وتضمينه بأمان لمنع الـ Refused to display
                 const mapUrl = item.الخريطة || item.map || item.الموقع;
                 if (mapUrl) {
-                    let finalMapUrl = mapUrl;
-                    if(mapUrl.includes('maps/place') || mapUrl.includes('goo.gl')) {
-                        finalMapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(item.العقار || '')}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+                    let finalMapUrl = mapUrl.trim();
+                    
+                    // تحويل روابط المشاركة والروابط العادية إلى كود تضمين Embed متوافق
+                    if (finalMapUrl.includes('maps/place') || finalMapUrl.includes('goo.gl') || finalMapUrl.includes('google.com/maps')) {
+                        finalMapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(finalMapUrl)}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
                     }
+                    
                     document.getElementById('propertyMap').src = finalMapUrl;
                     document.getElementById('mapSection').style.display = 'block';
                 }
@@ -156,13 +161,14 @@
 
     function optimizeDriveImageUrl(url) {
         if (!url) return "";
-        if (url.includes('drive.google.com')) {
+        let cleanUrl = url.trim();
+        if (cleanUrl.includes('drive.google.com')) {
             let id = '';
-            if (url.includes('id=')) { id = url.split('id=')[1].split('&')[0]; } 
-            else if (url.includes('/d/')) { id = url.split('/d/')[1].split('/')[0]; }
+            if (cleanUrl.includes('id=')) { id = cleanUrl.split('id=')[1].split('&')[0]; } 
+            else if (cleanUrl.includes('/d/')) { id = cleanUrl.split('/d/')[1].split('/')[0]; }
             if (id) return `https://docs.google.com/uc?export=view&id=${id}`;
         }
-        return url;
+        return cleanUrl;
     }
 </script>
 
@@ -189,7 +195,24 @@ let currentLang = localStorage.getItem('selectedLang') || 'ar';
 function setLanguage(lang) {
     currentLang = lang; localStorage.setItem('selectedLang', lang);
     const html = document.getElementById('htmlPage'); html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr'); html.setAttribute('lang', lang);
-    document.title = translations[lang].pageTitle; document.querySelector('#backBtn .data-text').textContent = translations[lang].backBtn; document.getElementById('companyName').textContent = translations[lang].companyName; document.querySelector('#videoTitle .data-text').textContent = translations[lang].videoTitle; document.querySelector('#galleryTitle .data-text').textContent = translations[lang].galleryTitle; document.querySelector('#mapTitle .data-text').textContent = translations[lang].mapTitle; document.getElementById('footerText').textContent = translations[lang].footerText; document.getElementById('langText').textContent = translations[lang].langBtn;
+    document.title = translations[lang].pageTitle; 
+    document.querySelector('#backBtn .data-text').textContent = translations[lang].backBtn; 
+    document.getElementById('companyName').textContent = translations[lang].companyName; 
+    document.querySelector('#videoTitle .data-text').textContent = translations[lang].videoTitle; 
+    document.querySelector('#galleryTitle .data-text').textContent = translations[lang].galleryTitle; 
+    document.querySelector('#mapTitle .data-text').textContent = translations[lang].mapTitle; 
+    document.getElementById('footerText').textContent = translations[lang].footerText; 
+    document.getElementById('langText').textContent = translations[lang].langBtn;
+    
+    // تعديل اتجاه السهم بناءً على اللغة المحددة
+    const backIcon = document.getElementById('backIcon');
+    if (backIcon) {
+        if (lang === 'ar') {
+            backIcon.className = 'fa-solid fa-arrow-right';
+        } else {
+            backIcon.className = 'fa-solid fa-arrow-left';
+        }
+    }
 }
 
 window.toggleLanguage = function() { setLanguage(currentLang === 'ar' ? 'en' : 'ar'); }
