@@ -45,7 +45,7 @@
         
         body { background-color: var(--bg-body); color: var(--text-main); }
 
-        /* شريط التنقل */
+        /* شريط التنقل العلوي */
         .nav-bar { background-color: var(--bg-nav); padding: 15px 20px; position: relative; }
         .nav-container { max-width: 800px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .nav-controls { display: flex; gap: 10px; align-items: center; }
@@ -58,9 +58,21 @@
         .lang-btn:hover, .theme-btn:hover { background: #16a085; transform: scale(1.05); }
         .theme-btn:active, .lang-btn:active { transform: scale(0.95); }
 
-        /* حاوية الشعار العلوي */
+        /* حاوية الشعار العلوي الدائرية (تعديل اللوقو ورأس الصفحة) */
         .brand-header { display: flex; justify-content: center; padding: 30px 20px 10px; }
-        .brand-logo { max-width: 180px; height: auto; border: 1px solid var(--logo-border); border-radius: 12px; padding: 8px; background: #000000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .logo-wrapper {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 3px solid #1abc9c;
+            overflow: hidden;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .brand-logo { width: 100%; height: 100%; object-fit: cover; }
 
         .main-container { max-width: 800px; margin: 20px auto 40px; padding: 0 20px; }
 
@@ -135,7 +147,9 @@
 </div>
 
 <div class="brand-header">
-    <img src="logo.png" alt="Wad Real Estate" class="brand-logo">
+    <div class="logo-wrapper">
+        <img src="png.jpg" alt="Wad Real Estate" class="brand-logo">
+    </div>
 </div>
 
 <div class="main-container">
@@ -300,6 +314,7 @@ function renderDetails() {
         document.querySelector(".contact-grid").style.gridTemplateColumns = "1fr 1fr";
     }
 
+    // سحب وتحديث مسمى حقل الفيديوهات من قوقل شيت بدقة
     const videoUrl = propertyData["الفيديوهات"] || propertyData["Video"] || "";
     const videoBox = document.getElementById("videoSection");
     if (videoUrl) {
@@ -318,6 +333,7 @@ function renderDetails() {
 
     let thumbHtml = `<img class="thumb active" src="${mainImgUrl}" onclick="changeImage(this)" loading="lazy">`;
 
+    // سحب وتحديث مسمى حقل الصور الإضافية (الصور الثانوية) من قوقل شيت بدقة
     const extraImagesStr = propertyData["الصور الإضافية"] || propertyData["More Images"] || "";
     if (extraImagesStr) {
         extraImagesStr.split(',').forEach(imgUrl => {
@@ -328,6 +344,7 @@ function renderDetails() {
     }
     gridContainer.innerHTML = thumbHtml;
 
+    // سحب وتحديث مسمى حقل الموقع من قوقل شيت بدقة
     const mapBox = document.getElementById("mapBox");
     const mapBoxSection = document.getElementById("mapSection");
     const mapUrl = propertyData["الموقع"] || propertyData["Location"] || "";
