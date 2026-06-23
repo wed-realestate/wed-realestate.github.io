@@ -38,9 +38,6 @@
             --bg-footer: #0a0f14;
         }
 
-        /* ==========================================================================
-           2. التنسيقات العامة وعناصر الصفحة الرئيسية (Global Styles)
-           ========================================================================== */
         * { 
             box-sizing: border-box; 
             margin: 0; 
@@ -56,7 +53,7 @@
         }
 
         /* ==========================================================================
-           3. الهيدر والشعار وعناصر التحكم (Header & Controls)
+           2. الهيدر والشعار (اللوجو بإطار أبيض في المنتصف)
            ========================================================================== */
         header { 
             background-color: var(--bg-header);
@@ -71,24 +68,23 @@
             gap: 15px;
         }
 
-        .header-content {
-            text-align: center;
-        }
-
+        .header-content { text-align: center; }
         header h1 { font-size: 2rem; line-height: 1.4; }
         header p { color: #1abc9c; margin-top: 5px; font-size: 1rem; }
 
+        /* تعديل الشعار حسب المطلوب: في المنتصف مع إطار أبيض فاتح */
         .logo-wrapper {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            border: 3px solid #1abc9c;
+            border: 4px solid rgba(255, 255, 255, 0.9); /* إطار أبيض فاتح */
             overflow: hidden;
             background: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            margin-bottom: 10px;
         }
 
         .brand-logo {
@@ -124,12 +120,12 @@
         .lang-btn:hover, .theme-btn:hover { background: #16a085; }
 
         /* ==========================================================================
-           4. شبكة العرض وكروت العقارات (Grid & Cards)
+           3. شبكة العرض (كروت العقارات)
            ========================================================================== */
         .container { 
             max-width: 1200px;
             margin: 0 auto; 
-            padding: 30px 15px 40px 15px; 
+            padding: 30px 15px; 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
             gap: 25px;
@@ -138,10 +134,8 @@
         .property-card { 
             background: var(--bg-card);
             border-radius: 8px; 
-            overflow: visible;
-            border: 3px solid var(--border-card); 
+            border: 2px solid var(--border-card); 
             box-shadow: 0 4px 10px rgba(0,0,0,0.03); 
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
             display: flex; 
             flex-direction: column; 
             position: relative;
@@ -157,14 +151,12 @@
             width: 100%; 
             height: 200px; 
             overflow: hidden; 
-            background: #eef2f5; 
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
         }
-        .property-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .property-image img { width: 100%; height: 100%; object-fit: cover; }
         .property-card:hover .property-image img { transform: scale(1.05); }
 
-        /* الشارات وحالات العقار */
         .badge { 
             position: absolute; 
             top: 15px; 
@@ -184,7 +176,6 @@
         .badge-sold { background: #95a5a6; }    
         .badge-default { background: #1abc9c; } 
 
-        /* عداد المشاهدة الحية البصري */
         .live-counter-eye {
             position: absolute;
             top: 15px;
@@ -200,62 +191,61 @@
             z-index: 2;
             opacity: 0;
             transform: scale(0.8);
-            transition: opacity 0.4s ease, transform 0.4s ease;
         }
         html[dir="ltr"] .live-counter-eye { left: auto; right: 15px; }
         .live-counter-eye.active { opacity: 1; transform: scale(1); }
-        .live-counter-eye i { color: #e74c3c; animation: pulseEyeItem 1.2s infinite ease-in-out; }
-        
-        @keyframes pulseEyeItem {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        .live-counter-eye i { color: #e74c3c; animation: pulseEye 1.2s infinite ease-in-out; }
+        @keyframes pulseEye { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
-        /* تفاصيل ومواصفات كرت العقار */
         .property-details { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
         .price { color: #e74c3c; font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; }
-        .title { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: var(--text-title); line-height: 1.4; }
-        .description { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.6; height: 55px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+        .title { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: var(--text-title); }
+        .description { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
-        .features-icons { display: flex; justify-content: space-between; background: var(--bg-features); padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.8rem; color: var(--text-features); gap: 5px; }
-        .icon-item { display: flex; align-items: center; white-space: nowrap; }
-        .icon-item i { color: #1abc9c; }
-        html[dir="rtl"] .icon-item i { margin-left: 5px; }
-        html[dir="ltr"] .icon-item i { margin-right: 5px; }
+        .features-icons { display: flex; justify-content: space-between; background: var(--bg-features); padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.8rem; color: var(--text-features); }
+        .icon-item i { color: #1abc9c; margin: 0 5px; }
 
-        /* أزرار التواصل والتفاصيل */
-        .view-details-btn { display: block; text-align: center; background: #2c3e50; color: white; text-decoration: none; padding: 12px; border-radius: 6px; margin-bottom: 12px; font-weight: 600; font-size: 0.9rem; transition: background 0.3s; }
+        .view-details-btn { display: block; text-align: center; background: #2c3e50; color: white; text-decoration: none; padding: 12px; border-radius: 6px; margin-bottom: 12px; font-weight: 600; font-size: 0.9rem; }
         .view-details-btn:hover { background: #1abc9c; }
 
         .contact-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .btn-contact { display: flex; justify-content: center; align-items: center; padding: 12px; border-radius: 8px; color: white; text-decoration: none; font-size: 1.3rem; transition: transform 0.2s ease, background-color 0.3s, opacity 0.3s; }
-        .btn-contact:hover { transform: scale(1.08); opacity: 0.9; }
+        .btn-contact { display: flex; justify-content: center; align-items: center; padding: 10px; border-radius: 8px; color: white; font-size: 1.2rem; text-decoration: none; }
         .btn-whatsapp { background-color: #25D366; }
         .btn-phone { background-color: #3498db; }
         .btn-facebook { background-color: #1877F2; }
 
-        /* مؤشرات الانتظار والأخطاء */
-        .loading-indicator { grid-column: 1 / -1; text-align: center; padding: 40px; font-size: 1.2rem; color: var(--text-title); font-weight: bold; }
-        .error-message { grid-column: 1 / -1; text-align: center; padding: 40px; color: #e74c3c; font-weight: bold; }
-
         /* ==========================================================================
-           5. تذييل الصفحة (Footer) والاستجابة (Responsive)
+           4. قسم الخريطة المرئية (Map Section)
            ========================================================================== */
-        footer { background-color: var(--bg-footer); color: white; text-align: center; padding: 30px 15px; margin-top: 40px; }
-        .footer-links { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
-        .footer-btn { background: rgba(255, 255, 255, 0.1); color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; transition: background 0.3s; display: inline-flex; align-items: center; gap: 8px; }
-        .footer-btn:hover { background: #1abc9c; }
-        #footerCopy { font-size: 0.85rem; color: #bdc3c7; }
+        .map-section {
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+            padding: 0 15px;
+        }
+        .map-section h2 {
+            text-align: center;
+            color: var(--text-title);
+            margin-bottom: 20px;
+        }
+        .map-wrapper-iframe {
+            width: 100%;
+            height: 350px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 3px solid var(--border-card);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .map-wrapper-iframe iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
 
-        @media (max-width: 600px) {
-            header { padding: 30px 15px; gap: 10px; }
-            .controls-wrapper { position: static; margin-bottom: 10px; }
-        }
-        @media (max-width: 360px) {
-            header h1 { font-size: 1.6rem; }
-            .features-icons { flex-direction: column; gap: 8px; align-items: flex-start; }
-        }
+        .loading-indicator { grid-column: 1 / -1; text-align: center; padding: 40px; font-weight: bold; }
+        
+        footer { background-color: var(--bg-footer); color: white; text-align: center; padding: 30px 15px; }
+        .footer-links { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; }
+        .footer-btn { background: rgba(255, 255, 255, 0.1); color: #fff; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -269,9 +259,11 @@
                 <i class="fa-solid fa-globe"></i> <span id="langText">EN</span>
             </button>
         </div>
+        
         <div class="logo-wrapper">
-            <img src="jpg.jpeg" alt="Wed Logo" class="brand-logo">
+            <img id="mainLogo" src="" alt="Wed Logo" class="brand-logo">
         </div>
+        
         <div class="header-content">
             <h1 id="headerTitle">شركة ود العقارية</h1>
             <p id="headerSub">ابحث عن شقة أحلامك.. بيع، شراء، وتأجير بكل سهولة</p>
@@ -284,305 +276,168 @@
         </div>
     </main>
 
+    <section class="map-section">
+        <h2 id="mapTitle">موقعنا على الخريطة</h2>
+        <div class="map-wrapper-iframe">
+            <iframe id="googleMapIframe" src="" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </section>
+
     <footer>
         <div class="footer-links">
-            <a href="terms.html" class="footer-btn" id="footerLink1"><i class="fa-solid fa-gavel"></i> <span>الشروط والأحكام</span></a>
-            <a href="https://maps.google.com" target="_blank" class="footer-btn" id="footerLink2"><i class="fa-solid fa-map-location-dot"></i> <span>مواقعنا على خرائط جوجل</span></a>
+            <a href="terms.html" class="footer-btn" id="footerLink1"><span>الشروط والأحكام</span></a>
         </div>
         <p id="footerCopy">جميع الحقوق محفوظة © شركة ود العقارية 2026</p>
     </footer>
 
-
     <script>
-    /* --------------------------------------------------------------------------
-       المجموعة (أ): المتغيرات والإعدادات الأكثر أهمية وتعديلاً (تعدل بصفة مستمرة)
-       -------------------------------------------------------------------------- */
+    /* ==========================================================================
+       مركز التحكم والاختصارات الشامل (عدل من هنا فقط!)
+       ========================================================================== */
     const CONFIG = {
-        // رابط سكربت جوجل شيت الرئيسي لاستدعاء البيانات
+        // روابط الصور والشعار
+        LOGO_URL: "jpg.jpeg", 
+        
+        // رابط الخريطة المضمنة (Google Maps Embed URL)
+        MAP_EMBED_URL: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3456.789!2d31.235!3d30.044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDAyJzM4LjQiTiAzMcKwMTQnMDYuMCJF!5e0!3m2!1sen!2seg!4v1620000000000!5m2!1sen!2seg",
+        
+        // رابط API جوجل شيت
         API_URL: "https://script.google.com/macros/s/AKfycbwF__Bgk6KSUPH-39bDG3MdvVRigqmRZ_uqLO6Rokmb0xqCvbhC_5j0vACJXSHAdVmS/exec",
         
-        // وقت فحص التعديلات في الخلفية بشكل تلقائي (بالملي ثانية) - 15000 تعني كل 15 ثانية
+        // معدل التحديث التلقائي (بالملي ثانية)
         AUTO_REFRESH_INTERVAL: 15000, 
         
-        // روابط أزرار التواصل السريع لجميع الكروت
+        // أرقام وروابط التواصل المباشر
         CONTACTS: {
-            whatsapp: "201234567890",       // رقم الواتساب بالصيغة الدولية بدون اصفار او +
-            phone: "+201234567890",          // رقم الاتصال المباشر
-            facebook: "https://facebook.com/yourpage" // رابط صفحة الفيسبوك
+            whatsapp: "201234567890",       
+            phone: "+201234567890",          
+            facebook: "https://facebook.com/yourpage" 
         }
     };
 
-    /* --------------------------------------------------------------------------
-       المجموعة (ب): نظام اللغات والترجمة الشاملة (Translations Controller)
-       -------------------------------------------------------------------------- */
+    // تطبيق إعدادات مركز التحكم فوراً
+    document.getElementById('mainLogo').src = CONFIG.LOGO_URL;
+    document.getElementById('googleMapIframe').src = CONFIG.MAP_EMBED_URL;
+
+    /* ==========================================================================
+       نظام الترجمة الفورية (بدون إعادة تحميل)
+       ========================================================================== */
     const translations = {
         ar: {
-            pageTitle: "شركة ود العقارية - Wed Real Estate",
-            headerTitle: "شركة ود العقارية",
-            headerSub: "ابحث عن شقة أحلامك.. بيع, شراء, وتأجير بكل سهولة",
-            langBtn: "EN",
-            viewBtn: "عرض الفيديو والصور التفصيلية",
-            footerLink1: "الشروط والأحكام",
-            footerLink2: "مواقعنا على خرائط جوجل",
-            footerCopy: "جميع الحقوق محفوظة © شركة ود العقارية 2026",
-            loading: "جاري جلب العقارات الحديثة...",
-            error: "فشل في تحميل البيانات، يرجى إعادة المحاولة لاحقاً.",
-            rooms: "غرف", bathrooms: "حمامات", area: "م²", liveView: "يشاهدونه الآن",
+            pageTitle: "شركة ود العقارية", headerTitle: "شركة ود العقارية", headerSub: "ابحث عن شقة أحلامك بسهولة",
+            langBtn: "EN", viewBtn: "التفاصيل والصور", mapTitle: "موقعنا على الخريطة",
+            loading: "جاري جلب العقارات...", rooms: "غرف", bathrooms: "حمامات", area: "م²", liveView: "يشاهدونه الآن",
             sale: "للبيع", rent: "للايجار", buy: "شراء", sold: "مباع"
         },
         en: {
-            pageTitle: "Wed Real Estate - Home",
-            headerTitle: "Wed Real Estate",
-            headerSub: "Find your dream apartment.. Buy, sell, and rent with ease",
-            langBtn: "AR",
-            viewBtn: "View Video & Details",
-            footerLink1: "Terms & Conditions",
-            footerLink2: "Our Locations on Google Maps",
-            footerCopy: "All Rights Reserved © Wed Real Estate 2026",
-            loading: "Loading latest properties...",
-            error: "Failed to load data, please try again later.",
-            rooms: "Beds", bathrooms: "Baths", area: "m²", liveView: "viewing now",
+            pageTitle: "Wed Real Estate", headerTitle: "Wed Real Estate", headerSub: "Find your dream apartment easily",
+            langBtn: "AR", viewBtn: "View Details", mapTitle: "Our Location on Map",
+            loading: "Loading properties...", rooms: "Beds", bathrooms: "Baths", area: "m²", liveView: "viewing now",
             sale: "For Sale", rent: "For Rent", buy: "For Buy", sold: "Sold"
         }
     };
 
     let currentLang = localStorage.getItem('selectedLang') || 'ar';
-    const htmlElement = document.documentElement;
-
     function setLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('selectedLang', lang);
-        
-        const html = document.getElementById('htmlPage');
-        html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-        html.setAttribute('lang', lang);
+        document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+        document.documentElement.setAttribute('lang', lang);
 
-        document.title = translations[lang].pageTitle;
         document.getElementById('headerTitle').textContent = translations[lang].headerTitle;
         document.getElementById('headerSub').textContent = translations[lang].headerSub;
         document.getElementById('langText').textContent = translations[lang].langBtn;
-        document.querySelector('#footerLink1 span').textContent = translations[lang].footerLink1;
-        document.querySelector('#footerLink2 span').textContent = translations[lang].footerLink2;
-        document.getElementById('footerCopy').textContent = translations[lang].footerCopy;
-
-        if (cachedProperties.length > 0) {
-            renderProperties(cachedProperties);
-        }
+        document.getElementById('mapTitle').textContent = translations[lang].mapTitle;
+        
+        if (cachedProperties.length > 0) renderProperties(cachedProperties);
     }
+    function toggleLanguage() { setLanguage(currentLang === 'ar' ? 'en' : 'ar'); }
 
-    function toggleLanguage() {
-        setLanguage(currentLang === 'ar' ? 'en' : 'ar');
-    }
-
-    /* --------------------------------------------------------------------------
-       المجموعة (ج): نظام الوضع الليلي والفاتح (Theme Controller)
-       -------------------------------------------------------------------------- */
-    const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (savedTheme) {
-        setTheme(savedTheme);
-    } else {
-        setTheme(systemPrefersDark ? 'dark' : 'light');
-    }
-
+    /* ==========================================================================
+       الوضع الليلي والفاتح (Dark/Light Mode)
+       ========================================================================== */
     function setTheme(theme) {
-        htmlElement.setAttribute('data-theme', theme);
+        document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
-        const themeBtn = document.getElementById('themeBtn');
-        if (themeBtn) {
-            themeBtn.innerHTML = theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
-        }
+        document.getElementById('themeBtn').innerHTML = theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
     }
-
     function toggleTheme() {
-        const currentTheme = htmlElement.getAttribute('data-theme');
+        const currentTheme = document.documentElement.getAttribute('data-theme');
         setTheme(currentTheme === 'dark' ? 'light' : 'dark');
     }
+    setTheme(localStorage.getItem('theme') || 'light');
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (!localStorage.getItem('theme')) {
-            setTheme(e.matches ? 'dark' : 'light');
-        }
-    });
-
-    /* --------------------------------------------------------------------------
-       المجموعة (د): محرك جلب البيانات الذكي المتزامن بدون انتظار ومراقبة التغيير التلقائي
-       -------------------------------------------------------------------------- */
+    /* ==========================================================================
+       محرك جلب البيانات الذكي (يتخطى الخانات الفارغة)
+       ========================================================================== */
     let cachedProperties = [];
 
-    // تحسين روابط صور جوجل درايف للتحميل فائق السرعة
-    function optimizeDriveImageUrl(url) {
-        if (!url) return "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=500&q=80";
-        if (url.includes('drive.google.com')) {
-            let id = '';
-            if (url.includes('id=')) {
-                id = url.split('id=')[1].split('&')[0];
-            } else if (url.includes('/d/')) {
-                id = url.split('/d/')[1].split('/')[0];
-            }
-            if (id) {
-                return `https://thumbnailproduct.tech/api/drive?id=${id}`; 
-            }
-        }
-        return url;
-    }
-
-    // دالة ذكية: تقرأ الكاش فوراً وتفحص التحديثات في الخلفية وتحدث الصفحة تلقائياً عند تغيير البيانات
     async function loadProperties(isBackground = false) {
-        const container = document.getElementById('propertiesContainer');
         const localData = localStorage.getItem('properties_cache');
-        
-        // 1. تسريع وقت الانتظار: إذا وجدت بيانات مخزنة، اعرضها في أجزاء من الثانية فوراً ولا تجعل العميل ينتظر
         if (localData && !isBackground) {
             cachedProperties = JSON.parse(localData);
             renderProperties(cachedProperties);
         }
 
         try {
-            // جلب البيانات الحديثة من قوقل شيت في الخلفية
             const response = await fetch(CONFIG.API_URL);
-            if (!response.ok) throw new Error("Network response error");
             const data = await response.json();
             
-            // تحقق ما إذا كانت البيانات الجديدة تختلف عن المخزنة (حدث تعديل في قوقل شيت)
-            const dataChanged = JSON.stringify(data) !== JSON.stringify(cachedProperties);
-            
-            if (dataChanged || cachedProperties.length === 0) {
-                // تحديث الكاش وعرض البيانات الجديدة فوراً وسلس وبدون وميض أو إعادة تحميل كاملة للمتصفح
+            if (JSON.stringify(data) !== JSON.stringify(cachedProperties)) {
                 cachedProperties = data;
                 localStorage.setItem('properties_cache', JSON.stringify(data));
                 renderProperties(cachedProperties);
             }
         } catch (error) {
-            console.error("API Fetch Error:", error);
-            if (!localData && cachedProperties.length === 0) {
-                container.innerHTML = `<div class="error-message">${translations[currentLang].error}</div>`;
-            }
+            console.error("API Fetch Error");
         }
     }
-
-    // التحديث التلقائي المستمر والمراقبة اللحظية لتعديلات قوقل شيت في الخلفية
-    setInterval(() => {
-        loadProperties(true);
-    }, CONFIG.AUTO_REFRESH_INTERVAL);
-
-    /* --------------------------------------------------------------------------
-       المجموعة (هـ): معالجة البيانات وبناء كروت العقارات برمجياً (UI Rendering Engine)
-       -------------------------------------------------------------------------- */
-    function getBadgeDetails(statusValue, lang) {
-        if (!statusValue) return { class: "badge-default", text: lang === 'ar' ? "عقار" : "Property" };
-        const status = statusValue.trim().toLowerCase();
-
-        if (status.includes("بيع") || status.includes("sale")) return { class: "badge-sale", text: translations[lang].sale };
-        if (status.includes("إيجار") || status.includes("ايجار") || status.includes("rent")) return { class: "badge-rent", text: translations[lang].rent };
-        if (status.includes("شراء") || status.includes("buy")) return { class: "badge-buy", text: translations[lang].buy };
-        if (status.includes("مباع") || status.includes("sold")) return { class: "badge-sold", text: translations[lang].sold };
-
-        return { class: "badge-default", text: statusValue };
-    }
+    setInterval(() => loadProperties(true), CONFIG.AUTO_REFRESH_INTERVAL);
 
     function renderProperties(properties) {
         const container = document.getElementById('propertiesContainer');
         container.innerHTML = '';
 
-        if (properties.length === 0) {
-            container.innerHTML = `<div class="loading-indicator">${translations[currentLang].loading}</div>`;
-            return;
-        }
-
         properties.forEach(item => {
-            const id = item.ID || item.id || 1;
-            const title = item.العقار || "";
-            const price = item.السعر || "";
-            const desc = item.الوصف || "";
-            const rooms = item.عدد_الغرف || "0";
-            const baths = item.عدد_الحمامات || "0";
-            const area = item.المساحة || "0";
-            const imgUrl = optimizeDriveImageUrl(item.الصورة);
-            const sheetStatus = item.الحالة || item.النوع || item.status || "";
-            const badge = getBadgeDetails(sheetStatus, currentLang);
+            // حماية برمجية: تخطي العنصر إذا كانت الخانات الأساسية فارغة
+            if (!item.العقار && !item.السعر) return;
+
+            const badgeStatus = item.الحالة || "عقار";
             const initialViews = Math.floor(Math.random() * 8) + 3;
 
             const card = document.createElement('div');
             card.className = 'property-card';
-            card.setAttribute('data-id', id);
             card.innerHTML = `
                 <div class="property-image">
-                    <span class="badge ${badge.class}">${badge.text}</span>
-                    <div class="live-counter-eye" id="eye-${id}">
+                    <span class="badge badge-default">${badgeStatus}</span>
+                    <div class="live-counter-eye active">
                         <i class="fa-solid fa-eye"></i> <span>${initialViews} ${translations[currentLang].liveView}</span>
                     </div>
-                    <img src="${imgUrl}" alt="${title}" loading="lazy">
+                    <img src="${item.الصورة || 'https://via.placeholder.com/400'}" alt="${item.العقار}">
                 </div>
                 <div class="property-details">
-                    <div class="price">${price}</div>
-                    <h2 class="title">${title}</h2>
-                    <p class="description">${desc}</p>
+                    <div class="price">${item.السعر || '-'}</div>
+                    <h2 class="title">${item.العقار || 'غير محدد'}</h2>
+                    <p class="description">${item.الوصف || ''}</p>
                     <div class="features-icons">
-                        <div class="icon-item"><i class="fa-solid fa-bed"></i> <span>${rooms} ${translations[currentLang].rooms}</span></div>
-                        <div class="icon-item"><i class="fa-solid fa-bath"></i> <span>${baths} ${translations[currentLang].bathrooms}</span></div>
-                        <div class="icon-item"><i class="fa-solid fa-ruler-combined"></i> <span>${area} ${translations[currentLang].area}</span></div>
+                        <div><i class="fa-solid fa-bed"></i> ${item.عدد_الغرف || 0} ${translations[currentLang].rooms}</div>
+                        <div><i class="fa-solid fa-bath"></i> ${item.عدد_الحمامات || 0} ${translations[currentLang].bathrooms}</div>
+                        <div><i class="fa-solid fa-ruler"></i> ${item.المساحة || 0} ${translations[currentLang].area}</div>
                     </div>
-                    <a href="apartment-details.html?id=${id}" class="view-details-btn">
-                        <i class="fa-solid fa-video"></i> <span>${translations[currentLang].viewBtn}</span>
-                    </a>
+                    <a href="#" class="view-details-btn">${translations[currentLang].viewBtn}</a>
                     <div class="contact-buttons">
-                        <a href="https://wa.me/${CONFIG.CONTACTS.whatsapp}" target="_blank" class="btn-contact btn-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="https://wa.me/${CONFIG.CONTACTS.whatsapp}" class="btn-contact btn-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
                         <a href="tel:${CONFIG.CONTACTS.phone}" class="btn-contact btn-phone"><i class="fa-solid fa-phone"></i></a>
-                        <a href="${CONFIG.CONTACTS.facebook}" target="_blank" class="btn-contact btn-facebook"><i class="fa-brands fa-facebook-f"></i></a>
                     </div>
                 </div>
             `;
             container.appendChild(card);
         });
-
-        initializeEyeAutomation();
     }
 
-    // تشغيل محاكي المشاهدات التفاعلي النابض
-    function initializeEyeAutomation() {
-        const eyeElements = document.querySelectorAll('.live-counter-eye');
-        eyeElements.forEach(eye => {
-            setTimeout(() => { eye.classList.add('active'); }, Math.random() * 3000);
-            setInterval(() => {
-                if (eye.classList.contains('active')) {
-                    eye.classList.remove('active');
-                } else {
-                    const currentCount = Math.floor(Math.random() * 11) + 2;
-                    eye.querySelector('span').textContent = `${currentCount} ${translations[currentLang].liveView}`;
-                    eye.classList.add('active');
-                }
-            }, Math.floor(Math.random() * 8000) + 6000);
-        });
-    }
-
-    // إطلاق تهيئة اللغات والبيانات فور تحميل المستند
     document.addEventListener("DOMContentLoaded", () => {
         setLanguage(currentLang);
         loadProperties();
-    });
-    </script>
-
-    <script>
-    /* --------------------------------------------------------------------------
-       المجموعة (و): البرمجيات الأمنية وحماية الملكية الفكرية للكود
-       -------------------------------------------------------------------------- */
-    document.addEventListener('contextmenu', event => event.preventDefault());
-
-    document.addEventListener('keydown', event => {
-        if (event.key === 'F12' || event.keyCode === 123) {
-            event.preventDefault();
-            return false;
-        }
-        if (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J' || event.key === 'C' || event.keyCode === 73 || event.keyCode === 74 || event.keyCode === 67)) {
-            event.preventDefault();
-            return false;
-        }
-        if (event.ctrlKey && (event.key === 'u' || event.key === 'U' || event.keyCode === 85)) {
-            event.preventDefault();
-            return false;
-        }
     });
     </script>
 </body>
