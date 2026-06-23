@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* تعريف متغيرات الألوان للنظامين المتوافقة مع الرئيسية */
+        /* تعريف متغيرات الألوان للنظامين */
         :root {
             --bg-body: #f4f7f6;
             --text-main: #333;
@@ -18,7 +18,6 @@
             --bg-section: #fff;
             --border-card: #e2f0ea;
             --shadow: rgba(0,0,0,0.05);
-            --bg-features: #f8f9fa;
         }
 
         [data-theme="dark"] {
@@ -30,24 +29,26 @@
             --bg-section: #1e1e1e;
             --border-card: #2c3e50;
             --shadow: rgba(0,0,0,0.3);
-            --bg-features: #2a2a2a;
         }
 
+        /* إضافة تنعيم وتأثير انتقال شامل للعناصر الأساسية */
         * { 
             box-sizing: border-box;
             margin: 0; 
             padding: 0; 
             font-family: 'Cairo', sans-serif; 
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; 
+            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                        color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                        border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
         }
         
         body { 
             background-color: var(--bg-body);
             color: var(--text-main); 
-            padding-bottom: 40px;
         }
 
-        /* شريط التنقل العلوي المحسن */
+        /* شريط التنقل العلوي */
         .nav-bar { 
             background-color: var(--bg-nav);
             padding: 15px 20px; 
@@ -76,11 +77,17 @@
             align-items: center; 
             gap: 8px; 
             font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease; 
         }
         .back-btn:hover { 
             background: #1abc9c;
+            transform: translateX(-3px); 
+        }
+        html[dir="ltr"] .back-btn:hover { 
+            transform: translateX(3px);
         }
 
+        /* أزرار التحكم العلوي */
         .lang-btn, .theme-btn { 
             background: #1abc9c;
             color: #fff; 
@@ -93,37 +100,60 @@
             display: inline-flex; 
             align-items: center;
             gap: 5px; 
+            transition: background 0.3s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             height: 35px;
         }
-        .lang-btn:hover, .theme-btn:hover { background: #16a085; }
+        .lang-btn:hover, .theme-btn:hover { 
+            background: #16a085; 
+            transform: scale(1.05);
+        }
+        .theme-btn:active, .lang-btn:active { 
+            transform: scale(0.95);
+        }
+
+        /* قسم الهيدر المخصص للشعار الهوية المحدث */
+        .header-logo-section {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        .logo-wrapper {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            padding: 5px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 2px solid #1abc9c;
+            overflow: hidden;
+        }
+        .logo-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
 
         .main-container { 
             max-width: 800px;
-            margin: 40px auto; 
+            margin: 10px auto 40px auto; 
             padding: 0 20px; 
         }
 
-        .property-header-box {
-            margin-bottom: 30px;
-        }
-        .property-header-box h1 {
-            color: var(--text-title); 
-            font-size: 1.8rem; 
-            font-weight: 700; 
-            margin-bottom: 5px;
-        }
-        .property-header-box p {
-            color: var(--text-muted); 
-            font-size: 0.95rem;
-        }
-
-        /* الصناديق المتجاوبة مع تأثير النعومة عند التفاعل */
+        /* الصناديق المتجاوبة */
         .section-box { 
             background: var(--bg-section);
             padding: 20px; 
             border-radius: 12px; 
             box-shadow: 0 10px 20px var(--shadow); 
             margin-bottom: 25px; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .section-box:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 15px 30px var(--shadow);
         }
         
         .section-title { 
@@ -135,38 +165,11 @@
             align-items: center; 
             gap: 8px;
         }
-        .section-title i { color: #1abc9c; }
-
-        /* تفاصيل السعر والمواصفات */
-        .price-tag {
-            color: #e74c3c; 
-            font-size: 1.5rem; 
-            font-weight: 700; 
-            margin-bottom: 15px;
-        }
-        .description-text {
-            font-size: 0.95rem;
-            line-height: 1.7;
-            color: var(--text-main);
-            margin-bottom: 20px;
+        .section-title i { 
+            color: #1abc9c;
         }
 
-        /* شبكة الأيقونات والمميزات المتطابقة مع كروتك الرئيسية */
-        .features-icons-grid { 
-            display: flex; 
-            justify-content: space-between; 
-            background: var(--bg-features); 
-            padding: 12px; 
-            border-radius: 8px; 
-            font-size: 0.9rem; 
-            gap: 5px; 
-        }
-        .icon-item { display: flex; align-items: center; white-space: nowrap; }
-        .icon-item i { color: #1abc9c; }
-        html[dir="rtl"] .icon-item i { margin-left: 8px; }
-        html[dir="ltr"] .icon-item i { margin-right: 8px; }
-
-        /* مشغلات الفيديو والخرائط */
+        /* مشغل الفيديو */
         .video-box { 
             width: 100%;
             border-radius: 8px; 
@@ -174,11 +177,11 @@
             background: #000; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-        .video-box iframe, .video-box video { 
+        .video-box video { 
             width: 100%; 
-            height: 350px; 
+            height: auto; 
             display: block; 
-            border: none;
+            max-height: 450px;
         }
 
         /* معرض الصور */
@@ -196,14 +199,20 @@
             height: 100%; 
             object-fit: cover; 
             opacity: 1;
-            transition: opacity 0.2s ease-in-out; 
+            transition: opacity 0.2s ease-in-out, transform 0.5s ease; 
         }
-        .gallery-main img.fade-out { opacity: 0; }
+        .gallery-main:hover img { 
+            transform: scale(1.02);
+        }
+        
+        .gallery-main img.fade-out { 
+            opacity: 0;
+        }
 
         /* شبكة الصور المصغرة */
         .thumbnails-grid { 
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); 
+            grid-template-columns: repeat(4, 1fr); 
             gap: 10px; 
         }
         .thumb { 
@@ -214,10 +223,17 @@
             cursor: pointer; 
             opacity: 0.5; 
             border: 2px solid transparent;
-            transition: opacity 0.3s, border-color 0.3s;
+            transition: opacity 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
         }
-        .thumb:hover { opacity: 0.8; }
-        .thumb.active { opacity: 1; border-color: #1abc9c; }
+        .thumb:hover { 
+            opacity: 0.8; 
+            transform: translateY(-2px);
+        }
+        .thumb.active { 
+            opacity: 1; 
+            border-color: #1abc9c; 
+            transform: scale(1.03) translateY(-2px);
+        }
 
         .map-box { 
             width: 100%; 
@@ -227,15 +243,6 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
         }
 
-        /* رسائل الحالة والتحميل */
-        .status-msg {
-            text-align: center;
-            padding: 50px 20px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--text-title);
-        }
-
         footer { 
             background-color: var(--bg-nav); 
             color: white;
@@ -243,15 +250,19 @@
             padding: 25px 10px; 
             margin-top: 40px; 
         }
-        footer p { font-size: 0.9rem; }
+        footer p { 
+            font-size: 0.9rem;
+        }
 
-        html[dir="ltr"] #backIcon { transform: rotate(180deg); }
+        html[dir="ltr"] #backIcon { 
+            transform: rotate(180deg);
+        }
 
         @media (max-width: 576px) {
             .gallery-main { height: 250px; }
             .thumb { height: 60px; }
-            .video-box iframe, .video-box video, .map-box { height: 250px; }
-            .features-icons-grid { flex-direction: column; gap: 10px; }
+            .map-box { height: 280px; }
+            .logo-wrapper { width: 100px; height: 100px; }
         }
     </style>
 </head>
@@ -275,9 +286,46 @@
     </div>
 </div>
 
-<div class="main-container" id="mainDetailsContainer">
-    <div class="status-msg" id="statusMessage">
-        <i class="fa-solid fa-circle-notch fa-spin"></i> جاري تحميل تفاصيل العقار...
+<div class="header-logo-section">
+    <div class="logo-wrapper">
+        <img src="jpg.jpeg" alt="شركة ود العقارية" onerror="this.src='https://via.placeholder.com/150'">
+    </div>
+</div>
+
+<div class="main-container">
+    
+    <div style="margin-bottom: 30px; text-align: center;">
+        <h1 style="color: var(--text-title); font-size: 1.8rem; font-weight: 700; margin-bottom: 5px;" id="mainTitle">تفاصيل ومعاينة الشقة</h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem;" id="companyName">شركة ود العقارية</p>
+    </div>
+
+    <div class="section-box">
+        <div class="section-title" id="videoTitle"><i class="fa-solid fa-circle-play"></i> <span class="data-text">فيديو المعاينة الحية</span></div>
+        <div class="video-box">
+            <video controls poster="img1.jpg">
+                <source src="video.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="section-box">
+         <div class="section-title" id="galleryTitle"><i class="fa-solid fa-images"></i> <span class="data-text">معرض الصور الفوتوغرافية</span></div>
+        <div class="gallery-main">
+            <img id="mainImage" src="img1.jpg" alt="المعروض الرئيسي" onerror="this.src='https://via.placeholder.com/800x400/eee/999?text=Image+Not+Found'">
+        </div>
+        <div class="thumbnails-grid">
+            <img class="thumb active" src="img1.jpg" onclick="changeImage(this)" loading="lazy" onerror="this.src='https://via.placeholder.com/150'">
+            <img class="thumb" src="img2.jpg" onclick="changeImage(this)" loading="lazy" onerror="this.src='https://via.placeholder.com/150'">
+            <img class="thumb" src="img3.jpg" onclick="changeImage(this)" loading="lazy" onerror="this.src='https://via.placeholder.com/150'">
+            <img class="thumb" src="img4.jpg" onclick="changeImage(this)" loading="lazy" onerror="this.src='https://via.placeholder.com/150'">
+        </div>
+    </div>
+
+    <div class="section-box">
+        <div class="section-title" id="mapTitle"><i class="fa-solid fa-map-location-dot"></i> <span class="data-text">الموقع على خرائط جوجل</span></div>
+        <div class="map-box">
+            <iframe src="https://maps.google.com/maps?q=Saudi+Arabia&t=&z=13&ie=UTF-8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
     </div>
 </div>
 
@@ -286,89 +334,87 @@
 </footer>
 
 <script>
-// تفعيل أنظمة الحماية المتطابقة مع ملفك لمنع نسخ الأكواد
-document.addEventListener('contextmenu', event => event.preventDefault());
-document.addEventListener('keydown', event => {
-    if (event.key === 'F12' || event.keyCode === 123) { event.preventDefault(); return false; }
-    if (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J' || event.key === 'C')) { event.preventDefault(); return false; }
-    if (event.ctrlKey && (event.key === 'u' || event.key === 'U')) { event.preventDefault(); return false; }
+// ==========================================
+// ميزة الحماية: منع الزر الأيمن والاختصارات
+// ==========================================
+document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+});
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'F12') {
+        e.preventDefault();
+        return false;
+    }
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
+        e.preventDefault();
+        return false;
+    }
+    if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+        e.preventDefault();
+        return false;
+    }
 });
 
-// مصفوفة صور بديلة في حال عدم وجود صور إضافية في الشيت لمنع توقف المعرض
-const fallbackImages = [
-    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80"
-];
+// تغيير الصور المصغرة مع تأثير التلاشي السلس الـ (Fade Effect)
+function changeImage(element) {
+    const mainImg = document.getElementById('mainImage');
+    if (mainImg.src !== element.src) {
+        mainImg.classList.add('fade-out');
+        setTimeout(() => {
+            mainImg.src = element.src;
+            mainImg.classList.remove('fade-out');
+        }, 200);
+    }
 
-// قاموس الترجمة الموحد
+    let thumbs = document.getElementsByClassName('thumb');
+    for(let i=0; i<thumbs.length; i++) {
+        thumbs[i].classList.remove('active');
+    }
+    element.classList.add('active');
+}
+
+// قاموس النصوص الكامل للغتين
 const translations = {
     ar: {
         pageTitle: "تفاصيل العقار - شركة ود العقارية",
         backBtn: "العودة للرئيسية",
+        mainTitle: "تفاصيل ومعاينة الشقة",
         companyName: "شركة ود العقارية",
         videoTitle: "فيديو المعاينة الحية",
         galleryTitle: "معرض الصور الفوتوغرافية",
         mapTitle: "الموقع على خرائط جوجل",
-        rooms: "غرف", bathrooms: "حمامات", area: "م²",
         footerText: "جميع الحقوق محفوظة © شركة ود العقارية 2026",
-        loading: "جاري تحميل تفاصيل العقار...",
-        error: "عذراً، لم يتم العثور على العقار المطلوب."
+        langBtn: "EN"
     },
     en: {
         pageTitle: "Property Details - Wed Real Estate",
         backBtn: "Back to Home",
+        mainTitle: "Apartment Details & Preview",
         companyName: "Wed Real Estate",
         videoTitle: "Live Preview Video",
         galleryTitle: "Photo Gallery",
         mapTitle: "Google Maps Location",
-        rooms: "Beds", bathrooms: "Baths", area: "m²",
         footerText: "All Rights Reserved © Wed Real Estate 2026",
-        loading: "Loading property details...",
-        error: "Sorry, the requested property was not found."
+        langBtn: "AR"
     }
 };
 
-let currentLang = localStorage.getItem('selectedLang') || 'ar';
-let propertyData = null;
-
-// ضبط تفعيل اللغة المبدئية
-function setLanguage(lang) {
-    currentLang = lang;
-    localStorage.setItem('selectedLang', lang);
-    
-    const html = document.getElementById('htmlPage');
-    html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-    html.setAttribute('lang', lang);
-
-    document.title = translations[lang].pageTitle;
-    document.getElementById('footerText').textContent = translations[lang].footerText;
-    document.getElementById('langText').textContent = lang === 'ar' ? 'EN' : 'AR';
-    document.querySelector('#backBtn .data-text').textContent = translations[lang].backBtn;
-    
-    const backIcon = document.getElementById('backIcon');
-    backIcon.className = lang === 'ar' ? 'fa-solid fa-arrow-right' : 'fa-solid fa-arrow-left';
-
-    if (propertyData) {
-        renderPropertyDetails(propertyData);
-    }
-}
-
-function toggleLanguage() {
-    setLanguage(currentLang === 'ar' ? 'en' : 'ar');
-}
-
-// التحكم بالوضع الليلي الذكي
+// إعدادات المظهر والوضع الليلي/النهاري الذكي
 const htmlElement = document.documentElement;
-const savedTheme = localStorage.getItem('theme') || 'light';
-setTheme(savedTheme);
+const savedTheme = localStorage.getItem('theme');
+const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+if (savedTheme) {
+    setTheme(savedTheme);
+} else {
+    setTheme(systemPrefersDark ? 'dark' : 'light');
+}
 
 function setTheme(theme) {
     htmlElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
     const themeBtn = document.getElementById('themeBtn');
-    if (themeBtn) {
-        themeBtn.innerHTML = theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
-    }
+    themeBtn.innerHTML = theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
 }
 
 function toggleTheme() {
@@ -376,163 +422,39 @@ function toggleTheme() {
     setTheme(currentTheme === 'dark' ? 'light' : 'dark');
 }
 
-// معالجة صور روابط الـ Google Drive المشابهة للرئيسية تماماً
-function optimizeDriveImageUrl(url) {
-    if (!url) return fallbackImages[0];
-    if (url.includes('drive.google.com')) {
-        let id = '';
-        if (url.includes('id=')) {
-            id = url.split('id=')[1].split('&')[0];
-        } else if (url.includes('/d/')) {
-            id = url.split('/d/')[1].split('/')[0];
-        }
-        if (id) return `https://thumbnailproduct.tech/api/drive?id=${id}`; 
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) {
+        setTheme(e.matches ? 'dark' : 'light');
     }
-    return url;
-}
+});
 
-// جلب تفاصيل العقار الفردي بناءً على المعرف ID المرسل بالرابط
-async function loadSingleProperty() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
-
-    if (!id) {
-        showErrorMsg();
-        return;
-    }
-
-    // محاولة جلبها سريعاً من التخزين المؤقت المشترك مع الصفحة الرئيسية
-    const localData = localStorage.getItem('properties_cache');
-    if (localData) {
-        const properties = JSON.parse(localData);
-        const match = properties.find(item => (item.ID || item.id || "").toString() === id.toString());
-        if (match) {
-            propertyData = match;
-            renderPropertyDetails(match);
-            return;
-        }
-    }
-
-    // اتصال بديل ومباشر بـ API في حال تحديث الصفحة الفردية مباشرة
-    try {
-        const API_URL = "https://script.google.com/macros/s/AKfycbzPjN2Dyd5CxQtXNoRTbZ4xMUB6toG_W6iaiKmPQGZm5e5d7SEHLD7B9bTqbM-MPsIm/exec";
-        const response = await fetch(API_URL);
-        const data = await response.json();
-        const match = data.find(item => (item.ID || item.id || "").toString() === id.toString());
-        if (match) {
-            propertyData = match;
-            renderPropertyDetails(match);
-        } else {
-            showErrorMsg();
-        }
-    } catch (err) {
-        console.error(err);
-        showErrorMsg();
-    }
-}
-
-function showErrorMsg() {
-    document.getElementById('mainDetailsContainer').innerHTML = `
-        <div class="status-msg" style="color:#e74c3c;">
-            <i class="fa-solid fa-triangle-exclamation"></i> ${translations[currentLang].error}
-        </div>`;
-}
-
-// دالة تبديل صور المعرض
-function changeImage(element) {
-    const mainImg = document.getElementById('mainImage');
-    if (mainImg && mainImg.src !== element.src) {
-        mainImg.classList.add('fade-out');
-        setTimeout(() => {
-            mainImg.src = element.src;
-            mainImg.classList.remove('fade-out');
-        }, 200);
-    }
-    let thumbs = document.getElementsByClassName('thumb');
-    for(let i=0; i<thumbs.length; i++) { thumbs[i].classList.remove('active'); }
-    element.classList.add('active');
-}
-
-// دالة عرض وتوزيع البيانات ديناميكياً
-function renderPropertyDetails(item) {
-    const container = document.getElementById('mainDetailsContainer');
-    
-    // سحب البيانات وفقاً للمسميات الدقيقة لصفحتك الرئيسية
-    const title = item.العقار || "";
-    const price = item.السعر || "";
-    const desc = item.الوصف || "";
-    const rooms = item.عدد_الغرف || "0";
-    const baths = item.عدد_الحمامات || "0";
-    const area = item.المساحة || "0";
-    
-    // جلب الميديا من الأعمدة (تلقائياً يبحث عن الروابط)
-    const mainImg = optimizeDriveImageUrl(item.الصورة);
-    const videoUrl = item.الفيديو || item.video || "";
-    const mapUrl = item.الموقع || item.الخريطة || "https://maps.google.com/maps?q=cairo&t=&z=13&ie=UTF-8&iwloc=&output=embed";
-
-    // تجميع الصور الإضافية إن وُجدت مقسمة بفاصلة
-    let imagesList = [mainImg];
-    if (item.الصور_الإضافية || item.gallery) {
-        const rawGallery = item.الصور_الإضافية || item.gallery;
-        const parts = rawGallery.split(',').map(u => optimizeDriveImageUrl(u.trim())).filter(u => u !== "");
-        if (parts.length > 0) imagesList = [mainImg, ...parts];
-    } else {
-        imagesList = [mainImg, ...fallbackImages];
-    }
-
-    let thumbsHTML = "";
-    imagesList.forEach((src, index) => {
-        thumbsHTML += `<img class="thumb ${index === 0 ? 'active' : ''}" src="${src}" onclick="changeImage(this)" loading="lazy">`;
-    });
-
-    container.innerHTML = `
-        <div class="property-header-box">
-            <h1>${title}</h1>
-            <p>${translations[currentLang].companyName}</p>
-        </div>
-
-        <div class="section-box">
-            <div class="price-tag">${price}</div>
-            <p class="description-text">${desc}</p>
-            
-            <div class="features-icons-grid">
-                <div class="icon-item"><i class="fa-solid fa-bed"></i> <span>${rooms} ${translations[currentLang].rooms}</span></div>
-                <div class="icon-item"><i class="fa-solid fa-bath"></i> <span>${baths} ${translations[currentLang].bathrooms}</span></div>
-                <div class="icon-item"><i class="fa-solid fa-ruler-combined"></i> <span>${area} ${translations[currentLang].area}</span></div>
-            </div>
-        </div>
-
-        ${videoUrl ? `
-        <div class="section-box">
-            <div class="section-title"><i class="fa-solid fa-circle-play"></i> <span>${translations[currentLang].videoTitle}</span></div>
-            <div class="video-box">
-                <iframe src="${videoUrl.includes('embed') ? videoUrl : videoUrl.replace('watch?v=', 'embed/')}" allowfullscreen></iframe>
-            </div>
-        </div>` : ''}
-
-        <div class="section-box">
-            <div class="section-title"><i class="fa-solid fa-images"></i> <span>${translations[currentLang].galleryTitle}</span></div>
-            <div class="gallery-main">
-                <img id="mainImage" src="${imagesList[0]}" alt="${title}">
-            </div>
-            <div class="thumbnails-grid">
-                ${thumbsHTML}
-            </div>
-        </div>
-
-        <div class="section-box">
-            <div class="section-title"><i class="fa-solid fa-map-location-dot"></i> <span>${translations[currentLang].mapTitle}</span></div>
-            <div class="map-box">
-                <iframe src="${mapUrl}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
-        </div>
-    `;
-}
+// إعدادات الترجمة واللغة
+let currentLang = localStorage.getItem('selectedLang') || 'ar';
 
 document.addEventListener("DOMContentLoaded", () => {
-    setLanguage(currentLang);
-    loadSingleProperty();
+    setLanguage(currentLang); 
 });
+
+function toggleLanguage() {
+    currentLang = currentLang === 'ar' ? 'en' : 'ar';
+    localStorage.setItem('selectedLang', currentLang);
+    setLanguage(currentLang);
+}
+
+function setLanguage(lang) {
+    const html = document.getElementById('htmlPage');
+    html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    html.setAttribute('lang', lang);
+    document.title = translations[lang].pageTitle;
+    document.querySelector('#backBtn .data-text').textContent = translations[lang].backBtn;
+    document.getElementById('mainTitle').textContent = translations[lang].mainTitle;
+    document.getElementById('companyName').textContent = translations[lang].companyName;
+    document.querySelector('#videoTitle .data-text').textContent = translations[lang].videoTitle;
+    document.querySelector('#galleryTitle .data-text').textContent = translations[lang].galleryTitle;
+    document.querySelector('#mapTitle .data-text').textContent = translations[lang].mapTitle;
+    document.getElementById('footerText').textContent = translations[lang].footerText;
+    document.getElementById('langText').textContent = translations[lang].langBtn;
+}
 </script>
 </body>
 </html>
