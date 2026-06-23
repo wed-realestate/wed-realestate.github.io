@@ -3,38 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    async function loadProperties() {
-    try {
-        const response = await fetch(window.GOOGLE_SHEETS_API_URL);
-        const data = await response.json();
-        
-        let properties = [];
-        if (Array.isArray(data)) {
-            properties = data;
-        } else if (data && data.status === "success" && data.data) {
-            properties = data.data;
-        }
-
-        if (properties.length > 0) {
-            // 🔍 هذا السطر سيطبع لك أسماء الأعمدة كما يراها المتصفح تماماً
-            console.log("👉 أسماء الأعمدة القادمة من قوقل شيت هي:", Object.keys(properties[0]));
-            
-            window.cachedProperties = properties;
-            renderProperties(window.cachedProperties);
-        } else {
-            throw new Error("Data format error or empty rows");
-        }
-    } catch (error) {
-        console.error("Error fetching sheets data:", error);
-        document.getElementById('propertiesContainer').innerHTML = `
-            <div class="error-message">
-                فشل في جلب البيانات من Google Sheets.<br>
-                تأكد من فتح منصة الفحص (F12) لرؤية الأسماء الصحيحة للأعمدة.
-            </div>`;
-    }
-}
-    
+  
     <script>
         // 🛑 رابط الـ API الخاص بـ Google Sheets 
         window.GOOGLE_SHEETS_API_URL = "https://script.google.com/macros/s/AKfycbwuLelt-EngMLn1P4FP6fdjbVR5RBSxoM30kiNxI0xshvWMsqEyUkNbnsH0YcwIjRgd/exec";
@@ -142,25 +111,36 @@
         // ======================================================== 
         window.cachedProperties = [];
 
-        async function loadProperties() {
-            try {
-                const response = await fetch(window.GOOGLE_SHEETS_API_URL);
-                const data = await response.json();
-                
-                if (Array.isArray(data)) {
-                    window.cachedProperties = data;
-                    renderProperties(window.cachedProperties);
-                } else if (data && data.status === "success" && data.data) {
-                    window.cachedProperties = data.data;
-                    renderProperties(window.cachedProperties);
-                } else {
-                    throw new Error("Data format error");
-                }
-            } catch (error) {
-                console.error("Error fetching sheets data:", error);
-                document.getElementById('propertiesContainer').innerHTML = `<div class="error-message">فشل في جلب البيانات من Google Sheets. تأكد من تطابق الأعمدة.</div>`;
-            }
+       async function loadProperties() {
+    try {
+        const response = await fetch(window.GOOGLE_SHEETS_API_URL);
+        const data = await response.json();
+        
+        let properties = [];
+        if (Array.isArray(data)) {
+            properties = data;
+        } else if (data && data.status === "success" && data.data) {
+            properties = data.data;
         }
+
+        if (properties.length > 0) {
+            // 🔍 هذا السطر سيطبع لك أسماء الأعمدة كما يراها المتصفح تماماً
+            console.log("👉 أسماء الأعمدة القادمة من قوقل شيت هي:", Object.keys(properties[0]));
+            
+            window.cachedProperties = properties;
+            renderProperties(window.cachedProperties);
+        } else {
+            throw new Error("Data format error or empty rows");
+        }
+    } catch (error) {
+        console.error("Error fetching sheets data:", error);
+        document.getElementById('propertiesContainer').innerHTML = `
+            <div class="error-message">
+                فشل في جلب البيانات من Google Sheets.<br>
+                تأكد من فتح منصة الفحص (F12) لرؤية الأسماء الصحيحة للأعمدة.
+            </div>`;
+    }
+}
 
         // ======================================================== 
         // 5. نظام الترجمة وتغيير اللغات 
