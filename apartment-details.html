@@ -120,27 +120,36 @@
         const propertyId = parseInt(urlParams.get('id')) || 1;
 
         // --- جلب البيانات وبناء عناصر الصفحة ---
-        async function loadPropertyDetails() {
-            try {
-                const response = await fetch(window.GOOGLE_SHEETS_API_URL);
-                const data = await response.json();
-                
-                let rows = [];
-                if (data && data.status === "success" && data.data) {
-                    rows = data.data;
-                } else if (Array.isArray(data)) {
-                    rows = data;
-                }
+      async function loadProperties() {
+    try {
+        const response = await fetch(window.GOOGLE_SHEETS_API_URL);
+        const data = await response.json();
+        
+        let properties = [];
+        if (Array.isArray(data)) {
+            properties = data;
+        } else if (data && data.status === "success" && data.data) {
+            properties = data.data;
+        }
 
-                const item = rows.find((r, index) => {
-                    const id = r.ID || r.id || (index + 1);
-                    return parseInt(id) === propertyId;
-                }) || rows[propertyId - 1];
-
-                if (item) {
-                    const currentPropertyTitle = item.العقار || item.title || "تفاصيل العقار";
-                    document.getElementById('mainTitle').textContent = currentPropertyTitle;
-
+        if (properties.length > 0) {
+            // 🔍 هذا السطر سيطبع لك أسماء الأعمدة كما يراها المتصفح تماماً
+            console.log("👉 أسماء الأعمدة القادمة من قوقل شيت هي:", Object.keys(properties[0]));
+            
+            window.cachedProperties = properties;
+            renderProperties(window.cachedProperties);
+        } else {
+            throw new Error("Data format error or empty rows");
+        }
+    } catch (error) {
+        console.error("Error fetching sheets data:", error);
+        document.getElementById('propertiesContainer').innerHTML = `
+            <div class="error-message">
+                فشل في جلب البيانات من Google Sheets.<br>
+                تأكد من فتح منصة الفحص (F12) لرؤية الأسماء الصحيحة للأعمدة.
+            </div>`;
+    }
+}
                     // معالجة الصور
                     const imgFields = ['الصورة', 'صورة2', 'صورة3', 'صورة4', 'image', 'image2', 'image3', 'image4'];
                     let validImages = [];
