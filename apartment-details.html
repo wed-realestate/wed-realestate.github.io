@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* تعريف متغيرات الألوان للنظامين */
+        /* تعريف متغيرات الألوان للنظامين المتوافقة مع الرئيسية */
         :root {
             --bg-body: #f4f7f6;
             --text-main: #333;
@@ -18,6 +18,7 @@
             --bg-section: #fff;
             --border-card: #e2f0ea;
             --shadow: rgba(0,0,0,0.05);
+            --bg-features: #f8f9fa;
         }
 
         [data-theme="dark"] {
@@ -29,18 +30,15 @@
             --bg-section: #1e1e1e;
             --border-card: #2c3e50;
             --shadow: rgba(0,0,0,0.3);
+            --bg-features: #2a2a2a;
         }
 
-        /* إضافة تنعيم وتأثير انتقال شامل للعناصر الأساسية */
         * { 
             box-sizing: border-box;
             margin: 0; 
             padding: 0; 
             font-family: 'Cairo', sans-serif; 
-            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                        color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                        border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; 
         }
         
         body { 
@@ -49,63 +47,45 @@
             padding-bottom: 40px;
         }
 
-        /* الهيدر المتناسق تماماً مع الصفحة الرئيسية */
-        header { 
+        /* شريط التنقل العلوي المحسن */
+        .nav-bar { 
             background-color: var(--bg-nav);
-            color: #fff; 
-            text-align: center; 
-            padding: 40px 20px; 
-            position: relative;
+            padding: 15px 20px; 
+        }
+        .nav-container { 
+            max-width: 800px; 
+            margin: 0 auto; 
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
+            justify-content: space-between; 
+            align-items: center; 
         }
-
-        .header-content {
-            text-align: center;
-        }
-
-        header h1 { font-size: 2rem; line-height: 1.4; }
-        header p { color: #1abc9c; margin-top: 5px; font-size: 1rem; }
-
-        /* تنسيق الشعار الدائري الأنيق */
-        .logo-wrapper {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 3px solid #1abc9c;
-            overflow: hidden;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        .brand-logo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* حاوية أزرار التحكم والعودة في الهيدر */
-        .controls-wrapper { 
-            position: absolute;
-            top: 20px; 
-            left: 20px; 
+        .nav-controls { 
             display: flex; 
             gap: 10px; 
             align-items: center;
         }
-        html[dir="ltr"] .controls-wrapper { left: auto; right: 20px; }
 
-        .back-btn, .lang-btn, .theme-btn { 
+        .back-btn { 
+            background: rgba(255, 255, 255, 0.1); 
+            color: #fff; 
+            text-decoration: none;
+            padding: 8px 16px; 
+            border-radius: 20px; 
+            font-size: 0.85rem; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            font-weight: 600;
+        }
+        .back-btn:hover { 
+            background: #1abc9c;
+        }
+
+        .lang-btn, .theme-btn { 
             background: #1abc9c;
             color: #fff; 
             border: none; 
-            padding: 6px 14px; 
+            padding: 8px 16px; 
             border-radius: 20px; 
             font-size: 0.85rem; 
             font-weight: 700; 
@@ -114,16 +94,8 @@
             align-items: center;
             gap: 5px; 
             height: 35px;
-            text-decoration: none;
-            transition: background 0.3s ease, transform 0.2s ease;
         }
-        .back-btn:hover, .lang-btn:hover, .theme-btn:hover { 
-            background: #16a085; 
-            transform: scale(1.05);
-        }
-        
-        .back-btn i { font-size: 0.9rem; }
-        html[dir="ltr"] #backIcon { transform: rotate(180deg); }
+        .lang-btn:hover, .theme-btn:hover { background: #16a085; }
 
         .main-container { 
             max-width: 800px;
@@ -131,101 +103,85 @@
             padding: 0 20px; 
         }
 
+        .property-header-box {
+            margin-bottom: 30px;
+        }
+        .property-header-box h1 {
+            color: var(--text-title); 
+            font-size: 1.8rem; 
+            font-weight: 700; 
+            margin-bottom: 5px;
+        }
+        .property-header-box p {
+            color: var(--text-muted); 
+            font-size: 0.95rem;
+        }
+
         /* الصناديق المتجاوبة مع تأثير النعومة عند التفاعل */
         .section-box { 
             background: var(--bg-section);
-            padding: 25px; 
+            padding: 20px; 
             border-radius: 12px; 
             box-shadow: 0 10px 20px var(--shadow); 
             margin-bottom: 25px; 
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .section-box:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 15px 30px var(--shadow);
         }
         
         .section-title { 
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             color: var(--text-title); 
             margin-bottom: 15px; 
             font-weight: 600; 
             display: flex; 
             align-items: center; 
             gap: 8px;
-            border-bottom: 2px solid var(--border-card);
-            padding-bottom: 8px;
         }
         .section-title i { color: #1abc9c; }
 
-        /* تفاصيل النص الأساسية والمواصفات */
-        .main-info {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .main-info h2 {
-            font-size: 1.6rem;
-            color: var(--text-title);
-            margin-bottom: 10px;
-        }
-        .main-info .price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #e74c3c;
+        /* تفاصيل السعر والمواصفات */
+        .price-tag {
+            color: #e74c3c; 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            margin-bottom: 15px;
         }
         .description-text {
             font-size: 0.95rem;
             line-height: 1.7;
             color: var(--text-main);
-            text-align: justify;
-            margin-top: 10px;
+            margin-bottom: 20px;
         }
 
-        /* شبكة الأيقونات والمميزات */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            text-align: center;
-            margin-top: 15px;
-        }
-        .feature-item {
-            background: var(--bg-body);
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid var(--border-card);
-        }
-        .feature-item i {
-            font-size: 1.5rem;
-            color: #1abc9c;
-            margin-bottom: 8px;
-        }
-        .feature-item span {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        /* مشغلات الفيديو والخرائط المخصصة والمستقرة */
-        .video-box { 
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
+        /* شبكة الأيقونات والمميزات المتطابقة مع كروتك الرئيسية */
+        .features-icons-grid { 
+            display: flex; 
+            justify-content: space-between; 
+            background: var(--bg-features); 
+            padding: 12px; 
             border-radius: 8px; 
+            font-size: 0.9rem; 
+            gap: 5px; 
+        }
+        .icon-item { display: flex; align-items: center; white-space: nowrap; }
+        .icon-item i { color: #1abc9c; }
+        html[dir="rtl"] .icon-item i { margin-left: 8px; }
+        html[dir="ltr"] .icon-item i { margin-right: 8px; }
+
+        /* مشغلات الفيديو والخرائط */
+        .video-box { 
+            width: 100%;
+            border-radius: 8px; 
+            overflow: hidden; 
             background: #000; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         .video-box iframe, .video-box video { 
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%; 
-            height: 100%; 
+            height: 350px; 
+            display: block; 
             border: none;
         }
 
-        /* معرض الصور مع تأثير التلاشي والانتقال الحر */
+        /* معرض الصور */
         .gallery-main { 
             width: 100%;
             height: 400px; 
@@ -240,12 +196,11 @@
             height: 100%; 
             object-fit: cover; 
             opacity: 1;
-            transition: opacity 0.2s ease-in-out, transform 0.5s ease; 
+            transition: opacity 0.2s ease-in-out; 
         }
-        .gallery-main:hover img { transform: scale(1.02); }
         .gallery-main img.fade-out { opacity: 0; }
 
-        /* شبكة الصور المصغرة وتأثيراتها */
+        /* شبكة الصور المصغرة */
         .thumbnails-grid { 
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); 
@@ -257,40 +212,25 @@
             border-radius: 6px; 
             object-fit: cover; 
             cursor: pointer; 
-            opacity: 0.6; 
+            opacity: 0.5; 
             border: 2px solid transparent;
-            transition: opacity 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+            transition: opacity 0.3s, border-color 0.3s;
         }
-        .thumb:hover { opacity: 0.9; transform: translateY(-2px); }
-        .thumb.active { opacity: 1; border-color: #1abc9c; transform: scale(1.03) translateY(-2px); }
+        .thumb:hover { opacity: 0.8; }
+        .thumb.active { opacity: 1; border-color: #1abc9c; }
 
-        /* أزرار التواصل السريع في الأسفل */
-        .contact-section-buttons {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 20px;
+        .map-box { 
+            width: 100%; 
+            height: 350px; 
+            border-radius: 8px; 
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
         }
-        .btn-action {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            padding: 14px;
-            border-radius: 8px;
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .btn-whatsapp { background-color: #25D366; }
-        .btn-phone { background-color: #3498db; }
 
-        /* رسائل الخطأ والتحميل السلس */
+        /* رسائل الحالة والتحميل */
         .status-msg {
             text-align: center;
-            padding: 60px 20px;
+            padding: 50px 20px;
             font-size: 1.2rem;
             font-weight: bold;
             color: var(--text-title);
@@ -305,44 +245,39 @@
         }
         footer p { font-size: 0.9rem; }
 
-        @media (max-width: 600px) {
-            header { padding: 30px 15px; gap: 10px; }
-            .controls-wrapper { position: static; margin-bottom: 10px; justify-content: center; }
+        html[dir="ltr"] #backIcon { transform: rotate(180deg); }
+
+        @media (max-width: 576px) {
             .gallery-main { height: 250px; }
             .thumb { height: 60px; }
-            .features-grid { grid-template-columns: 1fr; }
-            .contact-section-buttons { grid-template-columns: 1fr; }
+            .video-box iframe, .video-box video, .map-box { height: 250px; }
+            .features-icons-grid { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="controls-wrapper">
+<div class="nav-bar">
+    <div class="nav-container">
         <a href="index.html" class="back-btn" id="backBtn">
             <i class="fa-solid fa-arrow-right" id="backIcon"></i> 
             <span class="data-text">العودة للرئيسية</span>
         </a>
-        <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">
-            <i class="fa-solid fa-moon"></i>
-        </button>
-        <button class="lang-btn" onclick="toggleLanguage()">
-            <i class="fa-solid fa-globe"></i> 
-            <span id="langText">EN</span>
-        </button>
+        <div class="nav-controls">
+            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="lang-btn" onclick="toggleLanguage()">
+                <i class="fa-solid fa-globe"></i> 
+                <span id="langText">EN</span>
+            </button>
+        </div>
     </div>
-    <div class="logo-wrapper">
-        <img src="jpg.jpeg" alt="شركة ود العقارية" class="brand-logo">
-    </div>
-    <div class="header-content">
-        <h1 id="companyName">شركة ود العقارية</h1>
-        <p id="headerSub">تفاصيل العقار الحالية والمعلومات الشاملة</p>
-    </div>
-</header>
+</div>
 
-<div class="main-container" id="mainContentArea">
+<div class="main-container" id="mainDetailsContainer">
     <div class="status-msg" id="statusMessage">
-        <i class="fa-solid fa-circle-notch fa-spin"></i> جاري جلب تفاصيل العقار...
+        <i class="fa-solid fa-circle-notch fa-spin"></i> جاري تحميل تفاصيل العقار...
     </div>
 </div>
 
@@ -351,95 +286,78 @@
 </footer>
 
 <script>
-// منع الزر الأيمن والاختصارات لحماية المحتوى المنسوخ من ملفك الأصلي
-document.addEventListener('contextmenu', (e) => { e.preventDefault(); });
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'F12') { e.preventDefault(); return false; }
-    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) { e.preventDefault(); return false; }
-    if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) { e.preventDefault(); return false; }
+// تفعيل أنظمة الحماية المتطابقة مع ملفك لمنع نسخ الأكواد
+document.addEventListener('contextmenu', event => event.preventDefault());
+document.addEventListener('keydown', event => {
+    if (event.key === 'F12' || event.keyCode === 123) { event.preventDefault(); return false; }
+    if (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J' || event.key === 'C')) { event.preventDefault(); return false; }
+    if (event.ctrlKey && (event.key === 'u' || event.key === 'U')) { event.preventDefault(); return false; }
 });
 
-// مصفوفة الصور الافتراضية العشوائية إذا كانت الخانات فارغة في الشيت
+// مصفوفة صور بديلة في حال عدم وجود صور إضافية في الشيت لمنع توقف المعرض
 const fallbackImages = [
-    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80"
+    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80"
 ];
-const fallbackVideo = "https://www.youtube.com/embed/dQw4w9WgXcQ";
-const fallbackMap = "https://maps.google.com/maps?q=Cairo&t=&z=13&ie=UTF8&iwloc=&output=embed";
 
-// قاموس الترجمة الكامل لتبديل اللغات فورياً
+// قاموس الترجمة الموحد
 const translations = {
     ar: {
         pageTitle: "تفاصيل العقار - شركة ود العقارية",
         backBtn: "العودة للرئيسية",
         companyName: "شركة ود العقارية",
-        headerSub: "تفاصيل العقار الحالية والمعلومات الشاملة",
         videoTitle: "فيديو المعاينة الحية",
         galleryTitle: "معرض الصور الفوتوغرافية",
         mapTitle: "الموقع على خرائط جوجل",
-        descTitle: "الوصف والبيانات الأساسية",
-        rooms: "غرف", bathrooms: "حمام", area: "مساحة",
+        rooms: "غرف", bathrooms: "حمامات", area: "م²",
         footerText: "جميع الحقوق محفوظة © شركة ود العقارية 2026",
-        loading: "جاري جلب تفاصيل العقار...",
-        error: "عذراً، لم يتم العثور على العقار المطلوب أو هناك خلل في الاتصال."
+        loading: "جاري تحميل تفاصيل العقار...",
+        error: "عذراً، لم يتم العثور على العقار المطلوب."
     },
     en: {
         pageTitle: "Property Details - Wed Real Estate",
         backBtn: "Back to Home",
         companyName: "Wed Real Estate",
-        headerSub: "Current property details and comprehensive information",
         videoTitle: "Live Preview Video",
         galleryTitle: "Photo Gallery",
         mapTitle: "Google Maps Location",
-        descTitle: "Description & Basic Data",
-        rooms: "Rooms", bathrooms: "Baths", area: "Area",
+        rooms: "Beds", bathrooms: "Baths", area: "m²",
         footerText: "All Rights Reserved © Wed Real Estate 2026",
         loading: "Loading property details...",
-        error: "Sorry, the requested property was not found or connection failed."
+        error: "Sorry, the requested property was not found."
     }
 };
 
 let currentLang = localStorage.getItem('selectedLang') || 'ar';
-let currentPropertyData = null;
+let propertyData = null;
 
-document.addEventListener("DOMContentLoaded", () => {
-    setLanguage(currentLang); 
-    fetchPropertyDetails();
-});
-
-function toggleLanguage() {
-    currentLang = currentLang === 'ar' ? 'en' : 'ar';
-    localStorage.setItem('selectedLang', currentLang);
-    setLanguage(currentLang);
-}
-
+// ضبط تفعيل اللغة المبدئية
 function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('selectedLang', lang);
+    
     const html = document.getElementById('htmlPage');
     html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
     html.setAttribute('lang', lang);
 
     document.title = translations[lang].pageTitle;
-    document.getElementById('companyName').textContent = translations[lang].companyName;
-    document.getElementById('headerSub').textContent = translations[lang].headerSub;
     document.getElementById('footerText').textContent = translations[lang].footerText;
     document.getElementById('langText').textContent = lang === 'ar' ? 'EN' : 'AR';
-    
-    const backBtnText = document.querySelector('#backBtn .data-text');
-    if (backBtnText) backBtnText.textContent = translations[lang].backBtn;
+    document.querySelector('#backBtn .data-text').textContent = translations[lang].backBtn;
     
     const backIcon = document.getElementById('backIcon');
-    if (backIcon) {
-        backIcon.className = lang === 'ar' ? 'fa-solid fa-arrow-right' : 'fa-solid fa-arrow-left';
-    }
+    backIcon.className = lang === 'ar' ? 'fa-solid fa-arrow-right' : 'fa-solid fa-arrow-left';
 
-    if (currentPropertyData) {
-        renderPropertyPage(currentPropertyData);
+    if (propertyData) {
+        renderPropertyDetails(propertyData);
     }
 }
 
-// التحكم بالوضع الليلي المنسوخ من ملفك والآمن
+function toggleLanguage() {
+    setLanguage(currentLang === 'ar' ? 'en' : 'ar');
+}
+
+// التحكم بالوضع الليلي الذكي
 const htmlElement = document.documentElement;
 const savedTheme = localStorage.getItem('theme') || 'light';
 setTheme(savedTheme);
@@ -458,73 +376,69 @@ function toggleTheme() {
     setTheme(currentTheme === 'dark' ? 'light' : 'dark');
 }
 
-// دالة جلب البيانات الأصلية المتوافقة تماماً مع نظام الكاش الخاص بصفحتك الرئيسية
-async function fetchPropertyDetails() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const propertyId = urlParams.get('id');
+// معالجة صور روابط الـ Google Drive المشابهة للرئيسية تماماً
+function optimizeDriveImageUrl(url) {
+    if (!url) return fallbackImages[0];
+    if (url.includes('drive.google.com')) {
+        let id = '';
+        if (url.includes('id=')) {
+            id = url.split('id=')[1].split('&')[0];
+        } else if (url.includes('/d/')) {
+            id = url.split('/d/')[1].split('/')[0];
+        }
+        if (id) return `https://thumbnailproduct.tech/api/drive?id=${id}`; 
+    }
+    return url;
+}
 
-    if (!propertyId) {
-        showErrorMessage();
+// جلب تفاصيل العقار الفردي بناءً على المعرف ID المرسل بالرابط
+async function loadSingleProperty() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+
+    if (!id) {
+        showErrorMsg();
         return;
     }
 
-    // محاولة القراءة من الكاش المحلي أولاً لمنع البطء والتعليق
+    // محاولة جلبها سريعاً من التخزين المؤقت المشترك مع الصفحة الرئيسية
     const localData = localStorage.getItem('properties_cache');
     if (localData) {
-        try {
-            const properties = JSON.parse(localData);
-            const found = properties.find(item => (item.ID || item.id || "").toString() === propertyId.toString());
-            if (found) {
-                currentPropertyData = found;
-                renderPropertyPage(found);
-                return;
-            }
-        } catch(e) { console.error("Cache read error", e); }
+        const properties = JSON.parse(localData);
+        const match = properties.find(item => (item.ID || item.id || "").toString() === id.toString());
+        if (match) {
+            propertyData = match;
+            renderPropertyDetails(match);
+            return;
+        }
     }
 
-    // الاتصال بالـ API الخارجي التابع للجوجل شيت الخاص بك
+    // اتصال بديل ومباشر بـ API في حال تحديث الصفحة الفردية مباشرة
     try {
         const API_URL = "https://script.google.com/macros/s/AKfycbzPjN2Dyd5CxQtXNoRTbZ4xMUB6toG_W6iaiKmPQGZm5e5d7SEHLD7B9bTqbM-MPsIm/exec";
         const response = await fetch(API_URL);
         const data = await response.json();
-        const found = data.find(item => (item.ID || item.id || "").toString() === propertyId.toString());
-        
-        if (found) {
-            currentPropertyData = found;
-            renderPropertyPage(found);
+        const match = data.find(item => (item.ID || item.id || "").toString() === id.toString());
+        if (match) {
+            propertyData = match;
+            renderPropertyDetails(match);
         } else {
-            showErrorMessage();
+            showErrorMsg();
         }
     } catch (err) {
         console.error(err);
-        showErrorMessage();
+        showErrorMsg();
     }
 }
 
-function showErrorMessage() {
-    document.getElementById('mainContentArea').innerHTML = `
+function showErrorMsg() {
+    document.getElementById('mainDetailsContainer').innerHTML = `
         <div class="status-msg" style="color:#e74c3c;">
             <i class="fa-solid fa-triangle-exclamation"></i> ${translations[currentLang].error}
         </div>`;
 }
 
-// دالة تنظيف وتجهيز روابط اليوتيوب المدمجة
-function optimizeVideoUrl(url) {
-    if (!url) return "";
-    if (url.includes('youtube.com/watch')) {
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        const match = url.match(regExp);
-        if (match && match[2].length === 11) {
-            return `https://www.youtube.com/embed/${match[2]}`;
-        }
-    } else if (url.includes('youtu.be/')) {
-        const id = url.split('youtu.be/')[1].split('?')[0];
-        return `https://www.youtube.com/embed/${id}`;
-    }
-    return url;
-}
-
-// دالة تغيير صور المعرض مع تأثير التلاشي السلس المنسوخة من ملفك
+// دالة تبديل صور المعرض
 function changeImage(element) {
     const mainImg = document.getElementById('mainImage');
     if (mainImg && mainImg.src !== element.src) {
@@ -534,121 +448,91 @@ function changeImage(element) {
             mainImg.classList.remove('fade-out');
         }, 200);
     }
-
     let thumbs = document.getElementsByClassName('thumb');
-    for(let i=0; i<thumbs.length; i++) {
-        thumbs[i].classList.remove('active');
-    }
+    for(let i=0; i<thumbs.length; i++) { thumbs[i].classList.remove('active'); }
     element.classList.add('active');
 }
 
-// بناء وتعبئة عناصر الصفحة ديناميكياً بدون أي تداخلات برمجية خاطئة
-function renderPropertyPage(item) {
-    const container = document.getElementById('mainContentArea');
+// دالة عرض وتوزيع البيانات ديناميكياً
+function renderPropertyDetails(item) {
+    const container = document.getElementById('mainDetailsContainer');
     
-    // قراءة الحقول والمسميات الأساسية من الشيت
-    const title = item.العقار || item.title || "عقار مميز";
-    const price = item.السعر || item.price || "اتصل لمعرفة السعر";
-    const desc = item.الوصف || item.description || "لا يوجد وصف إضافي متوفر حالياً لهذا العقار.";
-    const rooms = item.عدد_الغرف || item.rooms || "0";
-    const baths = item.عدد_الحمامات || item.bathrooms || "0";
-    const area = item.المساحة || item.area || "0";
+    // سحب البيانات وفقاً للمسميات الدقيقة لصفحتك الرئيسية
+    const title = item.العقار || "";
+    const price = item.السعر || "";
+    const desc = item.الوصف || "";
+    const rooms = item.عدد_الغرف || "0";
+    const baths = item.عدد_الحمامات || "0";
+    const area = item.المساحة || "0";
     
-    // جلب الروابط والميديا بناءً على المسميات الدقيقة التي حددتها
-    let rawVideo = item.الفيديوهات || item.Video || item.video || "";
-    let rawMap = item.الموقع || item.map || "";
-    let galleryData = item.الصور_الإضافية || item.More_Images || item.gallery || "";
+    // جلب الميديا من الأعمدة (تلقائياً يبحث عن الروابط)
+    const mainImg = optimizeDriveImageUrl(item.الصورة);
+    const videoUrl = item.الفيديو || item.video || "";
+    const mapUrl = item.الموقع || item.الخريطة || "https://maps.google.com/maps?q=cairo&t=&z=13&ie=UTF-8&iwloc=&output=embed";
 
-    // 1. معالجة وإنشاء شبكة معرض الصور الفوتوغرافية
-    let parsedImages = [];
-    if (galleryData && galleryData.trim() !== "") {
-        parsedImages = galleryData.split(',').map(img => img.trim()).filter(img => img !== "");
-    }
-    // إذا كان مصفوفة الصور فارغة، نطبق شرط الصور الافتراضية العشوائية
-    if (parsedImages.length === 0) {
-        parsedImages = [...fallbackImages];
+    // تجميع الصور الإضافية إن وُجدت مقسمة بفاصلة
+    let imagesList = [mainImg];
+    if (item.الصور_الإضافية || item.gallery) {
+        const rawGallery = item.الصور_الإضافية || item.gallery;
+        const parts = rawGallery.split(',').map(u => optimizeDriveImageUrl(u.trim())).filter(u => u !== "");
+        if (parts.length > 0) imagesList = [mainImg, ...parts];
+    } else {
+        imagesList = [mainImg, ...fallbackImages];
     }
 
-    let thumbnailsHTML = "";
-    parsedImages.forEach((imgSrc, idx) => {
-        thumbnailsHTML += `
-            <img class="thumb ${idx === 0 ? 'active' : ''}" src="${imgSrc}" onclick="changeImage(this)" loading="lazy">
-        `;
+    let thumbsHTML = "";
+    imagesList.forEach((src, index) => {
+        thumbsHTML += `<img class="thumb ${index === 0 ? 'active' : ''}" src="${src}" onclick="changeImage(this)" loading="lazy">`;
     });
 
-    // 2. معالجة الفيديو العشوائي أو الحقيقي
-    let finalVideoUrl = optimizeVideoUrl(rawVideo);
-    if (!finalVideoUrl || finalVideoUrl.trim() === "") {
-        finalVideoUrl = fallbackVideo;
-    }
-
-    // 3. معالجة الموقع الجغرافي الحقيقي أو الافتراضي
-    let finalMapUrl = rawMap;
-    if (!finalMapUrl || finalMapUrl.trim() === "") {
-        finalMapUrl = fallbackMap;
-    }
-
-    // صياغة الـ HTML بالكامل بدون خانة الحالة ليتطابق مع طلبك الأول
-    let pageHTML = `
-        <div class="section-box">
-            <div class="main-info">
-                <h2>${title}</h2>
-                <div class="price">${price}</div>
-            </div>
+    container.innerHTML = `
+        <div class="property-header-box">
+            <h1>${title}</h1>
+            <p>${translations[currentLang].companyName}</p>
         </div>
 
         <div class="section-box">
-            <div class="section-title"><i class="fa-solid fa-align-right"></i> ${translations[currentLang].descTitle}</div>
+            <div class="price-tag">${price}</div>
             <p class="description-text">${desc}</p>
             
-            <div class="features-grid">
-                <div class="feature-item">
-                    <i class="fa-solid fa-bed"></i>
-                    <span>${rooms} ${translations[currentLang].rooms}</span>
-                </div>
-                <div class="feature-item">
-                    <i class="fa-solid fa-bath"></i>
-                    <span>${baths} ${translations[currentLang].bathrooms}</span>
-                </div>
-                <div class="feature-item">
-                    <i class="fa-solid fa-ruler-combined"></i>
-                    <span>${area} ${translations[currentLang].area}</span>
-                </div>
+            <div class="features-icons-grid">
+                <div class="icon-item"><i class="fa-solid fa-bed"></i> <span>${rooms} ${translations[currentLang].rooms}</span></div>
+                <div class="icon-item"><i class="fa-solid fa-bath"></i> <span>${baths} ${translations[currentLang].bathrooms}</span></div>
+                <div class="icon-item"><i class="fa-solid fa-ruler-combined"></i> <span>${area} ${translations[currentLang].area}</span></div>
             </div>
         </div>
 
+        ${videoUrl ? `
         <div class="section-box">
-            <div class="section-title"><i class="fa-solid fa-circle-play"></i> <span class="data-text">${translations[currentLang].videoTitle}</span></div>
+            <div class="section-title"><i class="fa-solid fa-circle-play"></i> <span>${translations[currentLang].videoTitle}</span></div>
             <div class="video-box">
-                <iframe src="${finalVideoUrl}" allowfullscreen></iframe>
+                <iframe src="${videoUrl.includes('embed') ? videoUrl : videoUrl.replace('watch?v=', 'embed/')}" allowfullscreen></iframe>
             </div>
-        </div>
+        </div>` : ''}
 
         <div class="section-box">
-            <div class="section-title"><i class="fa-solid fa-images"></i> <span class="data-text">${translations[currentLang].galleryTitle}</span></div>
+            <div class="section-title"><i class="fa-solid fa-images"></i> <span>${translations[currentLang].galleryTitle}</span></div>
             <div class="gallery-main">
-                <img id="mainImage" src="${parsedImages[0]}" alt="المعروض الرئيسي">
+                <img id="mainImage" src="${imagesList[0]}" alt="${title}">
             </div>
             <div class="thumbnails-grid">
-                ${thumbnailsHTML}
+                ${thumbsHTML}
             </div>
         </div>
 
         <div class="section-box">
-            <div class="section-title"><i class="fa-solid fa-map-location-dot"></i> <span class="data-text">${translations[currentLang].mapTitle}</span></div>
-            <div class="video-box">
-                <iframe src="${finalMapUrl}" allowfullscreen loading="lazy"></iframe>
+            <div class="section-title"><i class="fa-solid fa-map-location-dot"></i> <span>${translations[currentLang].mapTitle}</span></div>
+            <div class="map-box">
+                <iframe src="${mapUrl}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
-
-        <div class="contact-section-buttons">
-            <a href="https://wa.me/201234567890" target="_blank" class="btn-action btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-            <a href="tel:+201234567890" class="btn-action btn-phone"><i class="fa-solid fa-phone"></i> Call</a>
-        </div>
     `;
-
-    container.innerHTML = pageHTML;
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    setLanguage(currentLang);
+    loadSingleProperty();
+});
 </script>
 </body>
 </html>
