@@ -85,8 +85,8 @@
         }
 
         .brand-logo {
-            width: 100%;
-            height: 100%;
+            width: 30%;
+            height: 30%;
             object-fit: cover;
         }
 
@@ -283,9 +283,9 @@
     <footer>
         <div class="footer-links">
             <a href="terms.html" class="footer-btn" id="footerLink1"><i class="fa-solid fa-gavel"></i> <span>الشروط والأحكام</span></a>
-            <a href="https://maps.google.com" target="_blank" class="footer-btn" id="footerLink2"><i class="fa-solid fa-map-location-dot"></i> <span>مواقعنا على خرائط جوجل</span></a>
+            <a href="https://maps.google.com" target="_blank" class="footer-btn" id="footerLink2"><i class="fa-solid fa-map-location-dot"></i> <span>موقعنا</span></a>
         </div>
-        <p id="footerCopy">جميع الحقوق محفوظة © شركة ود العقارية 2026</p>
+        <p id="footerCopy">جميع الحقوق محفوظة © شركة ود العقارية 2018</p>
     </footer>
 
     <script>
@@ -297,8 +297,8 @@
             langBtn: "EN",
             viewBtn: "عرض الفيديو والصور التفصيلية",
             footerLink1: "الشروط والأحكام",
-            footerLink2: "مواقعنا على خرائط جوجل",
-            footerCopy: "جميع الحقوق محفوظة © شركة ود العقارية 2026",
+            footerLink2: "موقعنا",
+            footerCopy: "جميع الحقوق محفوظة © شركة ود العقارية 2018",
             loading: "جاري جلب العقارات الحديثة...",
             error: "فشل في تحميل البيانات، يرجى إعادة المحاولة لاحقاً.",
             rooms: "غرف", bathrooms: "حمامات", area: "م²", liveView: "يشاهدونه الآن",
@@ -311,8 +311,8 @@
             langBtn: "AR",
             viewBtn: "View Video & Details",
             footerLink1: "Terms & Conditions",
-            footerLink2: "Our Locations on Google Maps",
-            footerCopy: "All Rights Reserved © Wed Real Estate 2026",
+            footerLink2: "Our Locations",
+            footerCopy: "All Rights Reserved © Wed Real Estate 2018",
             loading: "Loading latest properties...",
             error: "Failed to load data, please try again later.",
             rooms: "Beds", bathrooms: "Baths", area: "m²", liveView: "viewing now",
@@ -404,7 +404,7 @@
     }
 
     function optimizeDriveImageUrl(url) {
-        const fallback = "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=500&q=80";
+        const fallback = "https://drive.google.com/file/d/1dRhfQbIhSZAc-b4iTS_hOrf7G87cT7z7/view?usp=sharing";
         if (!url || !url.toString().trim()) return fallback;
 
         const cleanedUrl = url.toString().trim();
