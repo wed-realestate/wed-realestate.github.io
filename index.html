@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* نظام الألوان للوضعين الفاتح والمظلم */
         :root {
             --bg-body: #f4f7f6;
             --text-main: #333;
@@ -49,7 +48,6 @@
             overflow-x: hidden;
         }
 
-        /* الهيدر وعناصر التحكم المتجاوبة */
         header { 
             background-color: var(--bg-header);
             color: #fff; 
@@ -63,37 +61,29 @@
             gap: 15px;
         }
 
-        .header-content {
-            text-align: center;
-        }
-
+        .header-content { text-align: center; }
         header h1 { font-size: 2rem; line-height: 1.4; }
         header p { color: #1abc9c; margin-top: 5px; font-size: 1rem; }
 
-  /* حاوية الشعار (الدائرة البيضاء الخارجية والإطار) */
-.logo-wrapper {
-    width: 100px;         /* تحديد العرض بـ 100 بكسل لضمان أبعاد مربعة */
-    height: 100px;        /* تحديد الارتفاع بـ 100 بكسل لضمان أبعاد مربعة */
-    border-radius: 50%;   /* تحويل المربع إلى دائرة مثالية بنسبة 50% */
-    border: 3px solid #1abc9c; /* إطار متصل بسمك 3 بكسل باللون التركوازي الخاص بالشركة */
-    overflow: hidden;     /* إخفاء وقص أي أجزاء من الصورة قد تخرج عن حدود الدائرة */
-    background: #fff;     /* خلفية بيضاء نقية خلف الشعار لضمان وضوحه في الوضع المظلم */
-    
-    /* نظام التوسيط المرن (Flexbox) لتتوسط الصورة الدائرة تماماً */
-    display: flex;        
-    align-items: center;  /* توسيط الصورة عمودياً (من الأعلى والأسفل) */
-    justify-content: center; /* توسيط الصورة أفقياً (من اليمين واليسار) */
-    
-    box-shadow: 0 4px 3px rgba(0,0,0,0.2); /* إضافة ظل خفيف أسفل الدائرة لإعطاء تأثير ثلاثي الأبعاد */
-}
+        .logo-wrapper {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #1abc9c;
+            overflow: hidden;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 3px rgba(0,0,0,0.2);
+        }
 
-/* صورة الشعار نفسها (صورة شركة ود العقارية) */
-.brand-logo {
-    width: 85%;           /* حجم عرض الصورة يمثل 85% من مساحة الدائرة البيضاء */
-    height: 85%;          /* حجم ارتفاع الصورة يمثل 85% من مساحة الدائرة البيضاء */
-    object-fit: contain;  /* إظهار الشعار كاملاً دون قصه أو تمطيطه مع الحفاظ على أبعاده الأصلية */
-}
-        /* حاوية أزرار التحكم */
+        .brand-logo {
+            width: 85%;
+            height: 85%;
+            object-fit: contain;
+        }
+
         .controls-wrapper { 
             position: absolute;
             top: 15px; 
@@ -120,7 +110,6 @@
         }
         .lang-btn:hover, .theme-btn:hover { background: #16a085; }
 
-        /* شبكة عرض الكروت */
         .container { 
             max-width: 1200px;
             margin: 0 auto; 
@@ -130,7 +119,6 @@
             gap: 25px;
         }
 
-        /* كرت العقار المطور */
         .property-card { 
             background: var(--bg-card);
             border-radius: 8px; 
@@ -160,7 +148,6 @@
         .property-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
         .property-card:hover .property-image img { transform: scale(1.05); }
 
-        /* شارات الحالة الديناميكية */
         .badge { 
             position: absolute; 
             top: 15px; 
@@ -174,14 +161,12 @@
         }
         html[dir="ltr"] .badge { right: auto; left: 15px; }
         
-        /* الألوان التلقائية لحالات العقار */
-        .badge-sale { background: #e74c3c; }    /* أحمر للبيع */
-        .badge-rent { background: #2ecc71; }    /* أخضر للإيجار */
-        .badge-buy { background: #3498db; }     /* أزرق للشراء */
-        .badge-sold { background: #95a5a6; }    /* رمادي للمباع */
-        .badge-default { background: #1abc9c; } /* لون افتراضي مائل للتركواز */
+        .badge-sale { background: #e74c3c; }
+        .badge-rent { background: #2ecc71; }
+        .badge-buy { background: #3498db; }
+        .badge-sold { background: #95a5a6; }
+        .badge-default { background: #1abc9c; }
 
-        /* العين النابضة للمشاهدات الحية */
         .live-counter-eye {
             position: absolute;
             top: 15px;
@@ -200,21 +185,15 @@
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
         html[dir="ltr"] .live-counter-eye { left: auto; right: 15px; }
-        .live-counter-eye.active {
-            opacity: 1;
-            transform: scale(1);
-        }
-        .live-counter-eye i {
-            color: #e74c3c;
-            animation: pulseEyeItem 1.2s infinite ease-in-out;
-        }
+        .live-counter-eye.active { opacity: 1; transform: scale(1); }
+        .live-counter-eye i { color: #e74c3c; animation: pulseEyeItem 1.2s infinite ease-in-out; }
+        
         @keyframes pulseEyeItem {
             0% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.2); opacity: 0.7; }
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* تفاصيل الكرت */
         .property-details { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
         .price { color: #e74c3c; font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; }
         .title { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: var(--text-title); line-height: 1.4; }
@@ -226,7 +205,6 @@
         html[dir="rtl"] .icon-item i { margin-left: 5px; }
         html[dir="ltr"] .icon-item i { margin-right: 5px; }
 
-        /* أزرار الإجراءات والتواصل */
         .view-details-btn { display: block; text-align: center; background: #2c3e50; color: white; text-decoration: none; padding: 12px; border-radius: 6px; margin-bottom: 12px; font-weight: 600; font-size: 0.9rem; transition: background 0.3s; }
         .view-details-btn:hover { background: #1abc9c; }
 
@@ -237,7 +215,6 @@
         .btn-phone { background-color: #3498db; }
         .btn-facebook { background-color: #1877F2; }
 
-        /* مؤشر التحميل ورسائل الخطأ */
         .loading-indicator { grid-column: 1 / -1; text-align: center; padding: 40px; font-size: 1.2rem; color: var(--text-title); font-weight: bold; }
         .error-message { grid-column: 1 / -1; text-align: center; padding: 40px; color: #e74c3c; font-weight: bold; }
 
@@ -325,6 +302,7 @@
 
     let currentLang = localStorage.getItem('selectedLang') || 'ar';
     const htmlElement = document.documentElement;
+    let cachedProperties = [];
 
     function setLanguage(lang) {
         currentLang = lang;
@@ -350,17 +328,6 @@
     function toggleLanguage() {
         setLanguage(currentLang === 'ar' ? 'en' : 'ar');
     }
-    </script>
-
-    <script>
-    const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (savedTheme) {
-        setTheme(savedTheme);
-    } else {
-        setTheme(systemPrefersDark ? 'dark' : 'light');
-    }
 
     function setTheme(theme) {
         htmlElement.setAttribute('data-theme', theme);
@@ -376,56 +343,35 @@
         setTheme(currentTheme === 'dark' ? 'light' : 'dark');
     }
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (!localStorage.getItem('theme')) {
-            setTheme(e.matches ? 'dark' : 'light');
-        }
-    });
-    </script>
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(savedTheme);
 
-    <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbyKnzlHWNG-yBjR5fg2_D5YkuTNyUgJ7m8H5kRLtQIH8HkMqZwAI7CE6b2shCr98b7o/exec";
-    let cachedProperties = [];
 
     function extractGoogleDriveId(url) {
         if (!url) return "";
         const text = url.toString().trim();
-        const patterns = [
-            /\/file\/d\/([^/]+)/,
-            /\/d\/([^/]+)/,
-            /[?&]id=([^&]+)/,
-            /open\?id=([^&]+)/,
-            /uc\?[^#]*id=([^&]+)/
-        ];
-
+        const patterns = [/\/file\/d\/([^/]+)/, /\/d\/([^/]+)/, /[?&]id=([^&]+)/, /open\?id=([^&]+)/, /uc\?[^#]*id=([^&]+)/];
         for (const pattern of patterns) {
             const match = text.match(pattern);
             if (match && match[1]) return decodeURIComponent(match[1]);
         }
-
         return "";
     }
 
     function optimizeDriveImageUrl(url) {
         const fallback = "https://lh3.googleusercontent.com/d/1_ImOBFQ4npXaZ9l4psIfKyGJo5Naydpk";
         if (!url || !url.toString().trim()) return fallback;
-
         const cleanedUrl = url.toString().trim();
         const driveId = extractGoogleDriveId(cleanedUrl);
-        if (driveId) {
-            return `https://drive.google.com/thumbnail?id=${encodeURIComponent(driveId)}&sz=w1000`;
-        }
-
+        if (driveId) return `https://drive.google.com/thumbnail?id=${encodeURIComponent(driveId)}&sz=w1000`;
         return cleanedUrl;
     }
 
     function getField(item, names) {
         for (const name of names) {
-            if (item[name] !== undefined && item[name] !== null && item[name].toString().trim() !== "") {
-                return item[name];
-            }
+            if (item[name] !== undefined && item[name] !== null && item[name].toString().trim() !== "") return item[name];
         }
-
         const normalizedNames = names.map(name => name.toString().trim().toLowerCase());
         const matchedKey = Object.keys(item).find(key => normalizedNames.includes(key.trim().toLowerCase()));
         return matchedKey ? item[matchedKey] : "";
@@ -434,25 +380,20 @@
     async function loadProperties() {
         const container = document.getElementById('propertiesContainer');
         const localData = localStorage.getItem('properties_cache');
-        const cacheTime = localStorage.getItem('properties_cache_time');
-        const now = new Date().getTime();
-
         try {
             const response = await fetch(API_URL);
             if (!response.ok) throw new Error("Network response error");
             const data = await response.json();
             
-            // هنا تم التعديل الأساسي: دالة doGet ترجع البيانات بداخل مصفوفة data
             if (data && data.status === "success" && data.data) {
                 cachedProperties = data.data; 
                 localStorage.setItem('properties_cache', JSON.stringify(cachedProperties));
-                localStorage.setItem('properties_cache_time', now);
                 renderProperties(cachedProperties);
             } else {
-                throw new Error("Invalid structure or error status from script");
+                throw new Error("Invalid structure");
             }
         } catch (error) {
-            console.error("API Fetch Error:", error);
+            console.error(error);
             if (localData) {
                 cachedProperties = JSON.parse(localData);
                 renderProperties(cachedProperties);
@@ -464,22 +405,11 @@
 
     function getBadgeDetails(statusValue, lang) {
         if (!statusValue) return { class: "badge-default", text: lang === 'ar' ? "عقار" : "Property" };
-        
         const status = statusValue.trim().toLowerCase();
-
-        if (status.includes("بيع") || status.includes("sale")) {
-            return { class: "badge-sale", text: translations[lang].sale };
-        }
-        if (status.includes("إيجار") || status.includes("ايجار") || status.includes("rent")) {
-            return { class: "badge-rent", text: translations[lang].rent };
-        }
-        if (status.includes("شراء") || status.includes("buy")) {
-            return { class: "badge-buy", text: translations[lang].buy };
-        }
-        if (status.includes("مباع") || status.includes("sold")) {
-            return { class: "badge-sold", text: translations[lang].sold };
-        }
-
+        if (status.includes("بيع") || status.includes("sale")) return { class: "badge-sale", text: translations[lang].sale };
+        if (status.includes("إيجار") || status.includes("ايجار") || status.includes("rent")) return { class: "badge-rent", text: translations[lang].rent };
+        if (status.includes("شراء") || status.includes("buy")) return { class: "badge-buy", text: translations[lang].buy };
+        if (status.includes("مباع") || status.includes("sold")) return { class: "badge-sold", text: translations[lang].sold };
         return { class: "badge-default", text: statusValue };
     }
 
@@ -487,20 +417,16 @@
         const container = document.getElementById('propertiesContainer');
         container.innerHTML = '';
 
-        if (!properties || properties.length === 0) {
-            container.innerHTML = `<div class="loading-indicator">${translations[currentLang].loading}</div>`;
-            return;
-        }
-
-        properties.forEach(item => {
-            const id = item.ID || item.id || 1;
+        properties.forEach((item, index) => {
+            // حل مشكلة تكرار الـ ID واستخراج الترتيب الفعلي للصف تلقائياً
+            const id = item.ID || item.id || (index + 1);
             const title = item.العقار || "";
             const price = item.السعر || "";
             const desc = item.الوصف || "";
             const rooms = item.عدد_الغرف || "0";
             const baths = item.عدد_الحمامات || "0";
             const area = item.المساحة || "0";
-            const imgUrl = optimizeDriveImageUrl(getField(item, ["الصورة", "image", "Image", "main image", "photo", "thumbnail"]));
+            const imgUrl = optimizeDriveImageUrl(getField(item, ["الصورة", "image", "Image", "photo"]));
             
             const sheetStatus = item.الحالة || item.النوع || item.status || "";
             const badge = getBadgeDetails(sheetStatus, currentLang);
@@ -541,17 +467,10 @@
 
         initializeEyeAutomation();
     }
-    </script>
 
-    <script>
     function initializeEyeAutomation() {
-        const eyeElements = document.querySelectorAll('.live-counter-eye');
-        
-        eyeElements.forEach(eye => {
-            setTimeout(() => {
-                eye.classList.add('active');
-            }, Math.random() * 3000);
-
+        document.querySelectorAll('.live-counter-eye').forEach(eye => {
+            setTimeout(() => eye.classList.add('active'), Math.random() * 3000);
             setInterval(() => {
                 if (eye.classList.contains('active')) {
                     eye.classList.remove('active');
@@ -568,25 +487,8 @@
         setLanguage(currentLang);
         loadProperties();
     });
-    </script>
 
-    <script>
-    document.addEventListener('contextmenu', event => event.preventDefault());
-
-    document.addEventListener('keydown', event => {
-        if (event.key === 'F12' || event.keyCode === 123) {
-            event.preventDefault();
-            return false;
-        }
-        if (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J' || event.key === 'C' || event.keyCode === 73 || event.keyCode === 74 || event.keyCode === 67)) {
-            event.preventDefault();
-            return false;
-        }
-        if (event.ctrlKey && (event.key === 'u' || event.key === 'U' || event.keyCode === 85)) {
-            event.preventDefault();
-            return false;
-        }
-    });
+    document.addEventListener('contextmenu', e => e.preventDefault());
     </script>
 </body>
 </html>
