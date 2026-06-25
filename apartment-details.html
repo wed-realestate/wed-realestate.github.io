@@ -226,21 +226,24 @@ function toggleTheme() {
 // دالة استخراج وتجهيز صور المعرض لتدعم حقول gallery من 1 إلى 30 بشكل ديناميكي مرن
 function getGalleryImages(item) {
     const galleryImages = [];
-    
-    // --- تعديل سهل مستقبلي: غيّر الرقم 30 بالأسفل لأي رقم آخر إذا أردت زيادة عدد الصور ---
-    const MAX_GALLERY_IMAGES = 30;
 
-    for (let i = 1; i <= MAX_GALLERY_IMAGES; i++) {
-        const possibleKeys = [`gallery ${i}`, `gallery_${i}`, `gallery${i}`];
-        const val = getField(item, possibleKeys);
-        if (val && val.toString().trim() !== "") {
-            galleryImages.push(val);
+    Object.keys(item).forEach(key => {
+        const normalizedKey = key.toLowerCase().trim();
+
+        if (
+            normalizedKey.startsWith("gallery ")
+            || normalizedKey.startsWith("gallery_")
+            || /^gallery\d+$/i.test(normalizedKey)
+        ) {
+            const value = item[key];
+
+            if (value && value.toString().trim() !== "") {
+                galleryImages.push(optimizeDriveImageUrl(value));
+            }
         }
-    }
+    });
 
-    return galleryImages
-        .map(img => optimizeDriveImageUrl(img))
-        .filter((img, index, list) => img && list.indexOf(img) === index);
+    return [...new Set(galleryImages)].filter(Boolean);
 }
 
 function extractGoogleDriveId(url) {
@@ -303,7 +306,9 @@ async function fetchPropertyDetails() {
 
     const findProperty = (itemsArray) => {
         if (!propertyId) return itemsArray[0];
-        const foundById = itemsArray.find(item => (item.ID || item.id || "").toString() === propertyId.toString());
+        const foundById = itemsArray.find(item =>
+            String(item.ID || "").trim() === String(propertyId).trim()
+        );
         if (foundById) return foundById;
         const rowIndex = parseInt(propertyId, 10) - 1;
         return Number.isInteger(rowIndex) && rowIndex >= 0 ? itemsArray[rowIndex] : null;
