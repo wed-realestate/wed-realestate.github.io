@@ -282,23 +282,16 @@
     let currentLang = localStorage.getItem('selectedLang') || 'ar';
     let currentPropertyData = null;
 
-    // بنك البيانات الاحتياطية (العشوائية) لتغذية الصفحة في حال النقص
+    // بنك البيانات الاحتياطية والعشوائية في حال عدم توفر البيانات في الخانات
     const fallbackVideos = [
-        "https://www.youtube.com/embed/dQw4w9WgXcQ",
-        "https://www.youtube.com/embed/tpiyEwH934s",
-        "https://www.youtube.com/embed/lTxn2BuqYZU"
+        "https://www.youtube.com/embed/dQw4w9WgXcQ"
     ];
-
     const fallbackMaps = [
-        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3453.1532168349543!2d31.2357116!3d30.0444196!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDAyJzM5LjkiTiAzMcKwMTQnMDguNiJF!5e0!3m2!1sar!2seg!4v1625000000000!5m2!1sar!2seg",
-        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3451.234567890123!2d31.3456789!3d30.0123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDAwJzQ0LjQiTiAzMcKwMjAnNDQuNCJF!5e0!3m2!1sar!2seg!4v1625000000000!5m2!1sar!2seg"
+        "https://maps.google.com/maps?q=Riyadh&t=&z=13&ie=UTF8&iwloc=&output=embed"
     ];
-
     const fallbackImages = [
         "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=500&q=80",
-        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=500&q=80",
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=500&q=80",
-        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=500&q=80"
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=500&q=80"
     ];
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -355,6 +348,7 @@
         setTheme(currentTheme === 'dark' ? 'light' : 'dark');
     }
 
+    // دالة جلب البيانات الفورية مع دعم هيكل كاش index.html الجديد تماماً
     async function fetchPropertyDetails() {
         const urlParams = new URLSearchParams(window.location.search);
         const propertyId = urlParams.get('id');
@@ -364,17 +358,26 @@
             return;
         }
 
-        const localData = localStorage.getItem('properties_cache');
-        if (localData) {
-            const properties = JSON.parse(localData);
-            const found = properties.find(item => (item.ID || item.id || "").toString() === propertyId.toString());
-            if (found) {
-                currentPropertyData = found;
-                renderDetails(found);
-                return;
+        // 1. محاولة فك وقراءة الكاش الفوري المشترك والمخزن بواسطة index.html
+        const localCache = localStorage.getItem('properties_cache');
+        if (localCache) {
+            try {
+                let parsedCache = JSON.parse(localCache);
+                // التعامل مع الكاش سواء كان مصفوفة مباشرة أو مصفوفة بداخل كائن داتا
+                let itemsArray = Array.isArray(parsedCache) ? parsedCache : (parsedCache.data || []);
+                
+                const found = itemsArray.find(item => (item.ID || item.id || "").toString() === propertyId.toString());
+                if (found) {
+                    currentPropertyData = found;
+                    renderDetails(found);
+                    return; // تم العثور على العقار من الكاش الفوري بنجاح!
+                }
+            } catch(e) {
+                console.error("خطأ في قراءة كاش البيانات:", e);
             }
         }
 
+        // 2. إذا لم يتوفر كاش فوري، يتم التوجه فوراً وبسرعة لجلب البيانات من السيرفر
         try {
             const API_URL = "https://script.google.com/macros/s/AKfycbyKnzlHWNG-yBjR5fg2_D5YkuTNyUgJ7m8H5kRLtQIH8HkMqZwAI7CE6b2shCr98b7o/exec";
             const response = await fetch(API_URL);
@@ -423,8 +426,8 @@
     function renderDetails(item) {
         const mainContainer = document.getElementById('mainContainer');
         
-        // جلب العناوين بمرونة تامة لضمان قراءة الخانات بذكاء
-        const title = item.العقار || item.title || item.Name || "عقار ود العقاري";
+        // فحص الخانات بمرونة وبأكثر من مسمى لضمان التطابق التام مع الكاش الممرر من الصفحة الرئيسية
+        const title = item.العقار || item.title || item.Name || "عقار شركة ود";
         
         let rawVideo = item.الفيديو || item.video || item.رابط_الفيديو || "";
         let videoUrl = optimizeVideoUrl(rawVideo);
@@ -432,16 +435,15 @@
         let mapUrl = item.الخريطة || item.map || item.الموقع || "";
         let rawGallery = item.المعرض || item.gallery || item.الصور || "";
 
-        // اختيار عنصر عشوائي في حال عدم توفر البيانات من الشيت
-        if (!videoUrl) {
-            videoUrl = fallbackVideos[Math.floor(Math.random() * fallbackVideos.length)];
+        // تطبيق خطة التعبئة الاحتياطية في حال خلو الخانات في الشيت
+        if (!videoUrl || videoUrl.trim() === "") {
+            videoUrl = fallbackVideos[0];
         }
         
-        if (!mapUrl || mapUrl.trim() === "") {
-            mapUrl = fallbackMaps[Math.floor(Math.random() * fallbackMaps.length)];
+        if (!mapUrl || mapUrl.trim() === "" || mapUrl.includes("googleusercontent.com")) {
+            mapUrl = fallbackMaps[0];
         }
 
-        // معالجة الصور الإضافية (معرض الصور)
         let galleryHTML = "";
         if (rawGallery && rawGallery.trim() !== "") {
             const images = rawGallery.split(',');
@@ -451,13 +453,11 @@
                 }
             });
         } else {
-            // في حال عدم توفر المعرض يتم ملؤه تلقائياً بصور عشوائية فخمة وعالية الدقة
             fallbackImages.forEach(imgSrc => {
-                galleryHTML += `<img src="${imgSrc}" class="gallery-item" alt="Fallback Gallery Image" onclick="window.open('${imgSrc}', '_blank')">`;
+                galleryHTML += `<img src="${imgSrc}" class="gallery-item" alt="Fallback Image" onclick="window.open('${imgSrc}', '_blank')">`;
             });
         }
 
-        // بناء محتوى الهيكل الأساسي لصفحة الميديا
         let htmlContent = `
             <div class="section-block">
                 <div class="main-info">
@@ -466,7 +466,7 @@
             </div>
         `;
 
-        // 1. قسم مشغل الفيديو الفوري
+        // 1. عرض مشغل الفيديو المباشر
         htmlContent += `
             <div class="section-block">
                 <div class="section-title"><i class="fa-solid fa-video"></i> ${translations[currentLang].videoTitle}</div>
@@ -476,7 +476,7 @@
             </div>
         `;
 
-        // 2. معرض الصور الاحترافي المتجاوب
+        // 2. عرض معرض الصور الإضافية المتناسق
         htmlContent += `
             <div class="section-block">
                 <div class="section-title"><i class="fa-solid fa-images"></i> ${translations[currentLang].galleryTitle}</div>
@@ -486,7 +486,7 @@
             </div>
         `;
 
-        // 3. قسم الموقع الجغرافي المباشر 
+        // 3. عرض خريطة الموقع الجغرافي التفاعلية
         htmlContent += `
             <div class="section-block">
                 <div class="section-title"><i class="fa-solid fa-map-location-dot"></i> ${translations[currentLang].mapTitle}</div>
@@ -496,7 +496,7 @@
             </div>
         `;
 
-        // أزرار اتصالات الخدمة السريعة
+        // أزرار الاتصال السريع الثابتة بالأسفل
         htmlContent += `
             <div class="contact-section-buttons">
                 <a href="https://wa.me/201234567890" target="_blank" class="btn-action btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
