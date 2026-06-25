@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* تعريف متغيرات الألوان للنظامين */
+        /* تعريف متغيرات الألوان للنظامين المتناسق مع الصفحة الرئيسية */
         :root {
             --bg-body: #f4f7f6;
             --text-main: #333;
@@ -67,7 +67,7 @@
         header h1 { font-size: 2rem; line-height: 1.4; }
         header p { color: #1abc9c; margin-top: 5px; font-size: 1rem; }
 
-        /* تنسيق الشعار الدائري كما في الصفحة الرئيسية */
+        /* تنسيق الشعار الدائري */
         .logo-wrapper {
             width: 100px;
             height: 100px;
@@ -124,7 +124,7 @@
 
         .section-block {
             background: var(--bg-section);
-            border: 2px solid var(--border-card);
+            border: 3px solid var(--border-card);
             border-radius: 12px;
             padding: 25px;
             margin-bottom: 25px;
@@ -147,10 +147,9 @@
             color: #1abc9c;
         }
 
-        /* تفاصيل النص الأساسية */
+        /* تفاصيل العنوان الرئيسي للعقار */
         .main-info {
             text-align: center;
-            margin-bottom: 20px;
         }
 
         .main-info h2 {
@@ -159,47 +158,7 @@
             margin-bottom: 10px;
         }
 
-        .main-info .price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #e74c3c;
-        }
-
-        .description-text {
-            font-size: 0.95rem;
-            line-height: 1.7;
-            color: var(--text-main);
-            text-align: justify;
-        }
-
-        /* الأيقونات والمميزات */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            text-align: center;
-        }
-
-        .feature-item {
-            background: var(--bg-body);
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid var(--border-card);
-        }
-
-        .feature-item i {
-            font-size: 1.5rem;
-            color: #1abc9c;
-            margin-bottom: 8px;
-        }
-
-        .feature-item span {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        /* مشغل الفيديو والمعرض */
+        /* مشغل الفيديو والمعرض والخرائط */
         .video-container {
             position: relative;
             padding-bottom: 56.25%;
@@ -235,7 +194,7 @@
             border: 1px solid var(--border-card);
         }
 
-        /* أزرار التواصل السريع */
+        /* أزرار التواصل السريع بالأسفل */
         .contact-section-buttons {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -281,7 +240,6 @@
         @media (max-width: 600px) {
             header { padding: 30px 15px; gap: 10px; }
             .controls-wrapper { position: static; margin-bottom: 10px; }
-            .features-grid { grid-template-columns: 1fr; }
             .contact-section-buttons { grid-template-columns: 1fr; }
         }
     </style>
@@ -305,13 +263,13 @@
         </div>
         <div class="header-content">
             <h1 id="companyName">شركة ود العقارية</h1>
-            <p id="headerSub">تفاصيل العقار الحالية والمعلومات الشاملة</p>
+            <p id="headerSub">المعاينة المرئية وصور العقار والموقع</p>
         </div>
     </header>
 
     <main class="container" id="mainContainer">
         <div class="status-msg" id="statusMessage">
-            <i class="fa-solid fa-circle-notch fa-spin"></i> جاري جلب تفاصيل العقار...
+            <i class="fa-solid fa-circle-notch fa-spin"></i> جاري جلب تفاصيل المعاينة...
         </div>
     </main>
 
@@ -322,34 +280,28 @@
     <script>
     const translations = {
         ar: {
-            pageTitle: "تفاصيل العقار - شركة ود العقارية",
+            pageTitle: "معاينة العقار - شركة ود العقارية",
             companyName: "شركة ود العقارية",
-            headerSub: "تفاصيل العقار الحالية والمعلومات الشاملة",
+            headerSub: "المعاينة المرئية وصور العقار والموقع",
             backBtn: "الرئيسية",
-            descTitle: "وصف العقار",
-            featuresTitle: "المواصفات الأساسية",
             videoTitle: "المعاينة المرئية (فيديو)",
             galleryTitle: "معرض الصور الإضافية",
             mapTitle: "الموقع الجغرافي للعقار",
-            rooms: "الغرف", bathrooms: "الحمامات", area: "المساحة",
             footerText: "جميع الحقوق محفوظة © شركة ود العقارية 2026",
-            loading: "جاري جلب تفاصيل العقار...",
-            error: "عذراً، لم يتم العثور على العقار المطلوب أو هناك خلل في الاتصال."
+            loading: "جاري جلب تفاصيل المعاينة...",
+            error: "عذراً، لم يتم العثور على الوسائط المطلوبة للعقار أو هناك خلل في الاتصال."
         },
         en: {
-            pageTitle: "Property Details - Wed Real Estate",
+            pageTitle: "Property Media - Wed Real Estate",
             companyName: "Wed Real Estate",
-            headerSub: "Current property details and comprehensive information",
+            headerSub: "Video presentation, photo gallery & map location",
             backBtn: "Home",
-            descTitle: "Property Description",
-            featuresTitle: "Key Features",
             videoTitle: "Video Presentation",
             galleryTitle: "Photo Gallery",
             mapTitle: "Property Location",
-            rooms: "Rooms", bathrooms: "Bathrooms", area: "Area",
             footerText: "All Rights Reserved © Wed Real Estate 2026",
-            loading: "Loading property details...",
-            error: "Sorry, the requested property was not found or connection failed."
+            loading: "Loading property media...",
+            error: "Sorry, the requested property media was not found or connection failed."
         }
     };
 
@@ -380,7 +332,6 @@
         const backText = document.querySelector('#backBtn .data-text');
         if (backText) backText.textContent = translations[lang].backBtn;
         
-        // تعديل اتجاه سهم العودة متوافقاً مع اللغة
         const backIcon = document.querySelector('#backBtn i');
         if (backIcon) {
             backIcon.className = lang === 'ar' ? 'fa-solid fa-arrow-right' : 'fa-solid fa-arrow-left';
@@ -412,7 +363,7 @@
         setTheme(currentTheme === 'dark' ? 'light' : 'dark');
     }
 
-    // جلب المعرف ID من الرابط وقراءة الكاش أو الشيت
+    // جلب من الكاش أو مباشرة مع دعم التفكيك الجديد data.data
     async function fetchPropertyDetails() {
         const urlParams = new URLSearchParams(window.location.search);
         const propertyId = urlParams.get('id');
@@ -438,7 +389,16 @@
             const API_URL = "https://script.google.com/macros/s/AKfycbyKnzlHWNG-yBjR5fg2_D5YkuTNyUgJ7m8H5kRLtQIH8HkMqZwAI7CE6b2shCr98b7o/exec";
             const response = await fetch(API_URL);
             const data = await response.json();
-            const found = data.find(item => (item.ID || item.id || "").toString() === propertyId.toString());
+            
+            // التعديل ليتوافق مع data.data المرجعة من الدالة لديك
+            let targetArray = [];
+            if (data && data.status === "success" && data.data) {
+                targetArray = data.data;
+            } else if (Array.isArray(data)) {
+                targetArray = data;
+            }
+
+            const found = targetArray.find(item => (item.ID || item.id || "").toString() === propertyId.toString());
             
             if (found) {
                 currentPropertyData = found;
@@ -475,58 +435,30 @@
         const mainContainer = document.getElementById('mainContainer');
         
         const title = item.العقار || "";
-        const price = item.السعر || "";
-        const desc = item.الوصف || "";
-        const rooms = item.عدد_الغرف || "0";
-        const baths = item.عدد_الحمامات || "0";
-        const area = item.المساحة || "0";
         const videoUrl = optimizeVideoUrl(item.الفيديو);
         const mapUrl = item.الخريطة || "";
 
-        // معالجة معرض الصور المخصصة للفواصل
+        // بناء معرض الصور المقسمة بفواصل
         let galleryHTML = "";
         if (item.المعرض) {
             const images = item.المعرض.split(',');
             images.forEach(imgSrc => {
                 if(imgSrc.trim()) {
-                    galleryHTML += `<img src="${imgSrc.trim()}" class="gallery-item" alt="Gallery" onclick="window.open('${imgSrc.trim()}', '_blank')">`;
+                    galleryHTML += `<img src="${imgSrc.trim()}" class="gallery-item" alt="Gallery Image" onclick="window.open('${imgSrc.trim()}', '_blank')">`;
                 }
             });
         }
 
+        // البدء بعنوان العقار فقط كمعرّف رئيسي
         let htmlContent = `
             <div class="section-block">
                 <div class="main-info">
                     <h2>${title}</h2>
-                    <div class="price">${price}</div>
-                </div>
-            </div>
-
-            <div class="section-block">
-                <div class="section-title"><i class="fa-solid fa-align-right"></i> ${translations[currentLang].descTitle}</div>
-                <p class="description-text">${desc}</p>
-            </div>
-
-            <div class="section-block">
-                <div class="section-title"><i class="fa-solid fa-list-check"></i> ${translations[currentLang].featuresTitle}</div>
-                <div class="features-grid">
-                    <div class="feature-item">
-                        <i class="fa-solid fa-bed"></i>
-                        <span>${rooms} ${translations[currentLang].rooms}</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fa-solid fa-bath"></i>
-                        <span>${baths} ${translations[currentLang].bathrooms}</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fa-solid fa-ruler-combined"></i>
-                        <span>${area} ${translations[currentLang].area}</span>
-                    </div>
                 </div>
             </div>
         `;
 
-        // إدراج قسم الفيديو إن وجد
+        // 1. قسم الفيديو (إذا وجد)
         if (videoUrl) {
             htmlContent += `
                 <div class="section-block">
@@ -538,7 +470,7 @@
             `;
         }
 
-        // إدراج معرض الصور الإضافية إن وجد
+        // 2. معرض الصور الإضافية (إذا وجد)
         if (galleryHTML) {
             htmlContent += `
                 <div class="section-block">
@@ -550,7 +482,7 @@
             `;
         }
 
-        // إدراج الخريطة والموقع الجغرافي إن وجد
+        // 3. موقع الخريطة الجغرافي (إذا وجد)
         if (mapUrl) {
             htmlContent += `
                 <div class="section-block">
@@ -562,7 +494,7 @@
             `;
         }
 
-        // أزرار التواصل الثابتة بالأسفل
+        // أزرار التواصل السريع في أسفل الصفحة
         htmlContent += `
             <div class="contact-section-buttons">
                 <a href="https://wa.me/201234567890" target="_blank" class="btn-action btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
