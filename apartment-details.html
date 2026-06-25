@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* تعريف متغيرات الألوان للنظامين المتناسق مع الصفحة الرئيسية */
         :root {
             --bg-body: #f4f7f6;
             --text-main: #333;
@@ -46,7 +45,6 @@
             padding-bottom: 40px;
         }
 
-        /* الهيدر المتناسق تماماً مع الصفحة الرئيسية */
         header { 
             background-color: var(--bg-nav);
             color: #fff; 
@@ -60,14 +58,10 @@
             gap: 15px;
         }
 
-        .header-content {
-            text-align: center;
-        }
-
+        .header-content { text-align: center; }
         header h1 { font-size: 2rem; line-height: 1.4; }
         header p { color: #1abc9c; margin-top: 5px; font-size: 1rem; }
 
-        /* تنسيق الشعار الدائري */
         .logo-wrapper {
             width: 100px;
             height: 100px;
@@ -81,13 +75,8 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
-        .brand-logo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .brand-logo { width: 100%; height: 100%; object-fit: cover; }
 
-        /* حاوية أزرار التحكم والعودة */
         .controls-wrapper { 
             position: absolute;
             top: 15px; 
@@ -115,7 +104,6 @@
         }
         .back-btn-nav:hover, .lang-btn:hover, .theme-btn:hover { background: #16a085; }
 
-        /* الحاوية الرئيسية للتفاصيل */
         .container {
             max-width: 800px;
             margin: 30px auto;
@@ -143,22 +131,10 @@
             padding-bottom: 8px;
         }
 
-        .section-title i {
-            color: #1abc9c;
-        }
+        .section-title i { color: #1abc9c; }
+        .main-info { text-align: center; }
+        .main-info h2 { font-size: 1.6rem; color: var(--text-title); margin-bottom: 10px; }
 
-        /* تفاصيل العنوان الرئيسي للعقار */
-        .main-info {
-            text-align: center;
-        }
-
-        .main-info h2 {
-            font-size: 1.6rem;
-            color: var(--text-title);
-            margin-bottom: 10px;
-        }
-
-        /* مشغل الفيديو والمعرض والخرائط */
         .video-container {
             position: relative;
             padding-bottom: 56.25%;
@@ -194,7 +170,6 @@
             border: 1px solid var(--border-card);
         }
 
-        /* أزرار التواصل السريع بالأسفل */
         .contact-section-buttons {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -220,7 +195,6 @@
         .btn-phone { background-color: #3498db; }
         .btn-facebook { background-color: #1877F2; }
 
-        /* رسائل الخطأ والتحميل */
         .status-msg {
             text-align: center;
             padding: 50px 20px;
@@ -308,6 +282,25 @@
     let currentLang = localStorage.getItem('selectedLang') || 'ar';
     let currentPropertyData = null;
 
+    // بنك البيانات الاحتياطية (العشوائية) لتغذية الصفحة في حال النقص
+    const fallbackVideos = [
+        "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "https://www.youtube.com/embed/tpiyEwH934s",
+        "https://www.youtube.com/embed/lTxn2BuqYZU"
+    ];
+
+    const fallbackMaps = [
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3453.1532168349543!2d31.2357116!3d30.0444196!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDAyJzM5LjkiTiAzMcKwMTQnMDguNiJF!5e0!3m2!1sar!2seg!4v1625000000000!5m2!1sar!2seg",
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3451.234567890123!2d31.3456789!3d30.0123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDAwJzQ0LjQiTiAzMcKwMjAnNDQuNCJF!5e0!3m2!1sar!2seg!4v1625000000000!5m2!1sar!2seg"
+    ];
+
+    const fallbackImages = [
+        "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=500&q=80",
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=500&q=80",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=500&q=80",
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=500&q=80"
+    ];
+
     document.addEventListener("DOMContentLoaded", () => {
         setLanguage(currentLang); 
         fetchPropertyDetails();
@@ -344,7 +337,6 @@
         }
     }
 
-    // إعدادات الوضع الليلي والنهاري
     const htmlElement = document.documentElement;
     const savedTheme = localStorage.getItem('theme') || 'light';
     setTheme(savedTheme);
@@ -363,7 +355,6 @@
         setTheme(currentTheme === 'dark' ? 'light' : 'dark');
     }
 
-    // جلب من الكاش أو مباشرة مع دعم التفكيك الجديد data.data
     async function fetchPropertyDetails() {
         const urlParams = new URLSearchParams(window.location.search);
         const propertyId = urlParams.get('id');
@@ -384,13 +375,11 @@
             }
         }
 
-        // جلب من السيرفر مباشرة إذا لم يتوفر كاش
         try {
             const API_URL = "https://script.google.com/macros/s/AKfycbyKnzlHWNG-yBjR5fg2_D5YkuTNyUgJ7m8H5kRLtQIH8HkMqZwAI7CE6b2shCr98b7o/exec";
             const response = await fetch(API_URL);
             const data = await response.json();
             
-            // التعديل ليتوافق مع data.data المرجعة من الدالة لديك
             let targetArray = [];
             if (data && data.status === "success" && data.data) {
                 targetArray = data.data;
@@ -434,22 +423,41 @@
     function renderDetails(item) {
         const mainContainer = document.getElementById('mainContainer');
         
-        const title = item.العقار || "";
-        const videoUrl = optimizeVideoUrl(item.الفيديو);
-        const mapUrl = item.الخريطة || "";
+        // جلب العناوين بمرونة تامة لضمان قراءة الخانات بذكاء
+        const title = item.العقار || item.title || item.Name || "عقار ود العقاري";
+        
+        let rawVideo = item.الفيديو || item.video || item.رابط_الفيديو || "";
+        let videoUrl = optimizeVideoUrl(rawVideo);
+        
+        let mapUrl = item.الخريطة || item.map || item.الموقع || "";
+        let rawGallery = item.المعرض || item.gallery || item.الصور || "";
 
-        // بناء معرض الصور المقسمة بفواصل
+        // اختيار عنصر عشوائي في حال عدم توفر البيانات من الشيت
+        if (!videoUrl) {
+            videoUrl = fallbackVideos[Math.floor(Math.random() * fallbackVideos.length)];
+        }
+        
+        if (!mapUrl || mapUrl.trim() === "") {
+            mapUrl = fallbackMaps[Math.floor(Math.random() * fallbackMaps.length)];
+        }
+
+        // معالجة الصور الإضافية (معرض الصور)
         let galleryHTML = "";
-        if (item.المعرض) {
-            const images = item.المعرض.split(',');
+        if (rawGallery && rawGallery.trim() !== "") {
+            const images = rawGallery.split(',');
             images.forEach(imgSrc => {
                 if(imgSrc.trim()) {
                     galleryHTML += `<img src="${imgSrc.trim()}" class="gallery-item" alt="Gallery Image" onclick="window.open('${imgSrc.trim()}', '_blank')">`;
                 }
             });
+        } else {
+            // في حال عدم توفر المعرض يتم ملؤه تلقائياً بصور عشوائية فخمة وعالية الدقة
+            fallbackImages.forEach(imgSrc => {
+                galleryHTML += `<img src="${imgSrc}" class="gallery-item" alt="Fallback Gallery Image" onclick="window.open('${imgSrc}', '_blank')">`;
+            });
         }
 
-        // البدء بعنوان العقار فقط كمعرّف رئيسي
+        // بناء محتوى الهيكل الأساسي لصفحة الميديا
         let htmlContent = `
             <div class="section-block">
                 <div class="main-info">
@@ -458,43 +466,37 @@
             </div>
         `;
 
-        // 1. قسم الفيديو (إذا وجد)
-        if (videoUrl) {
-            htmlContent += `
-                <div class="section-block">
-                    <div class="section-title"><i class="fa-solid fa-video"></i> ${translations[currentLang].videoTitle}</div>
-                    <div class="video-container">
-                        <iframe src="${videoUrl}" allowfullscreen></iframe>
-                    </div>
+        // 1. قسم مشغل الفيديو الفوري
+        htmlContent += `
+            <div class="section-block">
+                <div class="section-title"><i class="fa-solid fa-video"></i> ${translations[currentLang].videoTitle}</div>
+                <div class="video-container">
+                    <iframe src="${videoUrl}" allowfullscreen></iframe>
                 </div>
-            `;
-        }
+            </div>
+        `;
 
-        // 2. معرض الصور الإضافية (إذا وجد)
-        if (galleryHTML) {
-            htmlContent += `
-                <div class="section-block">
-                    <div class="section-title"><i class="fa-solid fa-images"></i> ${translations[currentLang].galleryTitle}</div>
-                    <div class="gallery-grid">
-                        ${galleryHTML}
-                    </div>
+        // 2. معرض الصور الاحترافي المتجاوب
+        htmlContent += `
+            <div class="section-block">
+                <div class="section-title"><i class="fa-solid fa-images"></i> ${translations[currentLang].galleryTitle}</div>
+                <div class="gallery-grid">
+                    ${galleryHTML}
                 </div>
-            `;
-        }
+            </div>
+        `;
 
-        // 3. موقع الخريطة الجغرافي (إذا وجد)
-        if (mapUrl) {
-            htmlContent += `
-                <div class="section-block">
-                    <div class="section-title"><i class="fa-solid fa-map-location-dot"></i> ${translations[currentLang].mapTitle}</div>
-                    <div class="video-container">
-                        <iframe src="${mapUrl}" allowfullscreen loading="lazy"></iframe>
-                    </div>
+        // 3. قسم الموقع الجغرافي المباشر 
+        htmlContent += `
+            <div class="section-block">
+                <div class="section-title"><i class="fa-solid fa-map-location-dot"></i> ${translations[currentLang].mapTitle}</div>
+                <div class="video-container">
+                    <iframe src="${mapUrl}" allowfullscreen loading="lazy"></iframe>
                 </div>
-            `;
-        }
+            </div>
+        `;
 
-        // أزرار التواصل السريع في أسفل الصفحة
+        // أزرار اتصالات الخدمة السريعة
         htmlContent += `
             <div class="contact-section-buttons">
                 <a href="https://wa.me/201234567890" target="_blank" class="btn-action btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
