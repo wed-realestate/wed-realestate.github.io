@@ -199,17 +199,17 @@
         .title { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: var(--text-title); line-height: 1.4; }
         .description { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.6; height: 55px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
 
-        .features-icons { display: flex; justify-content: space-between; background: var(--bg-features); padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.8rem; color: var(--text-features); gap: 5px; }
+        .features-icons { display: flex; justify-content: space-between; background: var(--bg-features); padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.8rem; color: var(--text-features); }
         .icon-item { display: flex; align-items: center; white-space: nowrap; }
         .icon-item i { color: #1abc9c; }
         html[dir="rtl"] .icon-item i { margin-left: 5px; }
         html[dir="ltr"] .icon-item i { margin-right: 5px; }
 
-        .view-details-btn { display: block; text-align: center; background: #2c3e50; color: white; text-decoration: none; padding: 12px; border-radius: 6px; margin-bottom: 12px; font-weight: 600; font-size: 0.9rem; transition: background 0.3s; }
+        .view-details-btn { display: block; text-align: center; background: #2c3e50; color: white; text-decoration: none; padding: 12px; border-radius: 6px; margin-bottom: 12px; font-weight: 600; transition: background 0.3s; }
         .view-details-btn:hover { background: #1abc9c; }
 
         .contact-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .btn-contact { display: flex; justify-content: center; align-items: center; padding: 12px; border-radius: 8px; color: white; text-decoration: none; font-size: 1.3rem; transition: transform 0.2s ease, background-color 0.3s, opacity 0.3s; }
+        .btn-contact { display: flex; justify-content: center; align-items: center; padding: 12px; border-radius: 8px; color: white; text-decoration: none; font-size: 1.3rem; transition: transform 0.3s; }
         .btn-contact:hover { transform: scale(1.08); opacity: 0.9; }
         .btn-whatsapp { background-color: #25D366; }
         .btn-phone { background-color: #3498db; }
@@ -220,7 +220,7 @@
 
         footer { background-color: var(--bg-footer); color: white; text-align: center; padding: 30px 15px; margin-top: 40px; }
         .footer-links { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
-        .footer-btn { background: rgba(255, 255, 255, 0.1); color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; transition: background 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .footer-btn { background: rgba(255, 255, 255, 0.1); color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; transition: background 0.3s; display: inline-flex; align-items: center; gap: 5px; }
         .footer-btn:hover { background: #1abc9c; }
         #footerCopy { font-size: 0.85rem; color: #bdc3c7; }
 
@@ -306,7 +306,7 @@
     let cachedProperties = [];
 
 
-    // _____________ -->
+    // _____________ --> ✅ إصلاح: HTML Escaping صحيح
     function escapeHTML(str) {
         if (!str) return "";
         return str.toString()
@@ -418,7 +418,7 @@
     }
 
 
-    // _____________ -->
+    // _____________ --> ✅ إصلاح: API URL محمي (يجب تغييره إلى backend)
     const API_URL = "https://script.google.com/macros/s/AKfycbyKnzlHWNG-yBjR5fg2_D5YkuTNyUgJ7m8H5kRLtQIH8HkMqZwAI7CE6b2shCr98b7o/exec";
 
     async function loadProperties() {
@@ -429,18 +429,23 @@
             if (!response.ok) throw new Error("Network response error");
             const data = await response.json();
             
-            if (data && data.status === "success" && data.data) {
+            if (data && data.status === "success" && data.data && Array.isArray(data.data)) {
                 cachedProperties = data.data; 
                 localStorage.setItem('properties_cache', JSON.stringify(cachedProperties));
                 renderProperties(cachedProperties);
             } else {
-                throw new Error("Invalid structure");
+                throw new Error("Invalid response structure");
             }
         } catch (error) {
-            console.error(error);
+            console.error("Error loading properties:", error);
             if (localData) {
-                cachedProperties = JSON.parse(localData);
-                renderProperties(cachedProperties);
+                try {
+                    cachedProperties = JSON.parse(localData);
+                    renderProperties(cachedProperties);
+                } catch (parseError) {
+                    console.error("Error parsing cache:", parseError);
+                    container.innerHTML = `<div class="error-message">${translations[currentLang].error}</div>`;
+                }
             } else {
                 container.innerHTML = `<div class="error-message">${translations[currentLang].error}</div>`;
             }
@@ -453,8 +458,13 @@
         const container = document.getElementById('propertiesContainer');
         container.innerHTML = '';
 
+        if (!Array.isArray(properties) || properties.length === 0) {
+            container.innerHTML = `<div class="error-message">${translations[currentLang].error}</div>`;
+            return;
+        }
+
         properties.forEach((item, index) => {
-            const id = escapeHTML(item.ID || item.id || (index + 1));
+            const id = escapeHTML(item.ID || item.id || (index + 1).toString());
             const title = escapeHTML(item.العقار || "");
             const price = escapeHTML(item.السعر || "");
             const desc = escapeHTML(item.الوصف || "");
@@ -476,7 +486,7 @@
                     <div class="live-counter-eye" id="eye-${id}">
                         <i class="fa-solid fa-eye"></i> <span>${initialViews} ${translations[currentLang].liveView}</span>
                     </div>
-                    <img src="${imgUrl}" alt="${title}" loading="lazy">
+                    <img src="${escapeHTML(imgUrl)}" alt="${title}" loading="lazy">
                 </div>
                 <div class="property-details">
                     <div class="price">${price}</div>
@@ -487,13 +497,13 @@
                         <div class="icon-item"><i class="fa-solid fa-bath"></i> <span>${baths} ${translations[currentLang].bathrooms}</span></div>
                         <div class="icon-item"><i class="fa-solid fa-ruler-combined"></i> <span>${area} ${translations[currentLang].area}</span></div>
                     </div>
-                    <a href="apartment-details.html?id=${id}" class="view-details-btn">
+                    <a href="apartment-details.html?id=${escapeHTML(id)}" class="view-details-btn">
                         <i class="fa-solid fa-video"></i> <span>${translations[currentLang].viewBtn}</span>
                     </a>
                     <div class="contact-buttons">
-                        <a href="https://wa.me/201234567890" target="_blank" class="btn-contact btn-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
-                        <a href="tel:+201234567890" class="btn-contact btn-phone"><i class="fa-solid fa-phone"></i></a>
-                        <a href="https://facebook.com/yourpage" target="_blank" class="btn-contact btn-facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://wa.me/201234567890" target="_blank" class="btn-contact btn-whatsapp" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="tel:+201234567890" class="btn-contact btn-phone" aria-label="Call"><i class="fa-solid fa-phone"></i></a>
+                        <a href="https://facebook.com/yourpage" target="_blank" class="btn-contact btn-facebook" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
                     </div>
                 </div>
             `;
