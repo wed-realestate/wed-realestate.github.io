@@ -96,7 +96,7 @@
 
         @media (max-width: 576px) {
             .gallery-main { height: 250px; }
-            .thumb height: 60px; }
+            .thumb { height: 60px; }
             .contact-section-buttons { grid-template-columns: 1fr; }
             .property-main-header h1 { font-size: 1.5rem; }
         }
@@ -172,14 +172,14 @@ const fallbackImages = ["https://lh3.googleusercontent.com/d/12KJAn-lXEntEUDXnQD
 function escapeHTML(str) {
     if (!str) return "";
     return str.toString()
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
+        .replace(/&/g, "&")
+        .replace(/</g, "<")
+        .replace(/>/g, ">")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
 
-// تفعيل حظر الزر الأيمن للفأرة
+// تفعيل حظر الزر الأيمن للفأرة لحماية الـ API
 document.addEventListener('contextmenu', e => e.preventDefault());
 
 // حظر الاختصارات البرمجية الشائعة لفتح أدوات المطور (F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U)
@@ -310,7 +310,7 @@ function optimizeMapUrl(url) {
     const coordsRegex = /^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/;
 
     if (coordsRegex.test(cleanedUrl)) {
-        return `https://maps.google.com/maps?q=${encodeURIComponent(cleanedUrl)}&output=embed`;
+        return `https://maps.google.com/maps?q=$${encodeURIComponent(cleanedUrl)}&output=embed`;
     }
     if (cleanedUrl.includes('/embed') || cleanedUrl.includes('output=embed')) {
         return cleanedUrl;
@@ -318,7 +318,7 @@ function optimizeMapUrl(url) {
     if (cleanedUrl.includes('google.com/maps') || cleanedUrl.includes('maps.app.goo.gl')) {
         return cleanedUrl;
     }
-    return `https://maps.google.com/maps?q=${encodeURIComponent(cleanedUrl)}&output=embed`;
+    return `https://maps.google.com/maps?q=$${encodeURIComponent(cleanedUrl)}&output=embed`;
 }
 
 function buildVideoPlayer(url) {
@@ -336,7 +336,6 @@ async function fetchPropertyDetails() {
 
     const findProperty = (itemsArray) => {
         if (!propertyId) return itemsArray[0];
-        // البحث والمطابقة الحصرية عبر المعرّف (ID) لضمان استقرار ترتيب العقارات عند التحديث
         return itemsArray.find(item =>
             String(item.ID || item.id || "").trim() === String(propertyId).trim()
         );
