@@ -13,19 +13,17 @@
            1. متغيرات الألوان وأنظمة العرض (CSS Variables & Themes)
            ========================================================================== */
         :root {
-            /* الألوان الافتراضية للوضع المضيء (Light Mode) */
-            --bg-body: #f4f7f6;      /* لون الخلفية العامة للموقع */
-            --text-main: #333333;    /* لون النصوص الأساسية والفقرات */
-            --text-title: #2c3e50;   /* لون العناوين الرئيسية */
-            --text-muted: #7f8c8d;   /* لون النصوص الثانوية والتوضيحية */
-            --bg-nav: #1a252f;      /* لون شريط التنقل العلوي */
-            --bg-section: #ffffff;  /* لون خلفية الصناديق والأقسام */
-            --border-card: #e2f0ea;  /* لون حواف الصناديق وبطاقة العنوان */
-            --shadow: rgba(0, 0, 0, 0.05); /* ظلال ناعمة للصناديق */
+            --bg-body: #f4f7f6;
+            --text-main: #333333;
+            --text-title: #2c3e50;
+            --text-muted: #7f8c8d;
+            --bg-nav: #1a252f;
+            --bg-section: #ffffff;
+            --border-card: #e2f0ea;
+            --shadow: rgba(0, 0, 0, 0.05);
         }
 
         [data-theme="dark"] {
-            /* إعادة تعريف المتغيرات عند تفعيل الوضع الداكن (Dark Mode) */
             --bg-body: #121212;
             --text-main: #e0e0e0;
             --text-title: #ffffff;
@@ -37,7 +35,7 @@
         }
 
         /* ==========================================================================
-           9. تأثيرات حركة التمرير والظهور الخاصة بالصناديق (Scroll Animation Styles)
+           2. تأثيرات التمرير والظهور (Scroll Animations)
            ========================================================================== */
         .section-box, .property-main-header, .contact-section-buttons {
             opacity: 0;
@@ -47,31 +45,27 @@
                         color 0.3s ease;
         }
 
-        /* الصناديق الفردية تأتي متحركة من الجهة اليمين */
         .section-box:nth-child(odd) {
             transform: translateX(50px);
         }
 
-        /* الصناديق الزوجية وباقي العناصر تأتي متحركة من الجهة اليسار لعمل توازن بصري */
         .section-box:nth-child(even), .property-main-header, .contact-section-buttons {
             transform: translateX(-50px);
         }
 
-        /* الكلاس الموحد لتفعيل الظهور والاستقرار في المركز الطبيعي */
         .reveal-in {
             opacity: 1;
             transform: translateX(0) !important;
         }
 
         /* ==========================================================================
-           2. التنسيقات العامة وعناصر الهيكل الأساسية (Global Styles)
+           3. التنسيقات العامة (Global Styles)
            ========================================================================== */
         * {
-            box-sizing: border-box; /* احتساب الحشوات والحدود ضمن الحجم الإجمالي للعنصر */
-            margin: 0;              /* إلغاء الهوامش الافتراضية للمتصفح */
-            padding: 0;             /* إلغاء الحشوات الافتراضية للمتصفح */
-            font-family: 'Cairo', sans-serif; /* تطبيق الخط الموحد على كامل الموقع */
-            /* جعل الانتقالات ناعمة عند التحويل بين الوضع الداكن والمضيء */
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
@@ -81,9 +75,6 @@
             padding-bottom: 40px;
         }
 
-        /* ==========================================================================
-           3. شريط التنقل العلوي وأزرار التحكم (Navigation Bar)
-           ========================================================================== */
         .nav-bar {
             background-color: var(--bg-nav);
             padding: 15px 20px;
@@ -103,7 +94,6 @@
             align-items: center;
         }
 
-        /* زر العودة للصفحة الرئيسية */
         .back-btn {
             background: rgba(255, 255, 255, 0.1);
             color: #ffffff;
@@ -140,16 +130,12 @@
             background: #16a085;
         }
 
-        /* ==========================================================================
-           4. محتوى الصفحة الرئيسي والأقسام (Main Content & Sections)
-           ========================================================================== */
         .main-container {
             max-width: 800px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
-        /* صندوق العنوان الرئيسي للملف العقاري المختار */
         .property-main-header {
             text-align: center;
             margin-bottom: 35px;
@@ -167,7 +153,6 @@
             line-height: 1.4;
         }
 
-        /* حاويات الأقسام (الفيديو، المعرض، الخريطة) */
         .section-box {
             background: var(--bg-section);
             padding: 20px;
@@ -191,7 +176,6 @@
             color: #1abc9c;
         }
 
-        /* حاوية الفيديو المتجاوبة بنسبة أبعاد 16:9 الافتراضية للـ iframe */
         .video-container {
             position: relative;
             padding-bottom: 56.25%;
@@ -211,9 +195,6 @@
             border: none;
         }
 
-        /* ==========================================================================
-           5. معرض الصور الفوتوغرافية والمصغرات (Gallery & Thumbnails)
-           ========================================================================== */
         .gallery-main {
             width: 100%;
             height: 400px;
@@ -228,18 +209,16 @@
         .gallery-main img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* إظهار كامل تفاصيل الصورة بدون قص مع المحافظة على أبعادها الأصلية */
+            object-fit: contain;
             background: #000000;
             opacity: 1;
             transition: opacity 0.2s ease-in-out;
         }
 
-        /* تأثير التلاشي لحركة انتقالية ناعمة بين الصور عند التبديل */
         .gallery-main img.fade-out {
             opacity: 0;
         }
 
-        /* شبكة عرض الصور المصغرة بالأسفل */
         .thumbnails-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
@@ -261,16 +240,12 @@
             opacity: 0.8;
         }
 
-        /* تظليل وتحديد الصورة المصغرة النشطة حالياً في شاشة المعرض الكبير */
         .thumb.active {
             opacity: 1;
             border-color: #1abc9c;
             transform: scale(1.03);
         }
 
-        /* ==========================================================================
-           6. أزرار التواصل وأدوات العرض الإضافية (Action Buttons & Footer)
-           ========================================================================== */
         .contact-section-buttons {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -294,7 +269,7 @@
         }
 
         .btn-action:hover {
-            transform: translateY(-2px); /* ارتفاع بسيط للزر عند مرور الماوس */
+            transform: translateY(-2px);
         }
 
         .btn-whatsapp { background-color: #25D366; }
@@ -317,13 +292,9 @@
             margin-top: 40px;
         }
 
-        /* ==========================================================================
-           7. شاشات العرض المتجاوبة للهواتف (Responsive Styles)
-           ========================================================================== */
         @media (max-width: 576px) {
             .gallery-main { height: 250px; }
             .thumb { height: 60px; }
-            /* تحويل أزرار الاتصال لتصبح فوق بعضها بشكل طولي لسهولة الضغط في الجوال */
             .contact-section-buttons { grid-template-columns: 1fr; }
             .property-main-header h1 { font-size: 1.5rem; }
         }
@@ -362,24 +333,15 @@
     </footer>
 
     <script>
-        /**
-         * نظام مراقبة التمرير لصفحة التفاصيل
-         * يمنح الصناديق والأقسام حركة دخول جانبية متناوبة وناعمة فور النزول لأسفل الصفحة
-         */
         function initializeDetailsAnimation() {
             const elementsToAnimate = document.querySelectorAll('.property-main-header, .section-box, .contact-section-buttons');
-            
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1 // تفعيل الحركة فور ظهور 10% من الصندوق
-            };
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
 
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('reveal-in');
-                        observer.unobserve(entry.target); // إيقاف المراقبة بعد الحركة مباشرة
+                        observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
@@ -388,16 +350,14 @@
         }
 
         /* ==========================================================================
-           8. الجافاسكريبت والـ API وبناء تفاصيل العقار (JavaScript Logic)
+           الجافاسكريبت والمنطق البرمجي (JavaScript Logic)
            ========================================================================== */
-
         const savedTheme = localStorage.getItem('theme') || 'light';
         setTheme(savedTheme);
 
         let currentLang = localStorage.getItem('selectedLang') || 'ar';
-        let currentPropertyData = null; // تخزين كائن العقار الحالي في الذاكرة لتحديث العرض عند تبديل اللغة
+        let currentPropertyData = null;
 
-        // قاموس الترجمة الموحد لصفحة التفاصيل كاملة
         const translations = {
             ar: {
                 pageTitle: "تفاصيل العقار - شركة ود العقارية",
@@ -423,15 +383,10 @@
             }
         };
 
-        // روابط وقيم احتياطية تُستعمل تلقائياً في حال غياب أو نقص البيانات القادمة من السيرفر
         const fallbackVideos = ["https://youtu.be/J3Bo7HVZ1xA?si=m1WdnvRHHI9QhIoz"];
-        const fallbackMaps = ["https://maps.app.goo.gl/6eHjLHTpXCPbWc5z9"];
-        const fallbackImages = ["https://lh3.googleusercontent.com/d/12KJAn-lXEntEUDXnQDfKDC6nUZgj9RBK"];
+        const fallbackMaps = ["https://maps.google.com/?q=Cairo"];
+        const fallbackImages = ["https://via.placeholder.com/800x400?text=No+Image"];
 
-        /**
-         * دالة لتنظيف النصوص المستلمة من السيرفر (Sanitization) 
-         * تمنع هجمات الـ XSS وحقن الأكواد الضارة عبر تحويل الرموز الخاصة إلى نصوص غير قابلة للتنفيذ
-         */
         function escapeHTML(str) {
             if (!str) return "";
             return str.toString()
@@ -442,33 +397,23 @@
                 .replace(/'/g, "&#039;");
         }
 
-        /* --------------------------------------------------------------------------
-           نظام حماية الأكواد وحظر الفحص (Developer Tools Protection)
-           -------------------------------------------------------------------------- */
+        // حماية فحص العناصر
         document.addEventListener('contextmenu', e => e.preventDefault());
-
         document.addEventListener('keydown', e => {
-            if (
-                e.key === 'F12' || 
-                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'i' || e.key === 'j')) || 
-                (e.ctrlKey && (e.key === 'U' || e.key === 'u'))
-            ) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'i' || e.key === 'j')) || (e.ctrlKey && (e.key === 'U' || e.key === 'u'))) {
                 e.preventDefault();
                 return false;
             }
         });
 
-        /* --------------------------------------------------------------------------
-           التحكم بالمعرض والتفاعل (Gallery Image Switching Logic)
-           -------------------------------------------------------------------------- */
         function changeImage(element) {
             const mainImg = document.getElementById('mainImage');
             if (!mainImg || mainImg.src === element.src) return;
 
-            mainImg.classList.add('fade-out'); // بدء التلاشي للإخفاء
+            mainImg.classList.add('fade-out');
             setTimeout(() => {
-                mainImg.src = element.src; // تبديل الرابط
-                mainImg.classList.remove('fade-out'); // إلغاء التلاشي للظهور مجدداً
+                mainImg.src = element.src;
+                mainImg.classList.remove('fade-out');
             }, 200); 
 
             let thumbs = document.getElementsByClassName('thumb');
@@ -478,9 +423,6 @@
             element.classList.add('active');
         }
 
-        /* --------------------------------------------------------------------------
-           التحكم باللغات والمظاهر (Language & Themes Management)
-           -------------------------------------------------------------------------- */
         function toggleLanguage() {
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
             localStorage.setItem('selectedLang', currentLang);
@@ -521,9 +463,6 @@
             setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
         }
 
-        /* --------------------------------------------------------------------------
-           معالجة الروابط واستخراج الوسائط (Media URL Extractors & Optimizers)
-           -------------------------------------------------------------------------- */
         function getGalleryImages(item) {
             const galleryImages = [];
             Object.keys(item).forEach(key => {
@@ -572,153 +511,4 @@
 
             if (cleanedUrl.includes('youtube.com/watch') || cleanedUrl.includes('youtube.com/embed/')) {
                 const match = cleanedUrl.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
-                if (match && match[2].length === 11) return `https://www.youtube.com/embed/${match[2]}`;
-            } else if (cleanedUrl.includes('youtu.be/')) {
-                return `https://www.youtube.com/embed/${cleanedUrl.split('youtu.be/')[1].split('?')[0]}`;
-            }
-            return cleanedUrl;
-        }
-
-        function optimizeMapUrl(url) {
-            if (!url || !url.toString().trim()) return "";
-            const cleanedUrl = url.toString().trim();
-            const coordsRegex = /^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/;
-
-            if (coordsRegex.test(cleanedUrl)) {
-                return `https://maps.google.com/maps?q=$$$${encodeURIComponent(cleanedUrl)}&output=embed`;
-            }
-            if (cleanedUrl.includes('/embed') || cleanedUrl.includes('output=embed')) {
-                return cleanedUrl;
-            }
-            if (cleanedUrl.includes('google.com/maps') || cleanedUrl.includes('maps.app.goo.gl')) {
-                return cleanedUrl;
-            }
-            return `https://maps.google.com/maps?q=$$$${encodeURIComponent(cleanedUrl)}&output=embed`;
-        }
-
-        function buildVideoPlayer(url) {
-            const videoUrl = optimizeVideoUrl(url);
-            if (!videoUrl) return "";
-            if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(videoUrl)) return `<video src="${videoUrl}" controls playsinline></video>`;
-            return `<iframe src="${videoUrl}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
-        }
-
-        /* --------------------------------------------------------------------------
-           الاتصال بالـ API وجلب تفاصيل العقار المحدد (API Fetching)
-           -------------------------------------------------------------------------- */
-        async function fetchPropertyDetails() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const propertyId = urlParams.get('id');
-
-            const findProperty = (itemsArray) => {
-                if (!propertyId) return itemsArray[0];
-                return itemsArray.find(item =>
-                    String(item.ID || item.id || "").trim() === String(propertyId).trim()
-                );
-            };
-
-            try {
-                const API_URL = "https://script.google.com/macros/s/AKfycbyKnzlHWNG-yBjR5fg2_D5YkuTNyUgJ7m8H5kRLtQIH8HkMqZwAI7CE6b2shCr98b7o/exec";
-                const response = await fetch(API_URL);
-                const data = await response.json();
-                let targetArray = Array.isArray(data) ? data : (data.data || []);
-
-                const found = findProperty(targetArray);
-                if (found) { 
-                    currentPropertyData = found; 
-                    renderDetails(found); 
-                } else { 
-                    showError(); 
-                }
-            } catch (err) {
-                console.error(err);
-                const localCache = localStorage.getItem('properties_cache');
-                if (localCache) {
-                    try {
-                        let itemsArray = JSON.parse(localCache);
-                        const found = findProperty(Array.isArray(itemsArray) ? itemsArray : (itemsArray.data || []));
-                        if (found) { 
-                            currentPropertyData = found; 
-                            renderDetails(found); 
-                            return; 
-                        }
-                    } catch (e) { 
-                        console.error(e); 
-                    }
-                }
-                showError();
-            }
-        }
-
-        function showError() {
-            document.getElementById('mainContainer').innerHTML = `<div class="status-msg" style="color:#e74c3c;"><i class="fa-solid fa-triangle-exclamation"></i> ${translations[currentLang].error}</div>`;
-        }
-
-        /* --------------------------------------------------------------------------
-           بناء واجهة الأقسام وحقن البيانات ديناميكياً (DOM Rendering)
-           -------------------------------------------------------------------------- */
-        function renderDetails(item) {
-            const mainContainer = document.getElementById('mainContainer');
-            
-            const title = escapeHTML(item.العقار || item.title || item.Name || (currentLang === 'ar' ? "تفاصيل ومعاينة الشقة" : "Apartment Preview Details"));
-            
-            let videoUrl = getField(item, ["الفيديو", "رابط_الفيديو", "video", "Video", "video link", "رابط الفيديو"]) || fallbackVideos[0];
-            let mapUrl = optimizeMapUrl(getField(item, ["الخريطة", "الموقع", "map", "Map", "location", "google map"])) || fallbackMaps[0];
-
-            let imgList = getGalleryImages(item);
-            if (imgList.length === 0) imgList = fallbackImages;
-
-            let mainImageSrc = imgList[0];
-            let thumbnailsHTML = "";
-            
-            imgList.forEach((imgSrc, index) => {
-                thumbnailsHTML += `<img class="thumb ${index === 0 ? 'active' : ''}" src="${imgSrc}" onclick="changeImage(this)" alt="Thumbnail ${index + 1}" loading="lazy">`;
-            });
-
-            let htmlContent = `
-                <div class="property-main-header">
-                    <h1>${title}</h1>
-                </div>
-
-                <div class="section-box">
-                    <div class="section-title"><i class="fa-solid fa-circle-play"></i> <span>${translations[currentLang].videoTitle}</span></div>
-                    <div class="video-container">
-                        ${buildVideoPlayer(videoUrl)}
-                    </div>
-                </div>
-
-                <div class="section-box">
-                    <div class="section-title"><i class="fa-solid fa-images"></i> <span>${translations[currentLang].galleryTitle}</span></div>
-                    <div class="gallery-main">
-                        <img id="mainImage" src="${mainImageSrc}" alt="${title}">
-                    </div>
-                    <div class="thumbnails-grid">
-                        ${thumbnailsHTML}
-                    </div>
-                </div>
-
-                <div class="section-box">
-                    <div class="section-title"><i class="fa-solid fa-map-location-dot"></i> <span>${translations[currentLang].mapTitle}</span></div>
-                    <div class="video-container">
-                        <iframe src="${mapUrl}" allowfullscreen loading="lazy"></iframe>
-                    </div>
-                </div>
-
-                <div class="contact-section-buttons">
-                    <a href="https://wa.me/201234567890" target="_blank" class="btn-action btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-                    <a href="tel:+201234567890" class="btn-action btn-phone"><i class="fa-solid fa-phone"></i> Call</a>
-                    <a href="https://facebook.com/yourpage" target="_blank" class="btn-action btn-facebook"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
-                </div>
-            `;
-
-            mainContainer.innerHTML = htmlContent; 
-            initializeDetailsAnimation();
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            setLanguage(currentLang); 
-            fetchPropertyDetails();
-        });
-    </script>
-</body>
-</html>
+                if (match && match[2].length === 11) return `https://www
