@@ -200,4 +200,38 @@
             transition: background 0.2s;
         }
 
-        .
+        .view-details-btn:hover {
+            background: #16a085;
+        }
+
+        .status-msg {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 50px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-title);
+        }
+
+        footer {
+            background-color: var(--bg-nav);
+            color: white;
+            text-align: center;
+            padding: 25px 10px;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .page-header-box h2 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="nav-bar">
+        <div class="nav-container">
+            <a href="index.html" class="brand-logo">
+                <i class="fa-solid fa-building-shield"></i>
+                <span id="logoText">شركة ود العقارية</span>
+            </a>
