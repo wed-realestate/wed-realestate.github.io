@@ -13,17 +13,19 @@
            1. متغيرات الألوان وأنظمة العرض (CSS Variables & Themes)
            ========================================================================== */
         :root {
-            --bg-body: #f4f7f6;
-            --text-main: #333333;
-            --text-title: #2c3e50;
-            --text-muted: #7f8c8d;
-            --bg-nav: #1a252f;
-            --bg-section: #ffffff;
-            --border-card: #e2f0ea;
-            --shadow: rgba(0, 0, 0, 0.05);
+            /* الألوان الافتراضية للوضع المضيء (Light Mode) */
+            --bg-body: #f4f7f6;      /* لون الخلفية العامة للموقع */
+            --text-main: #333333;    /* لون النصوص الأساسية والفقرات */
+            --text-title: #2c3e50;   /* لون العناوين الرئيسية */
+            --text-muted: #7f8c8d;   /* لون النصوص الثانوية والتوضيحية */
+            --bg-nav: #1a252f;      /* لون شريط التنقل العلوي */
+            --bg-section: #ffffff;  /* لون خلفية الصناديق والأقسام */
+            --border-card: #e2f0ea;  /* لون حواف الصناديق وبطاقة العنوان */
+            --shadow: rgba(0, 0, 0, 0.05); /* ظلال ناعمة للصناديق */
         }
 
         [data-theme="dark"] {
+            /* إعادة تعريف المتغيرات عند تفعيل الوضع الداكن (Dark Mode) */
             --bg-body: #121212;
             --text-main: #e0e0e0;
             --text-title: #ffffff;
@@ -35,37 +37,14 @@
         }
 
         /* ==========================================================================
-           2. تأثيرات التمرير والظهور (Scroll Animations)
-           ========================================================================== */
-        .section-box, .property-main-header, .contact-section-buttons {
-            opacity: 0;
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
-                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                        background-color 0.3s ease, 
-                        color 0.3s ease;
-        }
-
-        .section-box:nth-child(odd) {
-            transform: translateX(50px);
-        }
-
-        .section-box:nth-child(even), .property-main-header, .contact-section-buttons {
-            transform: translateX(-50px);
-        }
-
-        .reveal-in {
-            opacity: 1;
-            transform: translateX(0) !important;
-        }
-
-        /* ==========================================================================
-           3. التنسيقات العامة (Global Styles)
+           2. التنسيقات العامة وعناصر الهيكل الأساسية (Global Styles)
            ========================================================================== */
         * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
+            box-sizing: border-box; /* احتساب الحشوات والحدود ضمن الحجم الإجمالي للعنصر */
+            margin: 0;              /* إلغاء الهوامش الافتراضية للمتصفح */
+            padding: 0;             /* إلغاء الحشوات الافتراضية للمتصفح */
+            font-family: 'Cairo', sans-serif; /* تطبيق الخط الموحد على كامل الموقع */
+            /* جعل الانتقالات ناعمة عند التحويل بين الوضع الداكن والمضيء */
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
@@ -75,6 +54,9 @@
             padding-bottom: 40px;
         }
 
+        /* ==========================================================================
+           3. شريط التنقل العلوي وأزرار التحكم (Navigation Bar)
+           ========================================================================== */
         .nav-bar {
             background-color: var(--bg-nav);
             padding: 15px 20px;
@@ -94,6 +76,7 @@
             align-items: center;
         }
 
+        /* زر العودة للصفحة الرئيسية */
         .back-btn {
             background: rgba(255, 255, 255, 0.1);
             color: #ffffff;
@@ -130,12 +113,16 @@
             background: #16a085;
         }
 
+        /* ==========================================================================
+           4. محتوى الصفحة الرئيسي والأقسام (Main Content & Sections)
+           ========================================================================== */
         .main-container {
             max-width: 800px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
+        /* صندوق العنوان الرئيسي للملف العقاري المختار */
         .property-main-header {
             text-align: center;
             margin-bottom: 35px;
@@ -153,6 +140,7 @@
             line-height: 1.4;
         }
 
+        /* حاويات الأقسام (الفيديو، المعرض، الخريطة) */
         .section-box {
             background: var(--bg-section);
             padding: 20px;
@@ -176,6 +164,7 @@
             color: #1abc9c;
         }
 
+        /* حاوية الفيديو المتجاوبة بنسبة أبعاد 16:9 الافتراضية للـ iframe */
         .video-container {
             position: relative;
             padding-bottom: 56.25%;
@@ -195,6 +184,9 @@
             border: none;
         }
 
+        /* ==========================================================================
+           5. معرض الصور الفوتوغرافية والمصغرات (Gallery & Thumbnails)
+           ========================================================================== */
         .gallery-main {
             width: 100%;
             height: 400px;
@@ -209,16 +201,18 @@
         .gallery-main img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: contain; /* إظهار كامل تفاصيل الصورة بدون قص مع المحافظة على أبعادها الأصلية */
             background: #000000;
             opacity: 1;
             transition: opacity 0.2s ease-in-out;
         }
 
+        /* تأثير التلاشي لحركة انتقالية ناعمة بين الصور عند التبديل */
         .gallery-main img.fade-out {
             opacity: 0;
         }
 
+        /* شبكة عرض الصور المصغرة بالأسفل */
         .thumbnails-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
@@ -240,12 +234,16 @@
             opacity: 0.8;
         }
 
+        /* تظليل وتحديد الصورة المصغرة النشطة حالياً في شاشة المعرض الكبير */
         .thumb.active {
             opacity: 1;
             border-color: #1abc9c;
             transform: scale(1.03);
         }
 
+        /* ==========================================================================
+           6. أزرار التواصل وأدوات العرض الإضافية (Action Buttons & Footer)
+           ========================================================================== */
         .contact-section-buttons {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -269,7 +267,7 @@
         }
 
         .btn-action:hover {
-            transform: translateY(-2px);
+            transform: translateY(-2px); /* ارتفاع بسيط للزر عند مرور الماوس */
         }
 
         .btn-whatsapp { background-color: #25D366; }
@@ -292,9 +290,13 @@
             margin-top: 40px;
         }
 
+        /* ==========================================================================
+           7. شاشات العرض المتجاوبة للهواتف (Responsive Styles)
+           ========================================================================== */
         @media (max-width: 576px) {
             .gallery-main { height: 250px; }
             .thumb { height: 60px; }
+            /* تحويل أزرار الاتصال لتصبح فوق بعضها بشكل طولي لسهولة الضغط في الجوال */
             .contact-section-buttons { grid-template-columns: 1fr; }
             .property-main-header h1 { font-size: 1.5rem; }
         }
@@ -333,182 +335,367 @@
     </footer>
 
     <script>
-        function initializeDetailsAnimation() {
-            const elementsToAnimate = document.querySelectorAll('.property-main-header, .section-box, .contact-section-buttons');
-            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+    /* ==========================================================================
+       8. الجافاسكريبت والـ API وبناء تفاصيل العقار (JavaScript Logic)
+       ========================================================================== */
 
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('reveal-in');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
+    // جلب وحفظ الحالة المفضلة للمظهر واللغة المخزنة بمتصفح الزائر
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
 
-            elementsToAnimate.forEach(el => observer.observe(el));
+    let currentLang = localStorage.getItem('selectedLang') || 'ar';
+    let currentPropertyData = null; // تخزين كائن العقار الحالي في الذاكرة لتحديث العرض عند تبديل اللغة
+
+    // قاموس الترجمة الموحد لصفحة التفاصيل كاملة
+    const translations = {
+        ar: {
+            pageTitle: "تفاصيل العقار - شركة ود العقارية",
+            backBtn: "العودة للرئيسية",
+            videoTitle: "فيديو المعاينة الحية",
+            galleryTitle: "معرض الصور الفوتوغرافية",
+            mapTitle: "موقع العقار على الخريطة",
+            footerText: "جميع الحقوق محفوظة © شركة ود العقارية 2018",
+            langBtn: "EN",
+            loading: "جاري جلب تفاصيل المعاينة...",
+            error: "عذراً، لم يتم العثور على العقار المطلوب أو هناك خلل في الاتصال."
+        },
+        en: {
+            pageTitle: "Property Details - Wed Real Estate",
+            backBtn: "Back to Home",
+            videoTitle: "Live Preview Video",
+            galleryTitle: "Photo Gallery",
+            mapTitle: "Property Location on Map",
+            footerText: "All Rights Reserved © Wed Real Estate 2018",
+            langBtn: "AR",
+            loading: "Loading preview details...",
+            error: "Sorry, the requested property was not found or connection failed."
         }
+    };
 
-        /* ==========================================================================
-           الجافاسكريبت والمنطق البرمجي (JavaScript Logic)
-           ========================================================================== */
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        setTheme(savedTheme);
+    // روابط وقيم احتياطية تُستعمل تلقائياً في حال غياب أو نقص البيانات القادمة من السيرفر
+    const fallbackVideos = ["https://youtu.be/J3Bo7HVZ1xA?si=m1WdnvRHHI9QhIoz"];
+    const fallbackMaps = ["https://maps.app.goo.gl/6eHjLHTpXCPbWc5z9"];
+    const fallbackImages = ["https://lh3.googleusercontent.com/d/12KJAn-lXEntEUDXnQDfKDC6nUZgj9RBK"];
 
-        let currentLang = localStorage.getItem('selectedLang') || 'ar';
-        let currentPropertyData = null;
+    /**
+     * دالة لتنظيف النصوص المستلمة من السيرفر (Sanitization) 
+     * تمنع هجمات الـ XSS وحقن الأكواد الضارة عبر تحويل الرموز الخاصة إلى نصوص غير قابلة للتنفيذ
+     */
+    function escapeHTML(str) {
+        if (!str) return "";
+        return str.toString()
+            .replace(/&/g, "&")
+            .replace(/</g, "<")
+            .replace(/>/g, ">")
+            .replace(/"/g, """)
+            .replace(/'/g, "'");
+    }
 
-        const translations = {
-            ar: {
-                pageTitle: "تفاصيل العقار - شركة ود العقارية",
-                backBtn: "العودة للرئيسية",
-                videoTitle: "فيديو المعاينة الحية",
-                galleryTitle: "معرض الصور الفوتوغرافية",
-                mapTitle: "موقع العقار على الخريطة",
-                footerText: "جميع الحقوق محفوظة © شركة ود العقارية 2018",
-                langBtn: "EN",
-                loading: "جاري جلب تفاصيل المعاينة...",
-                error: "عذراً، لم يتم العثور على العقار المطلوب أو هناك خلل في الاتصال."
-            },
-            en: {
-                pageTitle: "Property Details - Wed Real Estate",
-                backBtn: "Back to Home",
-                videoTitle: "Live Preview Video",
-                galleryTitle: "Photo Gallery",
-                mapTitle: "Property Location on Map",
-                footerText: "All Rights Reserved © Wed Real Estate 2018",
-                langBtn: "AR",
-                loading: "Loading preview details...",
-                error: "Sorry, the requested property was not found or connection failed."
-            }
-        };
+    /* --------------------------------------------------------------------------
+       نظام حماية الأكواد وحظر الفحص (Developer Tools Protection)
+       -------------------------------------------------------------------------- */
+    // حظر القائمة المنبثقة للزر الأيمن للفأرة (الماوس) لمنع نسخ الأكواد بسهولة
+    document.addEventListener('contextmenu', e => e.preventDefault());
 
-        const fallbackVideos = ["https://youtu.be/J3Bo7HVZ1xA?si=m1WdnvRHHI9QhIoz"];
-        const fallbackMaps = ["https://maps.google.com/?q=Cairo"];
-        const fallbackImages = ["https://via.placeholder.com/800x400?text=No+Image"];
-
-        function escapeHTML(str) {
-            if (!str) return "";
-            return str.toString()
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+    // حظر الاختصارات البرمجية الشهيرة لفتح شاشة فحص العناصر (F12, Ctrl+Shift+I, Ctrl+U)
+    document.addEventListener('keydown', e => {
+        if (
+            e.key === 'F12' || 
+            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'i' || e.key === 'j')) || 
+            (e.ctrlKey && (e.key === 'U' || e.key === 'u'))
+        ) {
+            e.preventDefault();
+            return false;
         }
+    });
 
-        // حماية فحص العناصر
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.addEventListener('keydown', e => {
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'i' || e.key === 'j')) || (e.ctrlKey && (e.key === 'U' || e.key === 'u'))) {
-                e.preventDefault();
-                return false;
+    /* --------------------------------------------------------------------------
+       التحكم بالمعرض والتفاعل (Gallery Image Switching Logic)
+       -------------------------------------------------------------------------- */
+    // دالة تبديل الصورة الكبيرة بالمعرض عند الضغط على إحدى الصور المصغرة بالأسفل مع تأثير تلاشي ناعم
+    function changeImage(element) {
+        const mainImg = document.getElementById('mainImage');
+        if (!mainImg || mainImg.src === element.src) return;
+
+        mainImg.classList.add('fade-out'); // بدء التلاشي للإخفاء
+        setTimeout(() => {
+            mainImg.src = element.src; // تبديل الرابط
+            mainImg.classList.remove('fade-out'); // إلغاء التلاشي للظهور مجدداً
+        }, 200); 
+
+        // إزالة الكلاس النشط (active) من كافة المصغرات السابقة وتعيينه للمصغر الحالي فقط
+        let thumbs = document.getElementsByClassName('thumb');
+        for (let i = 0; i < thumbs.length; i++) {
+            thumbs[i].classList.remove('active');
+        }
+        element.classList.add('active');
+    }
+
+    /* --------------------------------------------------------------------------
+       التحكم باللغات والمظاهر (Language & Themes Management)
+       -------------------------------------------------------------------------- */
+    function toggleLanguage() {
+        currentLang = currentLang === 'ar' ? 'en' : 'ar';
+        localStorage.setItem('selectedLang', currentLang);
+        setLanguage(currentLang);
+    }
+
+    function setLanguage(lang) {
+        const html = document.getElementById('htmlPage');
+        html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr'); // تغيير اتجاه عناصر الصفحة يمين/يسار
+        html.setAttribute('lang', lang);
+
+        // ترجمة ترويسة وتذييل الصفحة الثابتة
+        document.title = translations[lang].pageTitle;
+        document.getElementById('footerText').textContent = translations[lang].footerText;
+        document.getElementById('langText').textContent = translations[lang].langBtn;
+        
+        const backBtnText = document.querySelector('#backBtn .data-text');
+        if (backBtnText) backBtnText.textContent = translations[lang].backBtn;
+
+        // تعديل شكل واتجاه سهم زر العودة بناءً على لغة الموقع الحالية
+        const backIcon = document.getElementById('backIcon');
+        if (backIcon) backIcon.className = lang === 'ar' ? 'fa-solid fa-arrow-right' : 'fa-solid fa-arrow-left';
+
+        // في حالة وجود بيانات العقار محملة مسبقاً، يتم إعادة حقن المحتوى فوراً لتحديث العناوين الداخلية المترجمة
+        if (currentPropertyData) {
+            renderDetails(currentPropertyData);
+        } else {
+            const statusMsg = document.getElementById('statusMessage');
+            if (statusMsg) statusMsg.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> ${translations[lang].loading}`;
+        }
+    }
+
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        const themeBtn = document.getElementById('themeBtn');
+        if (themeBtn) themeBtn.innerHTML = theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+    }
+
+    function toggleTheme() {
+        setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    }
+
+    /* --------------------------------------------------------------------------
+       معالجة الروابط واستخراج الوسائط (Media URL Extractors & Optimizers)
+       -------------------------------------------------------------------------- */
+    // دالة لتجميع كافة روابط الصور التابعة لمعرض العقار المكتوبة في الشيت تحت مسمى يبدأ بـ Gallery
+    function getGalleryImages(item) {
+        const galleryImages = [];
+        Object.keys(item).forEach(key => {
+            const normalizedKey = key.toLowerCase().trim();
+            if (normalizedKey.startsWith("gallery ") || normalizedKey.startsWith("gallery_") || /^gallery\d+$/i.test(normalizedKey)) {
+                const value = item[key];
+                if (value && value.toString().trim() !== "") {
+                    galleryImages.push(optimizeDriveImageUrl(value));
+                }
             }
         });
+        return [...new Set(galleryImages)].filter(Boolean); // تنظيف الروافد المكررة أو الفارغة
+    }
 
-        function changeImage(element) {
-            const mainImg = document.getElementById('mainImage');
-            if (!mainImg || mainImg.src === element.src) return;
+    // استخراج معرّف الـ ID للملفات المرفوعة على خوادم جوجل درايف عبر أنماط روابط المشاركة المختلفة
+    function extractGoogleDriveId(url) {
+        if (!url) return "";
+        const text = url.toString().trim();
+        const patterns = [/\/file\/d\/([^/]+)/, /\/d\/([^/]+)/, /[?&]id=([^&]+)/, /open\?id=([^&]+)/, /uc\?[^#]*id=([^&]+)/];
+        for (const pattern of patterns) {
+            const match = text.match(pattern);
+            if (match && match[1]) return decodeURIComponent(match[1]);
+        }
+        return "";
+    }
 
-            mainImg.classList.add('fade-out');
-            setTimeout(() => {
-                mainImg.src = element.src;
-                mainImg.classList.remove('fade-out');
-            }, 200); 
+    // تحويل روابط صور جوجل درايف العادية لروابط مصغرات سريعة وخفيفة التحميل ملائمة لشاشات العرض
+    function optimizeDriveImageUrl(url) {
+        if (!url || !url.toString().trim()) return "";
+        const driveId = extractGoogleDriveId(url.toString().trim());
+        if (driveId) return `https://drive.google.com/thumbnail?id=${encodeURIComponent(driveId)}&sz=w1200`;
+        return url;
+    }
 
-            let thumbs = document.getElementsByClassName('thumb');
-            for (let i = 0; i < thumbs.length; i++) {
-                thumbs[i].classList.remove('active');
+    // دالة مرنة للبحث عن قيمة حقل معين داخل كائن العقار تجنباً لاختلاف مسميات الأعمدة بالشيت
+    function getField(item, names) {
+        for (const name of names) {
+            if (item[name] !== undefined && item[name] !== null && item[name].toString().trim() !== "") return item[name];
+        }
+        return "";
+    }
+
+    // تهيئة وتجهيز روابط الفيديو (جوجل درايف أو يوتيوب) لتصبح صالحة كـ روابط تضمين داخل الـ iframe
+    function optimizeVideoUrl(url) {
+        if (!url || !url.toString().trim()) return "";
+        const cleanedUrl = url.toString().trim();
+        
+        // إذا كان الفيديو مرفوعاً على جوجل درايف يتم تحويله لرابط المعاينة والتضمين (Preview)
+        const driveId = extractGoogleDriveId(cleanedUrl);
+        if (driveId) return `https://drive.google.com/file/d/${encodeURIComponent(driveId)}/preview`;
+
+        // إذا كان رابط الفيديو تابعاً ليوتيوب بصيغة watch، يتم استخراج المعرف وتحويله لرابط embed
+        if (cleanedUrl.includes('youtube.com/watch') || cleanedUrl.includes('youtube.com/embed/')) {
+            const match = cleanedUrl.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
+            if (match && match[2].length === 11) return `https://www.youtube.com/embed/${match[2]}`;
+        } else if (cleanedUrl.includes('youtu.be/')) {
+            return `https://www.youtube.com/embed/${cleanedUrl.split('youtu.be/')[1].split('?')[0]}`;
+        }
+        return cleanedUrl;
+    }
+
+    // تهيئة وتجهيز روابط خرائط جوجل لتصبح صالحة للحقن المباشر داخل مشغل الـ iframe
+    function optimizeMapUrl(url) {
+        if (!url || !url.toString().trim()) return "";
+        const cleanedUrl = url.toString().trim();
+        const coordsRegex = /^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/;
+
+        // إذا كانت القيمة المدخلة عبارة عن إحداثيات جغرافية مجردة (طول وعرض) يتم دمجها برابط تضمين الخرائط الرسمي
+        if (coordsRegex.test(cleanedUrl)) {
+            return `https://maps.google.com/maps?q=$$${encodeURIComponent(cleanedUrl)}&output=embed`;
+        }
+        if (cleanedUrl.includes('/embed') || cleanedUrl.includes('output=embed')) {
+            return cleanedUrl;
+        }
+        if (cleanedUrl.includes('google.com/maps') || cleanedUrl.includes('maps.app.goo.gl')) {
+            return cleanedUrl;
+        }
+        return `https://maps.google.com/maps?q=$$${encodeURIComponent(cleanedUrl)}&output=embed`;
+    }
+
+    // دالة ذكية لبناء كود مشغل الوسائط المناسب بناءً على صيغة وامتداد رابط الفيديو الممرر
+    function buildVideoPlayer(url) {
+        const videoUrl = optimizeVideoUrl(url);
+        if (!videoUrl) return "";
+        // إذا كان امتداد الملف مباشراً بصيغة mp4 أو webm، يتم تشغيله بواسطة عنصر فيديو HTML5 مع ميزة التشغيل الداخلي بالجوال
+        if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(videoUrl)) return `<video src="${videoUrl}" controls playsinline></video>`;
+        return `<iframe src="${videoUrl}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+    }
+
+    /* --------------------------------------------------------------------------
+       الاتصال بالـ API وجلب تفاصيل العقار المحدد (API Fetching)
+       -------------------------------------------------------------------------- */
+    async function fetchPropertyDetails() {
+        // قراءة قيمة معرّف العقار الفريد (id) الممرر عبر رابط الصفحة (Query Parameters)
+        const urlParams = new URLSearchParams(window.location.search);
+        const propertyId = urlParams.get('id');
+
+        // دالة تصفية ومطابقة للبحث عن العقار المتوافق مع الـ ID المطلوب من مصفوفة البيانات المستلمة
+        const findProperty = (itemsArray) => {
+            if (!propertyId) return itemsArray[0]; // عرض أول عقار كخيار افتراضي في حال غياب المعرّف بالرابط
+            return itemsArray.find(item =>
+                String(item.ID || item.id || "").trim() === String(propertyId).trim()
+            );
+        };
+
+        try {
+            const API_URL = "https://script.google.com/macros/s/AKfycbyKnzlHWNG-yBjR5fg2_D5YkuTNyUgJ7m8H5kRLtQIH8HkMqZwAI7CE6b2shCr98b7o/exec";
+            const response = await fetch(API_URL);
+            const data = await response.json();
+            let targetArray = Array.isArray(data) ? data : (data.data || []);
+
+            const found = findProperty(targetArray);
+            if (found) { 
+                currentPropertyData = found; 
+                renderDetails(found); 
+            } else { 
+                showError(); 
             }
-            element.classList.add('active');
-        }
-
-        function toggleLanguage() {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            localStorage.setItem('selectedLang', currentLang);
-            setLanguage(currentLang);
-        }
-
-        function setLanguage(lang) {
-            const html = document.getElementById('htmlPage');
-            html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-            html.setAttribute('lang', lang);
-
-            document.title = translations[lang].pageTitle;
-            document.getElementById('footerText').textContent = translations[lang].footerText;
-            document.getElementById('langText').textContent = translations[lang].langBtn;
-            
-            const backBtnText = document.querySelector('#backBtn .data-text');
-            if (backBtnText) backBtnText.textContent = translations[lang].backBtn;
-
-            const backIcon = document.getElementById('backIcon');
-            if (backIcon) backIcon.className = lang === 'ar' ? 'fa-solid fa-arrow-right' : 'fa-solid fa-arrow-left';
-
-            if (currentPropertyData) {
-                renderDetails(currentPropertyData);
-            } else {
-                const statusMsg = document.getElementById('statusMessage');
-                if (statusMsg) statusMsg.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> ${translations[lang].loading}`;
-            }
-        }
-
-        function setTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            const themeBtn = document.getElementById('themeBtn');
-            if (themeBtn) themeBtn.innerHTML = theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
-        }
-
-        function toggleTheme() {
-            setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-        }
-
-        function getGalleryImages(item) {
-            const galleryImages = [];
-            Object.keys(item).forEach(key => {
-                const normalizedKey = key.toLowerCase().trim();
-                if (normalizedKey.startsWith("gallery ") || normalizedKey.startsWith("gallery_") || /^gallery\d+$/i.test(normalizedKey)) {
-                    const value = item[key];
-                    if (value && value.toString().trim() !== "") {
-                        galleryImages.push(optimizeDriveImageUrl(value));
+        } catch (err) {
+            console.error(err);
+            // نظام الكاش البديل: في حال انقطاع اتصال الإنترنت يتم سحب مصفوفة العقارات المحفوظة بذاكرة المتصفح المحلية ومطابقتها
+            const localCache = localStorage.getItem('properties_cache');
+            if (localCache) {
+                try {
+                    let itemsArray = JSON.parse(localCache);
+                    const found = findProperty(Array.isArray(itemsArray) ? itemsArray : (itemsArray.data || []));
+                    if (found) { 
+                        currentPropertyData = found; 
+                        renderDetails(found); 
+                        return; 
                     }
+                } catch (e) { 
+                    console.error(e); 
                 }
-            });
-            return [...new Set(galleryImages)].filter(Boolean);
-        }
-
-        function extractGoogleDriveId(url) {
-            if (!url) return "";
-            const text = url.toString().trim();
-            const patterns = [/\/file\/d\/([^/]+)/, /\/d\/([^/]+)/, /[?&]id=([^&]+)/, /open\?id=([^&]+)/, /uc\?[^#]*id=([^&]+)/];
-            for (const pattern of patterns) {
-                const match = text.match(pattern);
-                if (match && match[1]) return decodeURIComponent(match[1]);
             }
-            return "";
+            showError();
         }
+    }
 
-        function optimizeDriveImageUrl(url) {
-            if (!url || !url.toString().trim()) return "";
-            const driveId = extractGoogleDriveId(url.toString().trim());
-            if (driveId) return `https://drive.google.com/thumbnail?id=${encodeURIComponent(driveId)}&sz=w1200`;
-            return url;
-        }
+    // عرض رسالة خطأ واضحة ومتناسقة لغوياً للمستخدم عند تعذر العثور على العقار
+    function showError() {
+        document.getElementById('mainContainer').innerHTML = `<div class="status-msg" style="color:#e74c3c;"><i class="fa-solid fa-triangle-exclamation"></i> ${translations[currentLang].error}</div>`;
+    }
 
-        function getField(item, names) {
-            for (const name of names) {
-                if (item[name] !== undefined && item[name] !== null && item[name].toString().trim() !== "") return item[name];
-            }
-            return "";
-        }
+    /* --------------------------------------------------------------------------
+       بناء واجهة الأقسام وحقن البيانات ديناميكياً (DOM Rendering)
+       -------------------------------------------------------------------------- */
+    function renderDetails(item) {
+        const mainContainer = document.getElementById('mainContainer');
+        
+        // استخراج وتطهير عنوان العقار
+        const title = escapeHTML(item.العقار || item.title || item.Name || (currentLang === 'ar' ? "تفاصيل ومعاينة الشقة" : "Apartment Preview Details"));
+        
+        // جلب وتجهيز روابط الفيديو والخرائط
+        let videoUrl = getField(item, ["الفيديو", "رابط_الفيديو", "video", "Video", "video link", "رابط الفيديو"]) || fallbackVideos[0];
+        let mapUrl = optimizeMapUrl(getField(item, ["الخريطة", "الموقع", "map", "Map", "location", "google map"])) || fallbackMaps[0];
 
-        function optimizeVideoUrl(url) {
-            if (!url || !url.toString().trim()) return "";
-            const cleanedUrl = url.toString().trim();
-            
-            const driveId = extractGoogleDriveId(cleanedUrl);
-            if (driveId) return `https://drive.google.com/file/d/${encodeURIComponent(driveId)}/preview`;
+        // جلب مصفوفة المعرض، وفي حال خلوها يتم تعيين الرابط الاحتياطي
+        let imgList = getGalleryImages(item);
+        if (imgList.length === 0) imgList = fallbackImages;
 
-            if (cleanedUrl.includes('youtube.com/watch') || cleanedUrl.includes('youtube.com/embed/')) {
-                const match = cleanedUrl.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
-                if (match && match[2].length === 11) return `https://www
+        let mainImageSrc = imgList[0];
+        let thumbnailsHTML = "";
+        
+        // بناء الهيكل البرمجي لشبكة الصور المصغرة بالأسفل وتعيين الكلاس النشط لأول صورة
+        imgList.forEach((imgSrc, index) => {
+            thumbnailsHTML += `<img class="thumb ${index === 0 ? 'active' : ''}" src="${imgSrc}" onclick="changeImage(this)" alt="Thumbnail ${index + 1}" loading="lazy">`;
+        });
+
+        // قالب النص البرمجي الكامل (Template Literal) الحاضن لكافة أقسام المعاينة وأزرار التواصل الفوري
+        let htmlContent = `
+            <div class="property-main-header">
+                <h1>${title}</h1>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title"><i class="fa-solid fa-circle-play"></i> <span>${translations[currentLang].videoTitle}</span></div>
+                <div class="video-container">
+                    ${buildVideoPlayer(videoUrl)}
+                </div>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title"><i class="fa-solid fa-images"></i> <span>${translations[currentLang].galleryTitle}</span></div>
+                <div class="gallery-main">
+                    <img id="mainImage" src="${mainImageSrc}" alt="${title}">
+                </div>
+                <div class="thumbnails-grid">
+                    ${thumbnailsHTML}
+                </div>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title"><i class="fa-solid fa-map-location-dot"></i> <span>${translations[currentLang].mapTitle}</span></div>
+                <div class="video-container">
+                    <iframe src="${mapUrl}" allowfullscreen loading="lazy"></iframe>
+                </div>
+            </div>
+
+            <div class="contact-section-buttons">
+                <a href="https://wa.me/201234567890" target="_blank" class="btn-action btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                <a href="tel:+201234567890" class="btn-action btn-phone"><i class="fa-solid fa-phone"></i> Call</a>
+                <a href="https://facebook.com/yourpage" target="_blank" class="btn-action btn-facebook"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
+            </div>
+        `;
+
+        mainContainer.innerHTML = htmlContent; // حقن الواجهة المتكاملة داخل الحاوية الرئيسية للعرض فوراً
+    }
+
+    // نقطة الانطلاق الأساسية: يتم تهيئة اللغة المعتمدة واستدعاء دالة جلب تفاصيل المعاينة فور استقرار هيكل الواجهة
+    document.addEventListener("DOMContentLoaded", () => {
+        setLanguage(currentLang); 
+        fetchPropertyDetails();
+    });
+    </script>
+</body>
+
+</html>
