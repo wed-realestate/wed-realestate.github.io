@@ -41,8 +41,20 @@
         body { background-color: var(--bg-body); color: var(--text-main); padding-bottom: 40px; }
 
         .nav-bar { background-color: var(--bg-nav); padding: 15px 20px; }
-        .nav-container { max-width: 800px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        
+        /* ضبط الحاوية لتدعم الترتيب التلقائي الذكي المبسط */
+        .nav-container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
         .nav-controls { display: flex; gap: 10px; align-items: center; }
+
+        /* تفعيل خاصية الترتيب التلقائي المتناسق مع الصفحة الأولى */
+        .back-btn { order: 1; }
+        .nav-controls { order: 2; }
 
         .back-btn { background: rgba(255, 255, 255, 0.1); color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
         .back-btn:hover { background: #1abc9c; }
@@ -133,7 +145,6 @@
 </footer>
 
 <script>
-// _____________ -->
 const savedTheme = localStorage.getItem('theme') || 'light';
 setTheme(savedTheme);
 
@@ -164,25 +175,24 @@ const translations = {
 };
 
 const fallbackVideos = ["https://youtu.be/J3Bo7HVZ1xA?si=m1WdnvRHHI9QhIoz"];
-const fallbackMaps = ["https://maps.app.goo.gl/6eHjLHTpXCPbWc5z9"];
+const fallbackMaps = ["http://googleusercontent.com/maps.google.com/9"];
 const fallbackImages = ["https://lh3.googleusercontent.com/d/12KJAn-lXEntEUDXnQDfKDC6nUZgj9RBK"];
 
-
-// _____________ -->
+// XSS تنظيف النصوص المجلوبة لمنع ثغرات الحقن البرمجي
 function escapeHTML(str) {
     if (!str) return "";
     return str.toString()
-        .replace(/&/g, "&")
-        .replace(/</g, "<")
-        .replace(/>/g, ">")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
 
-// تفعيل حظر الزر الأيمن للفأرة لحماية الـ API
+// حظر الزر الأيمن للفأرة لحماية الـ API
 document.addEventListener('contextmenu', e => e.preventDefault());
 
-// حظر الاختصارات البرمجية الشائعة لفتح أدوات المطور (F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U)
+// حظر الاختصارات البرمجية الشائعة لفتح أدوات المطور
 document.addEventListener('keydown', e => {
     if (
         e.key === 'F12' || 
@@ -194,8 +204,6 @@ document.addEventListener('keydown', e => {
     }
 });
 
-
-// _____________ -->
 function changeImage(element) {
     const mainImg = document.getElementById('mainImage');
     if (!mainImg || mainImg.src === element.src) return;
@@ -248,8 +256,6 @@ function toggleTheme() {
     setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
 }
 
-
-// _____________ -->
 function getGalleryImages(item) {
     const galleryImages = [];
     Object.keys(item).forEach(key => {
@@ -279,7 +285,7 @@ function optimizeDriveImageUrl(url) {
     if (!url || !url.toString().trim()) return "";
     const driveId = extractGoogleDriveId(url.toString().trim());
     if (driveId) return `https://drive.google.com/thumbnail?id=${encodeURIComponent(driveId)}&sz=w1200`;
-    return url;
+    return url.toString().trim();
 }
 
 function getField(item, names) {
@@ -310,29 +316,32 @@ function optimizeMapUrl(url) {
     const coordsRegex = /^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/;
 
     if (coordsRegex.test(cleanedUrl)) {
-        return `https://maps.google.com/maps?q=$${encodeURIComponent(cleanedUrl)}&output=embed`;
+        return `https://maps.google.com0{encodeURIComponent(cleanedUrl)}&output=embed`;
     }
     if (cleanedUrl.includes('/embed') || cleanedUrl.includes('output=embed')) {
         return cleanedUrl;
     }
-    if (cleanedUrl.includes('google.com/maps') || cleanedUrl.includes('maps.app.goo.gl')) {
+    if (cleanedUrl.includes('https://maps.google.com1') || cleanedUrl.includes('https://maps.google.com2')) {
         return cleanedUrl;
     }
-    return `https://maps.google.com/maps?q=$${encodeURIComponent(cleanedUrl)}&output=embed`;
+    return `https://maps.google.com0{encodeURIComponent(cleanedUrl)}&output=embed`;
 }
 
+// بناء وتأمين مشغل الفيديو لمنع ثغرات تضمين السكريبتات الخبيثة
 function buildVideoPlayer(url) {
     const videoUrl = optimizeVideoUrl(url);
     if (!videoUrl) return "";
-    if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(videoUrl)) return `<video src="${videoUrl}" controls playsinline></video>`;
-    return `<iframe src="${videoUrl}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+    if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(videoUrl)) return `<video src="${escapeHTML(videoUrl)}" controls playsinline></video>`;
+    // إضافة حماية sandbox لمنع الـ iframe من الوصول غير المصرح به للمستند الحالي
+    return `<iframe src="${escapeHTML(videoUrl)}" sandbox="allow-scripts allow-same-origin allow-presentation" allowfullscreen></iframe>`;
 }
 
-
-// _____________ -->
 async function fetchPropertyDetails() {
     const urlParams = new URLSearchParams(window.location.search);
-    const propertyId = urlParams.get('id');
+    const rawPropertyId = urlParams.get('id');
+    
+    // تأمين الـ ID وفلترته لمنع حقن المعاملات البرمجية الضارة عبر الرابط
+    const propertyId = rawPropertyId && /^[a-zA-Z0-9_-]+$/.test(rawPropertyId) ? rawPropertyId : null;
 
     const findProperty = (itemsArray) => {
         if (!propertyId) return itemsArray[0];
@@ -367,8 +376,6 @@ function showError() {
     document.getElementById('mainContainer').innerHTML = `<div class="status-msg" style="color:#e74c3c;"><i class="fa-solid fa-triangle-exclamation"></i> ${translations[currentLang].error}</div>`;
 }
 
-
-// _____________ -->
 function renderDetails(item) {
     const mainContainer = document.getElementById('mainContainer');
     const title = escapeHTML(item.العقار || item.title || item.Name || "تفاصيل ومعاينة الشقة");
@@ -382,7 +389,7 @@ function renderDetails(item) {
     let mainImageSrc = imgList[0];
     let thumbnailsHTML = "";
     imgList.forEach((imgSrc, index) => {
-        thumbnailsHTML += `<img class="thumb ${index === 0 ? 'active' : ''}" src="${imgSrc}" onclick="changeImage(this)" loading="lazy">`;
+        thumbnailsHTML += `<img class="thumb ${index === 0 ? 'active' : ''}" src="${escapeHTML(imgSrc)}" onclick="changeImage(this)" loading="lazy">`;
     });
 
     let htmlContent = `
@@ -400,7 +407,7 @@ function renderDetails(item) {
         <div class="section-box">
             <div class="section-title"><i class="fa-solid fa-images"></i> <span>${translations[currentLang].galleryTitle}</span></div>
             <div class="gallery-main">
-                <img id="mainImage" src="${mainImageSrc}" alt="المعروض الرئيسي">
+                <img id="mainImage" src="${escapeHTML(mainImageSrc)}" alt="المعروض الرئيسي">
             </div>
             <div class="thumbnails-grid">
                 ${thumbnailsHTML}
@@ -410,7 +417,7 @@ function renderDetails(item) {
         <div class="section-box">
             <div class="section-title"><i class="fa-solid fa-map-location-dot"></i> <span>${translations[currentLang].mapTitle}</span></div>
             <div class="video-container">
-                <iframe src="${mapUrl}" allowfullscreen loading="lazy"></iframe>
+                <iframe src="${escapeHTML(mapUrl)}" sandbox="allow-scripts allow-same-origin" allowfullscreen loading="lazy"></iframe>
             </div>
         </div>
 
